@@ -1,0 +1,103 @@
+﻿@model DoAnChuyenNganh.Models.NguoiDung
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@section css{
+    <style>
+        .form-register {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px; 
+            border: 1px solid #ccc; 
+            border-radius: 5px;
+            background-color: #f8f9fa; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        }
+
+        .form-group {
+            margin-bottom: 15px; 
+        }
+
+    </style>
+    }
+<div style="height:200px"></div>
+<h2 class="text-center">Register</h2>
+<div class="container">
+    @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-register" }))
+    {
+        <input type="hidden" name="role" value="user" />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenDangNhap, "Tên Đăng Nhập")
+            @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MatKhau, "Mật Khẩu")
+            @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", type = "password" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HoTen, "Họ Tên")
+            @Html.TextBoxFor(model => model.HoTen, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DiaChi, "Địa Chỉ")
+            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SoDienThoai, "Số Điện Thoại")
+            @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, "Email")
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+        </div>
+
+        <!-- Thêm trường cho Độ tuổi -->
+        <div class="form-group">
+            @Html.Label("Độ Tuổi")
+            <input type="number" name="DoTuoi" min="1" max="120" value="18" class="form-control" />
+        </div>
+
+        <!-- Thêm trường cho Sở thích -->
+        <div class="form-group">
+            @Html.Label("Sở Thích")
+            <select name="SoThich" class="form-control">
+                <option value="Di bien">Đi biển</option>
+                <option value="Nang dong">Năng động</option>
+                <option value="The thao">Thể thao</option>
+            </select>
+        </div>
+
+        <!-- Thêm trường cho Mức chi tiêu -->
+        <div class="form-group">
+            @Html.Label("Mức Chi Tiêu")
+            <select name="MucChiTieu" class="form-control">
+                <option value="10000000">10,000,000</option>
+                <option value="50000000">50,000,000</option>
+                <option value="100000000">100,000,000</option>
+            </select>
+        </div>
+
+        <!-- Thêm trường cho Giới tính -->
+        <div class="form-group">
+            @Html.Label("Giới Tính")
+            <select name="GioiTinh" class="form-control">
+                <option value="Nam">Nam</option>
+                <option value="Nu">Nữ</option>
+            </select>
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">Register</button>
+        </div>
+    }
+</div>
+
+
+
