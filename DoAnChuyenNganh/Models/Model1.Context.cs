@@ -13,10 +13,10 @@ namespace DoAnChuyenNganh.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DoAnChuyenNganhEntities1 : DbContext
+    public partial class ShopQuanAoEntities : DbContext
     {
-        public DoAnChuyenNganhEntities1()
-            : base("name=DoAnChuyenNganhEntities1")
+        public ShopQuanAoEntities()
+            : base("name=ShopQuanAoEntities")
         {
         }
     
@@ -25,14 +25,13 @@ namespace DoAnChuyenNganh.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<ChiTietDonHang> ChiTietDonHangs { get; set; }
-        public virtual DbSet<DanhMuc> DanhMucs { get; set; }
-        public virtual DbSet<DonHang> DonHangs { get; set; }
-        public virtual DbSet<GioHang> GioHangs { get; set; }
-        public virtual DbSet<NguoiDung> NguoiDungs { get; set; }
-        public virtual DbSet<PhanHoi> PhanHois { get; set; }
-        public virtual DbSet<SanPham> SanPhams { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
-        public virtual DbSet<ThanhToan> ThanhToans { get; set; }
+        public virtual DbSet<ChiTietDonHang> ChiTietDonHang { get; set; }
+        public virtual DbSet<DanhMuc> DanhMuc { get; set; }
+        public virtual DbSet<DonHang> DonHang { get; set; }
+        public virtual DbSet<GioHang> GioHang { get; set; }
+        public virtual DbSet<NguoiDung> NguoiDung { get; set; }
+        public virtual DbSet<PhanHoi> PhanHoi { get; set; }
+        public virtual DbSet<SanPham> SanPham { get; set; }
+        public virtual DbSet<ThanhToan> ThanhToan { get; set; }
     }
 }

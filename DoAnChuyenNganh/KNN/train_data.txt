@@ -1,0 +1,9 @@
+﻿28,15000000,0.28,0.15,Thanh niên từ 0 đến 37 tuổi chi tiêu thấp
+28,45000000,0.28,0.45,Thanh niên từ 0 đến 37 tuổi chi tiêu vừa phải
+28,80000000,0.28,0.8,Thanh niên từ 0 đến 37 tuổi chi tiêu cao
+46,15000000,0.46,0.15,Trung niên từ 38 đến 60 tuổi chi tiêu thấp
+46,45000000,0.46,0.45,Trung niên từ 38 đến 60 tuổi chi tiêu vừa phải
+46,80000000,0.46,0.8,Trung niên từ 38 đến 60 tuổi chi tiêu cao
+75,15000000,0.75,0.15,Cao tuổi từ 60 tuổi trở lên chi tiêu thấp
+75,45000000,0.75,0.45,Cao tuổi từ 60 tuổi trở lên chi tiêu vừa phải
+75,80000000,0.75,0.8,Cao tuổi từ 60 tuổi trở lên chi tiêu cao

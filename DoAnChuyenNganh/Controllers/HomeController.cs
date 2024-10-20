@@ -1,5 +1,8 @@
-﻿using System;
+﻿using DoAnChuyenNganh.KNN;
+using DoAnChuyenNganh.Models;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -8,10 +11,105 @@ namespace DoAnChuyenNganh.Controllers
 {
     public class HomeController : Controller
     {
+        ShopQuanAoEntities db = new ShopQuanAoEntities();
+
         // GET: Home
         public ActionResult Index()
         {
-            return View();
+            PhanLoaiKNN knn = new PhanLoaiKNN();
+            //knn.DocDuLieuHuanLuyen();
+            //knn.DocDuLieuTuCSDL();
+            foreach (var cookie in Request.Cookies.AllKeys)
+            {
+                HttpCookie myCookie = Request.Cookies[cookie];
+                if (myCookie != null)
+                {
+                    myCookie.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(myCookie);
+                }
+            }
+            List<SanPham> sanPhams;
+
+            var authCookie = Request.Cookies["auth"];
+            string tenDangNhap = authCookie != null ? authCookie.Value : null;
+
+            if (authCookie == null)
+            {
+                sanPhams = db.SanPham.OrderBy(sp => sp.Gia).Take(10).ToList();
+            }
+            else
+            {
+                NguoiDung kh = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                if (kh != null)
+                {
+                    sanPhams = LaySanPhamTheoPhanKhucVaSoThich(kh.PhanKhucKH, kh.SoThich, kh.GioiTinh);
+                }
+                else
+                {
+                    sanPhams = db.SanPham.OrderBy(sp => sp.Gia).Take(10).ToList();
+                }
+            }
+            ViewBag.SanPhamLienQuan = sanPhams;
+            return View(sanPhams);
+        }
+
+        public List<SanPham> LaySanPhamTheoPhanKhucVaSoThich(string phanKhucKH, string soThich, string gioiTinh)
+        {
+            // Lấy giá tối thiểu và tối đa dựa trên phân khúc
+            int giaMin = LayGiaTuPhanKhuc(phanKhucKH, true);
+            int giaMax = LayGiaTuPhanKhuc(phanKhucKH, false);
+            var sanPhamsQuery = db.SanPham
+                .Where(sp => sp.Gia >= giaMin && sp.Gia < giaMax);
+            if (!string.IsNullOrEmpty(gioiTinh))
+            {
+                string gioiTinhLower = gioiTinh.ToLower();
+
+                if (gioiTinhLower == "nam")
+                {
+                    sanPhamsQuery = sanPhamsQuery.Where(sp =>
+                        sp.TenSanPham.ToLower().Contains("nam") ||
+                        sp.TenSanPham.ToLower().Contains("unisex"));
+                }
+                else if (gioiTinhLower == "nữ")
+                {
+                    sanPhamsQuery = sanPhamsQuery.Where(sp =>
+                        sp.TenSanPham.ToLower().Contains("nữ") ||
+                        sp.TenSanPham.ToLower().Contains("unisex"));
+                }
+            }
+
+            if (!string.IsNullOrEmpty(soThich))
+            {
+                var soThichArray = soThich.Split(',').Select(st => st.Trim()).ToArray();
+                sanPhamsQuery = sanPhamsQuery
+                    .Where(sp => soThichArray.Any(st => sp.DanhMuc.TenDanhMuc.Contains(st)));
+            }
+            return sanPhamsQuery.Distinct().ToList();
+        }
+
+        // Hàm lấy giá tối thiểu và tối đa dựa trên phân khúc
+        private int LayGiaTuPhanKhuc(string phanKhucKH, bool isMin)
+        {
+            switch (phanKhucKH)
+            {
+                case "Thanh niên từ 0 đến 37 tuổi chi tiêu thấp":
+                case "Trung niên từ 38 đến 60 tuổi chi tiêu thấp":
+                case "Cao tuổi từ 60 tuổi trở lên chi tiêu thấp":
+                    return isMin ? 150000 : 400000;
+
+                case "Thanh niên từ 0 đến 37 tuổi chi tiêu vừa phải":
+                case "Trung niên từ 38 đến 60 tuổi chi tiêu vừa phải":
+                case "Cao tuổi từ 60 tuổi trở lên chi tiêu vừa phải":
+                    return isMin ? 500000 : 750000;
+
+                case "Thanh niên từ 0 đến 37 tuổi chi tiêu cao":
+                case "Trung niên từ 38 đến 60 tuổi chi tiêu cao":
+                case "Cao tuổi từ 60 tuổi trở lên chi tiêu cao":
+                    return isMin ? 800000: int.MaxValue;
+
+                default:
+                    return 0;
+            }
         }
     }
 }

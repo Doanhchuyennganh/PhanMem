@@ -4,25 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="202c73a25d75408db29e7e1992f4221e" Name="Diagram1">
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.ChiTietDonHang" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.DanhMuc" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.DonHang" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.GioHang" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.NguoiDung" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.PhanHoi" Width="1.5" PointX="8.25" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.SanPham" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.sysdiagram" Width="1.5" PointX="7.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DoAnChuyenNganhModel.ThanhToan" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__ChiTietDo__DonHa__4AB81AF0" ManuallyRouted="false" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__ChiTietDo__SanPh__4BAC3F29" ManuallyRouted="false" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__SanPham__DanhMuc__440B1D61" ManuallyRouted="false" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__DonHang__NguoiDu__47DBAE45" ManuallyRouted="false" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__ThanhToan__DonHa__534D60F1" ManuallyRouted="false" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__GioHang__NguoiDu__4E88ABD4" ManuallyRouted="false" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__GioHang__SanPham__4F7CD00D" ManuallyRouted="false" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__PhanHoi__NguoiDu__59063A47" ManuallyRouted="false" />
-        <AssociationConnector Association="DoAnChuyenNganhModel.FK__PhanHoi__SanPham__5812160E" ManuallyRouted="false" />
+      <Diagram DiagramId="f3b6c4baedb24de2ba40fab0a227fd99" Name="Diagram1">
+        <EntityTypeShape EntityType="ShopQuanAoModel.ChiTietDonHang" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.DanhMuc" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.DonHang" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.GioHang" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.NguoiDung" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.PhanHoi" Width="1.5" PointX="8.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.SanPham" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.ThanhToan" Width="1.5" PointX="5.25" PointY="9" IsExpanded="true" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietDo__DonHa__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietDo__SanPh__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__SanPham__DanhMuc__4316F928" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__DonHang__NguoiDu__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ThanhToan__DonHa__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__GioHang__NguoiDu__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__GioHang__SanPham__4E88ABD4" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__PhanHoi__NguoiDu__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__PhanHoi__SanPham__571DF1D5" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

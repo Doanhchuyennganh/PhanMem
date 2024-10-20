@@ -15,17 +15,18 @@
             height: 100%;
             width: 100%;
         }
+
         .smart-suggestion-button {
-            display: inline-block; 
-            padding: 12px 24px; 
-            font-size: 16px; 
-            font-weight: bold; 
-            color: white; 
-            background-color: #007bff; 
-            border: none; 
-            border-radius: 5px; 
-            text-decoration: none; 
-            transition: background-color 0.3s, transform 0.2s; 
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.2s;
         }
 
             .smart-suggestion-button:hover {
@@ -36,10 +37,22 @@
             .smart-suggestion-button:active {
                 transform: scale(0.95); /* Nhỏ lại một chút khi nhấn */
             }
-
-
     </style>
+}
+@section slmua{
+    <span id="cartItemCount" class="badge text-secondary border border-secondary rounded-circle">@ViewBag.SLSP</span>
+}
+@{
+    string IconClass = "";
+    if (ViewBag.IconClass == "fa-sort-desc")
+    {
+        IconClass = "fa-sort-asc";
     }
+    else
+    {
+        IconClass = "fa-sort-desc";
+    }
+}
 <!-- Single Page Header start -->
 <div class="container-fluid page-header py-5">
     <h1 class="text-center text-white display-6">Sản Phẩm</h1>
@@ -105,7 +118,7 @@
                                             int Temp = 0;
                                             <li>
                                                 <div class="d-flex justify-content-between clothing-name">
-                                                    <a href="#"><i class="fas fa-tshirt me-2"></i>@b.TenDanhMuc</a>
+                                                    <a href="/product/index/@b.DanhMucID"><i class="fas fa-tshirt me-2"></i>@b.TenDanhMuc</a>
                                                     @foreach (var a in ViewBag.sp)
                                                     {
                                                         if (a.DanhMuc.TenDanhMuc == b.TenDanhMuc)
@@ -136,9 +149,15 @@
                                 <div class="col-md-6 col-lg-6 col-xl-4">
                                     <div class="rounded position-relative product-item">
                                         <div class="product-img">
-                                            <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed" alt="">
+                                            <a href="/product/details/@a.SanPhamID">
+                                                <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed" alt="">
+                                            </a>
                                         </div>
-                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">@a.DanhMuc.TenDanhMuc</div>
+                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                                            <a href="/product/details/@a.SanPhamID">
+                                                @a.DanhMuc.TenDanhMuc
+                                            </a>
+                                        </div>
                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                             <h4>@a.TenSanPham</h4>
                                             <p>@a.MoTa</p>

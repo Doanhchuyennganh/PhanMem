@@ -9,13 +9,12 @@ namespace DoAnChuyenNganh.Controllers
     public class ProductController : Controller
     {
         // GET: Product
-      
+        ShopQuanAoEntities db = new ShopQuanAoEntities();
         public ActionResult Index(string search = "", string SortColumn = "Price", string IconClass = "fa-sort-asc", int page = 1)
         {
-            DoAnChuyenNganhEntities1 db = new DoAnChuyenNganhEntities1();
-            List<SanPham> lstsp = db.SanPhams.Where(row=>row.TenSanPham.Contains(search)).ToList();
-            List<DanhMuc> lstdm = db.DanhMucs.ToList();
-            List<SanPham> lstsp2 = db.SanPhams.ToList();
+            List<SanPham> lstsp = db.SanPham.Where(row=>row.TenSanPham.Contains(search)).ToList();
+            List<DanhMuc> lstdm = db.DanhMuc.ToList();
+            List<SanPham> lstsp2 = db.SanPham.ToList();
             ViewBag.sp = lstsp2;
             ViewBag.dm = lstdm;
             ViewBag.search = search;
@@ -55,6 +54,23 @@ namespace DoAnChuyenNganh.Controllers
             ViewBag.NoOfPages = NoOfPages;
             lstsp = lstsp.Skip(NoOfRecordToSkip).Take(NoOfRecordPerPage).ToList();
             return View(lstsp);
+        }
+
+
+        // Thông tin sản phẩm
+        public ActionResult Details(int id)
+        {
+            SanPham pro = db.SanPham.Where(x => x.SanPhamID == id).FirstOrDefault();
+            int temp = 0;
+            if (db.GioHang != null)
+            {
+                foreach (var a in db.GioHang)
+                {
+                    temp += a.SoLuong;
+                }
+            }
+            ViewBag.SLSP = temp;
+            return View(pro);
         }
     }
 }

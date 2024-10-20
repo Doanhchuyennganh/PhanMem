@@ -43,13 +43,39 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BCrypt.Net-Next, Version=4.0.3.0, Culture=neutral, PublicKeyToken=1e11be04b6288443, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net-Next.4.0.3\lib\net472\BCrypt.Net-Next.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.9.0.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.9.0\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Grpc.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grpc.Core.2.46.6\lib\net45\Grpc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Grpc.Core.Api, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d754f35622e28bad, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grpc.Core.Api.2.46.6\lib\net45\Grpc.Core.Api.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -155,37 +181,453 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\style.css" />
     <Content Include="Global.asax" />
-    <Content Include="img\hinh1.jpg" />
-    <Content Include="img\hinh10.jpg" />
-    <Content Include="img\hinh11.jpg" />
-    <Content Include="img\hinh12.jpg" />
-    <Content Include="img\hinh13.jpg" />
-    <Content Include="img\hinh14.jpg" />
-    <Content Include="img\hinh15.jpg" />
-    <Content Include="img\hinh16.jpg" />
-    <Content Include="img\hinh17.jpg" />
-    <Content Include="img\hinh18.jpg" />
-    <Content Include="img\hinh19.jpg" />
-    <Content Include="img\hinh2.jpg" />
-    <Content Include="img\hinh20.jpg" />
-    <Content Include="img\hinh21.jpg" />
-    <Content Include="img\hinh22.jpg" />
-    <Content Include="img\hinh23.jpg" />
-    <Content Include="img\hinh24.jpg" />
-    <Content Include="img\hinh25.jpg" />
-    <Content Include="img\hinh26.jpg" />
-    <Content Include="img\hinh27.jpg" />
-    <Content Include="img\hinh28.jpg" />
-    <Content Include="img\hinh29.jpg" />
-    <Content Include="img\hinh3.jpg" />
-    <Content Include="img\hinh30.jpg" />
-    <Content Include="img\hinh4.jpg" />
-    <Content Include="img\hinh5.jpg" />
-    <Content Include="img\hinh6.jpg" />
-    <Content Include="img\hinh7.jpg" />
-    <Content Include="img\hinh8.jpg" />
-    <Content Include="img\hinh9.jpg" />
+    <Content Include="img\hinh100.jpg" />
+    <Content Include="img\hinh101.jpg" />
+    <Content Include="img\hinh102.jpg" />
+    <Content Include="img\hinh103.jpg" />
+    <Content Include="img\hinh1033.jpg" />
+    <Content Include="img\hinh104.jpg" />
+    <Content Include="img\hinh105.jpg" />
+    <Content Include="img\hinh106.jpg" />
+    <Content Include="img\hinh107.jpg" />
+    <Content Include="img\hinh108.jpg" />
+    <Content Include="img\hinh109.jpg" />
+    <Content Include="img\hinh110.jpg" />
+    <Content Include="img\hinh111.jpg" />
+    <Content Include="img\hinh112.jpg" />
+    <Content Include="img\hinh113.jpg" />
+    <Content Include="img\hinh114.jpg" />
+    <Content Include="img\hinh115.jpg" />
+    <Content Include="img\hinh117.jpg" />
+    <Content Include="img\hinh118.jpg" />
+    <Content Include="img\hinh119.jpg" />
+    <Content Include="img\hinh120.jpg" />
+    <Content Include="img\hinh121.jpg" />
+    <Content Include="img\hinh122.jpg" />
+    <Content Include="img\hinh123.jpg" />
+    <Content Include="img\hinh124.jpg" />
+    <Content Include="img\hinh125.jpg" />
+    <Content Include="img\hinh126.jpg" />
+    <Content Include="img\hinh127.jpg" />
+    <Content Include="img\hinh128.jpg" />
+    <Content Include="img\hinh129.jpg" />
+    <Content Include="img\hinh130.jpg" />
+    <Content Include="img\hinh131.jpg" />
+    <Content Include="img\hinh132.jpg" />
+    <Content Include="img\hinh133.jpg" />
+    <Content Include="img\hinh134.jpg" />
+    <Content Include="img\hinh135.jpg" />
+    <Content Include="img\hinh136.jpg" />
+    <Content Include="img\hinh137.jpg" />
+    <Content Include="img\hinh138.jpg" />
+    <Content Include="img\hinh139.jpg" />
+    <Content Include="img\hinh140.jpg" />
+    <Content Include="img\hinh141.jpg" />
+    <Content Include="img\hinh142.jpg" />
+    <Content Include="img\hinh143.jpg" />
+    <Content Include="img\hinh144.jpg" />
+    <Content Include="img\hinh145.jpg" />
+    <Content Include="img\hinh146.jpg" />
+    <Content Include="img\hinh147.jpg" />
+    <Content Include="img\hinh148.jpg" />
+    <Content Include="img\hinh149.jpg" />
+    <Content Include="img\hinh150.jpg" />
+    <Content Include="img\hinh151.jpg" />
+    <Content Include="img\hinh152.jpg" />
+    <Content Include="img\hinh153.jpg" />
+    <Content Include="img\hinh154.jpg" />
+    <Content Include="img\hinh155.jpg" />
+    <Content Include="img\hinh156.jpg" />
+    <Content Include="img\hinh157.jpg" />
+    <Content Include="img\hinh158.jpg" />
+    <Content Include="img\hinh159.jpg" />
+    <Content Include="img\hinh160.jpg" />
+    <Content Include="img\hinh161.jpg" />
+    <Content Include="img\hinh162.jpg" />
+    <Content Include="img\hinh163.jpg" />
+    <Content Include="img\hinh164.jpg" />
+    <Content Include="img\hinh165.jpg" />
+    <Content Include="img\hinh166.jpg" />
+    <Content Include="img\hinh167.jpg" />
+    <Content Include="img\hinh168.jpg" />
+    <Content Include="img\hinh169.jpg" />
+    <Content Include="img\hinh170.jpg" />
+    <Content Include="img\hinh171.jpg" />
+    <Content Include="img\hinh172.jpg" />
+    <Content Include="img\hinh173.jpg" />
+    <Content Include="img\hinh174.jpg" />
+    <Content Include="img\hinh175.jpg" />
+    <Content Include="img\hinh176.jpg" />
+    <Content Include="img\hinh177.jpg" />
+    <Content Include="img\hinh178.jpg" />
+    <Content Include="img\hinh179.jpg" />
+    <Content Include="img\hinh180.jpg" />
+    <Content Include="img\hinh181.jpg" />
+    <Content Include="img\hinh182.jpg" />
+    <Content Include="img\hinh183.jpg" />
+    <Content Include="img\hinh184.jpg" />
+    <Content Include="img\hinh185.jpg" />
+    <Content Include="img\hinh186.jpg" />
+    <Content Include="img\hinh187.jpg" />
+    <Content Include="img\hinh188.jpg" />
+    <Content Include="img\hinh189.jpg" />
+    <Content Include="img\hinh190.jpg" />
+    <Content Include="img\hinh191.jpg" />
+    <Content Include="img\hinh192.jpg" />
+    <Content Include="img\hinh193.jpg" />
+    <Content Include="img\hinh194.jpg" />
+    <Content Include="img\hinh195.jpg" />
+    <Content Include="img\hinh196.jpg" />
+    <Content Include="img\hinh197.jpg" />
+    <Content Include="img\hinh198.jpg" />
+    <Content Include="img\hinh199.jpg" />
+    <Content Include="img\hinh200.jpg" />
+    <Content Include="img\hinh201.jpg" />
+    <Content Include="img\hinh202.jpg" />
+    <Content Include="img\hinh203.jpg" />
+    <Content Include="img\hinh204.jpg" />
+    <Content Include="img\hinh205.jpg" />
+    <Content Include="img\hinh206.jpg" />
+    <Content Include="img\hinh207.jpg" />
+    <Content Include="img\hinh208.jpg" />
+    <Content Include="img\hinh209.jpg" />
+    <Content Include="img\hinh210.jpg" />
+    <Content Include="img\hinh211.jpg" />
+    <Content Include="img\hinh212.jpg" />
+    <Content Include="img\hinh213.jpg" />
+    <Content Include="img\hinh214.jpg" />
+    <Content Include="img\hinh215.jpg" />
+    <Content Include="img\hinh216.jpg" />
+    <Content Include="img\hinh217.jpg" />
+    <Content Include="img\hinh218.jpg" />
+    <Content Include="img\hinh219.jpg" />
+    <Content Include="img\hinh220.jpg" />
+    <Content Include="img\hinh221.jpg" />
+    <Content Include="img\hinh222.jpg" />
+    <Content Include="img\hinh223.jpg" />
+    <Content Include="img\hinh224.jpg" />
+    <Content Include="img\hinh225.jpg" />
+    <Content Include="img\hinh226.jpg" />
+    <Content Include="img\hinh227.jpg" />
+    <Content Include="img\hinh228.jpg" />
+    <Content Include="img\hinh229.jpg" />
+    <Content Include="img\hinh230.jpg" />
+    <Content Include="img\hinh231.jpg" />
+    <Content Include="img\hinh232.jpg" />
+    <Content Include="img\hinh233.jpg" />
+    <Content Include="img\hinh234.jpg" />
+    <Content Include="img\hinh235.jpg" />
+    <Content Include="img\hinh236.jpg" />
+    <Content Include="img\hinh237.jpg" />
+    <Content Include="img\hinh238.jpg" />
+    <Content Include="img\hinh239.jpg" />
+    <Content Include="img\hinh240.jpg" />
+    <Content Include="img\hinh241.jpg" />
+    <Content Include="img\hinh242.jpg" />
+    <Content Include="img\hinh243.jpg" />
+    <Content Include="img\hinh244.jpg" />
+    <Content Include="img\hinh245.jpg" />
+    <Content Include="img\hinh246.jpg" />
+    <Content Include="img\hinh247.jpg" />
+    <Content Include="img\hinh248.jpg" />
+    <Content Include="img\hinh249.jpg" />
+    <Content Include="img\hinh250.jpg" />
+    <Content Include="img\hinh251.jpg" />
+    <Content Include="img\hinh252.jpg" />
+    <Content Include="img\hinh253.jpg" />
+    <Content Include="img\hinh254.jpg" />
+    <Content Include="img\hinh255.jpg" />
+    <Content Include="img\hinh256.jpg" />
+    <Content Include="img\hinh257.jpg" />
+    <Content Include="img\hinh258.jpg" />
+    <Content Include="img\hinh259.jpg" />
+    <Content Include="img\hinh260.jpg" />
+    <Content Include="img\hinh261.jpg" />
+    <Content Include="img\hinh262.jpg" />
+    <Content Include="img\hinh263.jpg" />
+    <Content Include="img\hinh264.jpg" />
+    <Content Include="img\hinh265.jpg" />
+    <Content Include="img\hinh266.jpg" />
+    <Content Include="img\hinh267.jpg" />
+    <Content Include="img\hinh268.jpg" />
+    <Content Include="img\hinh269.jpg" />
+    <Content Include="img\hinh270.jpg" />
+    <Content Include="img\hinh271.jpg" />
+    <Content Include="img\hinh272.jpg" />
+    <Content Include="img\hinh273.jpg" />
+    <Content Include="img\hinh274.jpg" />
+    <Content Include="img\hinh275.jpg" />
+    <Content Include="img\hinh276.jpg" />
+    <Content Include="img\hinh277.jpg" />
+    <Content Include="img\hinh278.jpg" />
+    <Content Include="img\hinh279.jpg" />
+    <Content Include="img\hinh280.jpg" />
+    <Content Include="img\hinh281.jpg" />
+    <Content Include="img\hinh282.jpg" />
+    <Content Include="img\hinh283.jpg" />
+    <Content Include="img\hinh284.jpg" />
+    <Content Include="img\hinh285.jpg" />
+    <Content Include="img\hinh286.jpg" />
+    <Content Include="img\hinh287.jpg" />
+    <Content Include="img\hinh288.jpg" />
+    <Content Include="img\hinh289.jpg" />
+    <Content Include="img\hinh290.jpg" />
+    <Content Include="img\hinh291.jpg" />
+    <Content Include="img\hinh292.jpg" />
+    <Content Include="img\hinh293.jpg" />
+    <Content Include="img\hinh294.jpg" />
+    <Content Include="img\hinh295.jpg" />
+    <Content Include="img\hinh296.jpg" />
+    <Content Include="img\hinh297.jpg" />
+    <Content Include="img\hinh298.jpg" />
+    <Content Include="img\hinh299.jpg" />
+    <Content Include="img\hinh300.jpg" />
+    <Content Include="img\hinh301.jpg" />
+    <Content Include="img\hinh302.jpg" />
+    <Content Include="img\hinh303.jpg" />
+    <Content Include="img\hinh304.jpg" />
+    <Content Include="img\hinh305.jpg" />
+    <Content Include="img\hinh306.jpg" />
+    <Content Include="img\hinh307.jpg" />
+    <Content Include="img\hinh308.jpg" />
+    <Content Include="img\hinh309.jpg" />
+    <Content Include="img\hinh310.jpg" />
+    <Content Include="img\hinh311.jpg" />
+    <Content Include="img\hinh312.jpg" />
+    <Content Include="img\hinh313.jpg" />
+    <Content Include="img\hinh314.jpg" />
+    <Content Include="img\hinh315.jpg" />
+    <Content Include="img\hinh316.jpg" />
+    <Content Include="img\hinh317.jpg" />
+    <Content Include="img\hinh318.jpg" />
+    <Content Include="img\hinh319.jpg" />
+    <Content Include="img\hinh320.jpg" />
+    <Content Include="img\hinh321.jpg" />
+    <Content Include="img\hinh322.jpg" />
+    <Content Include="img\hinh323.jpg" />
+    <Content Include="img\hinh324.jpg" />
+    <Content Include="img\hinh325.jpg" />
+    <Content Include="img\hinh326.jpg" />
+    <Content Include="img\hinh327.jpg" />
+    <Content Include="img\hinh337.jpg" />
+    <Content Include="img\hinh338.jpg" />
+    <Content Include="img\hinh339.jpg" />
+    <Content Include="img\hinh340.jpg" />
+    <Content Include="img\hinh341.jpg" />
+    <Content Include="img\hinh342.jpg" />
+    <Content Include="img\hinh343.jpg" />
+    <Content Include="img\hinh344.jpg" />
+    <Content Include="img\hinh345.jpg" />
+    <Content Include="img\hinh346.jpg" />
+    <Content Include="img\hinh347.jpg" />
+    <Content Include="img\hinh348.jpg" />
+    <Content Include="img\hinh349.jpg" />
+    <Content Include="img\hinh350.jpg" />
+    <Content Include="img\hinh351.jpg" />
+    <Content Include="img\hinh352.jpg" />
+    <Content Include="img\hinh353.jpg" />
+    <Content Include="img\hinh355.jpg" />
+    <Content Include="img\hinh356.jpg" />
+    <Content Include="img\hinh357.jpg" />
+    <Content Include="img\hinh358.jpg" />
+    <Content Include="img\hinh359.jpg" />
+    <Content Include="img\hinh361.jpg" />
+    <Content Include="img\hinh362.jpg" />
+    <Content Include="img\hinh363.jpg" />
+    <Content Include="img\hinh364.jpg" />
+    <Content Include="img\hinh365.jpg" />
+    <Content Include="img\hinh366.jpg" />
+    <Content Include="img\hinh367.jpg" />
+    <Content Include="img\hinh368.jpg" />
+    <Content Include="img\hinh369.jpg" />
+    <Content Include="img\hinh370.jpg" />
+    <Content Include="img\hinh371.jpg" />
+    <Content Include="img\hinh372.jpg" />
+    <Content Include="img\hinh373.jpg" />
+    <Content Include="img\hinh374.jpg" />
+    <Content Include="img\hinh375.jpg" />
+    <Content Include="img\hinh376.jpg" />
+    <Content Include="img\hinh379.jpg" />
+    <Content Include="img\hinh380.jpg" />
+    <Content Include="img\hinh381.jpg" />
+    <Content Include="img\hinh382.jpg" />
+    <Content Include="img\hinh383.jpg" />
+    <Content Include="img\hinh384.jpg" />
+    <Content Include="img\hinh385.jpg" />
+    <Content Include="img\hinh386.jpg" />
+    <Content Include="img\hinh387.jpg" />
+    <Content Include="img\hinh390.jpg" />
+    <Content Include="img\hinh391.jpg" />
+    <Content Include="img\hinh392.jpg" />
+    <Content Include="img\hinh393.jpg" />
+    <Content Include="img\hinh394.jpg" />
+    <Content Include="img\hinh395.jpg" />
+    <Content Include="img\hinh396.jpg" />
+    <Content Include="img\hinh397.jpg" />
+    <Content Include="img\hinh398.jpg" />
+    <Content Include="img\hinh399.jpg" />
+    <Content Include="img\hinh401.jpg" />
+    <Content Include="img\hinh402.jpg" />
+    <Content Include="img\hinh403.jpg" />
+    <Content Include="img\hinh404.jpg" />
+    <Content Include="img\hinh405.jpg" />
+    <Content Include="img\hinh406.jpg" />
+    <Content Include="img\hinh407.jpg" />
+    <Content Include="img\hinh412.jpg" />
+    <Content Include="img\hinh413.jpg" />
+    <Content Include="img\hinh414.jpg" />
+    <Content Include="img\hinh415.jpg" />
+    <Content Include="img\hinh416.jpg" />
+    <Content Include="img\hinh417.jpg" />
+    <Content Include="img\hinh418.jpg" />
+    <Content Include="img\hinh419.jpg" />
+    <Content Include="img\hinh420.jpg" />
+    <Content Include="img\hinh421.jpg" />
+    <Content Include="img\hinh422.jpg" />
+    <Content Include="img\hinh423.jpg" />
+    <Content Include="img\hinh424.jpg" />
+    <Content Include="img\hinh425.jpg" />
+    <Content Include="img\hinh426.jpg" />
+    <Content Include="img\hinh427.jpg" />
+    <Content Include="img\hinh428.jpg" />
+    <Content Include="img\hinh429.jpg" />
+    <Content Include="img\hinh430.jpg" />
+    <Content Include="img\hinh431.jpg" />
+    <Content Include="img\hinh432.jpg" />
+    <Content Include="img\hinh434.jpg" />
+    <Content Include="img\hinh435.jpg" />
+    <Content Include="img\hinh436.jpg" />
+    <Content Include="img\hinh437.jpg" />
+    <Content Include="img\hinh438.jpg" />
+    <Content Include="img\hinh439.jpg" />
+    <Content Include="img\hinh440.jpg" />
+    <Content Include="img\hinh441.jpg" />
+    <Content Include="img\hinh442.jpg" />
+    <Content Include="img\hinh443.jpg" />
+    <Content Include="img\hinh444.jpg" />
+    <Content Include="img\hinh445.jpg" />
+    <Content Include="img\hinh446.jpg" />
+    <Content Include="img\hinh447.jpg" />
+    <Content Include="img\hinh448.jpg" />
+    <Content Include="img\hinh449.jpg" />
+    <Content Include="img\hinh450.jpg" />
+    <Content Include="img\hinh451.jpg" />
+    <Content Include="img\hinh452.jpg" />
+    <Content Include="img\hinh453.jpg" />
+    <Content Include="img\hinh454.jpg" />
+    <Content Include="img\hinh455.jpg" />
+    <Content Include="img\hinh456.jpg" />
+    <Content Include="img\hinh457.jpg" />
+    <Content Include="img\hinh458.jpg" />
+    <Content Include="img\hinh459.jpg" />
+    <Content Include="img\hinh460.jpg" />
+    <Content Include="img\hinh461.jpg" />
+    <Content Include="img\hinh462.jpg" />
+    <Content Include="img\hinh463.jpg" />
+    <Content Include="img\hinh464.jpg" />
+    <Content Include="img\hinh465.jpg" />
+    <Content Include="img\hinh467.jpg" />
+    <Content Include="img\hinh468.jpg" />
+    <Content Include="img\hinh469.jpg" />
+    <Content Include="img\hinh470.jpg" />
+    <Content Include="img\hinh471.jpg" />
+    <Content Include="img\hinh472.jpg" />
+    <Content Include="img\hinh473.jpg" />
+    <Content Include="img\hinh474.jpg" />
+    <Content Include="img\hinh475.jpg" />
+    <Content Include="img\hinh476.jpg" />
+    <Content Include="img\hinh477.jpg" />
+    <Content Include="img\hinh478.jpg" />
+    <Content Include="img\hinh479.jpg" />
+    <Content Include="img\hinh480.jpg" />
+    <Content Include="img\hinh481.jpg" />
+    <Content Include="img\hinh482.jpg" />
+    <Content Include="img\hinh483.jpg" />
+    <Content Include="img\hinh484.jpg" />
+    <Content Include="img\hinh485.jpg" />
+    <Content Include="img\hinh486.jpg" />
+    <Content Include="img\hinh487.jpg" />
+    <Content Include="img\hinh488.jpg" />
+    <Content Include="img\hinh489.jpg" />
+    <Content Include="img\hinh491.jpg" />
+    <Content Include="img\hinh492.jpg" />
+    <Content Include="img\hinh493.jpg" />
+    <Content Include="img\hinh494.jpg" />
+    <Content Include="img\hinh495.jpg" />
+    <Content Include="img\hinh496.jpg" />
+    <Content Include="img\hinh497.jpg" />
+    <Content Include="img\hinh498.jpg" />
+    <Content Include="img\hinh499.jpg" />
+    <Content Include="img\hinh500.jpg" />
+    <Content Include="img\hinh501.jpg" />
+    <Content Include="img\hinh502.jpg" />
+    <Content Include="img\hinh503.jpg" />
+    <Content Include="img\hinh504.jpg" />
+    <Content Include="img\hinh505.jpg" />
+    <Content Include="img\hinh506.jpg" />
+    <Content Include="img\hinh507.jpg" />
+    <Content Include="img\hinh508.jpg" />
+    <Content Include="img\hinh509.jpg" />
+    <Content Include="img\hinh510.jpg" />
+    <Content Include="img\hinh511.jpg" />
+    <Content Include="img\hinh512.jpg" />
+    <Content Include="img\hinh522.jpg" />
+    <Content Include="img\hinh523.jpg" />
+    <Content Include="img\hinh524.jpg" />
+    <Content Include="img\hinh525.jpg" />
+    <Content Include="img\hinh526.jpg" />
+    <Content Include="img\hinh527.jpg" />
+    <Content Include="img\hinh528.jpg" />
+    <Content Include="img\hinh529.jpg" />
+    <Content Include="img\hinh530.jpg" />
+    <Content Include="img\hinh531.jpg" />
+    <Content Include="img\hinh532.jpg" />
+    <Content Include="img\hinh533.jpg" />
+    <Content Include="img\hinh534.jpg" />
+    <Content Include="img\hinh535.jpg" />
+    <Content Include="img\hinh536.jpg" />
+    <Content Include="img\hinh537.jpg" />
+    <Content Include="img\hinh538.jpg" />
+    <Content Include="img\hinh539.jpg" />
+    <Content Include="img\hinh540.jpg" />
+    <Content Include="img\hinh541.jpg" />
+    <Content Include="img\hinh542.jpg" />
+    <Content Include="img\hinh543.jpg" />
+    <Content Include="img\hinh544.jpg" />
+    <Content Include="img\hinh545.jpg" />
+    <Content Include="img\hinh546.jpg" />
+    <Content Include="img\hinh547.jpg" />
+    <Content Include="img\hinh548.jpg" />
+    <Content Include="img\hinh549.jpg" />
+    <Content Include="img\hinh550.jpg" />
+    <Content Include="img\hinh551.jpg" />
+    <Content Include="img\hinh552.jpg" />
+    <Content Include="img\hinh553.jpg" />
+    <Content Include="img\hinh76.jpg" />
+    <Content Include="img\hinh77.jpg" />
+    <Content Include="img\hinh78.jpg" />
+    <Content Include="img\hinh79.jpg" />
+    <Content Include="img\hinh80.jpg" />
+    <Content Include="img\hinh81.jpg" />
+    <Content Include="img\hinh82.jpg" />
+    <Content Include="img\hinh83.jpg" />
+    <Content Include="img\hinh84.jpg" />
+    <Content Include="img\hinh85.jpg" />
+    <Content Include="img\hinh86.jpg" />
+    <Content Include="img\hinh87.jpg" />
+    <Content Include="img\hinh88.jpg" />
+    <Content Include="img\hinh90.jpg" />
+    <Content Include="img\hinh91.jpg" />
+    <Content Include="img\hinh92.jpg" />
+    <Content Include="img\hinh93.jpg" />
+    <Content Include="img\hinh94.jpg" />
+    <Content Include="img\hinh95.jpg" />
+    <Content Include="img\hinh96.jpg" />
+    <Content Include="img\hinh97.jpg" />
+    <Content Include="img\hinh98.jpg" />
+    <Content Include="img\hinh99.jpg" />
     <Content Include="js\main.js" />
+    <Content Include="KNN\train_data.txt" />
     <Content Include="lib\easing\easing.js" />
     <Content Include="lib\easing\easing.min.js" />
     <Content Include="lib\lightbox\css\lightbox.min.css" />
@@ -226,6 +668,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="KNN\PhanLoaiKNN.cs" />
     <Compile Include="Models\ChiTietDonHang.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -262,9 +705,6 @@
     <Compile Include="Models\SanPham.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\ThanhToan.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -272,7 +712,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\web.config" />
     <Content Include="bin\DoAnChuyenNganh.dll.config" />
     <Content Include="bin\roslyn\csc.exe.config" />
     <Content Include="bin\roslyn\csc.rsp" />
@@ -380,6 +819,10 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\web.config" />
+    <Content Include="Views\Product\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -423,7 +866,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Grpc.Core.2.46.6\build\net45\Grpc.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grpc.Core.2.46.6\build\net45\Grpc.Core.targets'))" />
   </Target>
+  <Import Project="..\packages\Grpc.Core.2.46.6\build\net45\Grpc.Core.targets" Condition="Exists('..\packages\Grpc.Core.2.46.6\build\net45\Grpc.Core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
