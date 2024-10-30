@@ -20,6 +20,7 @@ namespace DoAnChuyenNganh.Models
             this.DonHang = new HashSet<DonHang>();
             this.GioHang = new HashSet<GioHang>();
             this.PhanHoi = new HashSet<PhanHoi>();
+            this.ThongTinGiaoHang = new HashSet<ThongTinGiaoHang>();
         }
     
         public int NguoiDungID { get; set; }
@@ -45,5 +46,7 @@ namespace DoAnChuyenNganh.Models
         public virtual ICollection<GioHang> GioHang { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhanHoi> PhanHoi { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ThongTinGiaoHang> ThongTinGiaoHang { get; set; }
     }
 }

@@ -1,0 +1,63 @@
+﻿@model DoAnChuyenNganh.Models.ThongTinGiaoHang
+
+@{
+    ViewBag.Title = "Thêm Địa Chỉ";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+
+}
+
+<div style="height:200px">
+</div>
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+
+    <div class="form-container">
+        <div class="form-group">
+            @Html.LabelFor(m => m.TenNguoiNhan)
+            @Html.TextBoxFor(m => m.TenNguoiNhan, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SoDienThoai)
+            @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.DiaChiGiaoHang)
+            @Html.TextAreaFor(m => m.DiaChiGiaoHang, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.CheckBoxFor(m => m.DiaChiMacDinh)
+            @Html.LabelFor(m => m.DiaChiMacDinh)
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a href="@Url.Action("Index", "Address")" class="btn btn-secondary">Hủy</a>
+    </div>
+    <style>
+        .form-container {
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+
+}
+

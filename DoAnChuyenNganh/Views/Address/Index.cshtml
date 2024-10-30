@@ -1,0 +1,56 @@
+﻿@model List<DoAnChuyenNganh.Models.ThongTinGiaoHang>
+
+@{
+    ViewBag.Title = "Địa chỉ giao hàng";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+@section slmua {
+    <span id="cartItemCount">@ViewBag.SLSP</span>
+}
+
+<div class="container">
+    <div style="height:200px"></div>
+    <a href="@Url.Action("Index", "Pay")" class="btn btn-secondary rounded-pill px-3 text-white mt-3">
+        <i class="fas fa-arrow-left me-2"></i> Quay lại trang thanh toán
+    </a>
+    <h1>Địa chỉ của bạn</h1>
+
+    <!-- Button to show the form -->
+    <a href="@Url.Action("AddShippingAddress", "Address")" class="btn border border-secondary rounded-pill px-3 text-primary">
+        <i class="fas fa-plus me-2 text-primary"></i> Thêm địa chỉ mới
+    </a>
+
+    <!-- Danh sách địa chỉ -->
+    <div class="mt-3">
+        @if (Model != null && Model.Count > 0)
+        {
+            <ul class="list-group">
+                @foreach (var address in Model)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>@address.TenNguoiNhan</strong><br />
+                            @address.SoDienThoai<br />
+                            @address.DiaChiGiaoHang<br />
+                            <span class="badge @(address.DiaChiMacDinh ? "badge-success" : "badge-secondary")">
+                                @(address.DiaChiMacDinh ? "Địa chỉ mặc định" : "Không mặc định")
+                            </span>
+                        </div>
+                        <div>
+                            <a href="@Url.Action("EditShippingAddress", "Address", new { id = address.DiaChiID })" class="btn btn-warning btn-sm">Sửa</a>
+                            <form action="@Url.Action("DeleteShippingAddress", "Address")" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@address.DiaChiID" />
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa địa chỉ này?')">Xóa</button>
+                            </form>
+                        </div>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Chưa có địa chỉ nào được thêm.</p>
+        }
+    </div>
+</div>

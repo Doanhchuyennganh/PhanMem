@@ -31,6 +31,7 @@ namespace DoAnChuyenNganh.Models
         public string HinhAnhUrl { get; set; }
         public Nullable<System.DateTime> NgayTao { get; set; }
         public Nullable<bool> KichHoat { get; set; }
+        public Nullable<int> SoLuongDaBan { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietDonHang> ChiTietDonHang { get; set; }

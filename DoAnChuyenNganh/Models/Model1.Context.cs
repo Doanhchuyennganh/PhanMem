@@ -33,5 +33,6 @@ namespace DoAnChuyenNganh.Models
         public virtual DbSet<PhanHoi> PhanHoi { get; set; }
         public virtual DbSet<SanPham> SanPham { get; set; }
         public virtual DbSet<ThanhToan> ThanhToan { get; set; }
+        public virtual DbSet<ThongTinGiaoHang> ThongTinGiaoHang { get; set; }
     }
 }

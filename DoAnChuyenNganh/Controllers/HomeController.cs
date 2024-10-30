@@ -16,42 +16,30 @@ namespace DoAnChuyenNganh.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            PhanLoaiKNN knn = new PhanLoaiKNN();
-            //knn.DocDuLieuHuanLuyen();
-            //knn.DocDuLieuTuCSDL();
-            foreach (var cookie in Request.Cookies.AllKeys)
-            {
-                HttpCookie myCookie = Request.Cookies[cookie];
-                if (myCookie != null)
-                {
-                    myCookie.Expires = DateTime.Now.AddDays(-1);
-                    Response.Cookies.Add(myCookie);
-                }
-            }
-            List<SanPham> sanPhams;
-
             var authCookie = Request.Cookies["auth"];
             string tenDangNhap = authCookie != null ? authCookie.Value : null;
-
-            if (authCookie == null)
-            {
-                sanPhams = db.SanPham.OrderBy(sp => sp.Gia).Take(10).ToList();
-            }
-            else
+            List<SanPham> sanPhams = new List<SanPham>();
+            List<GioHang> cart = new List<GioHang>();
+            int totalQuantity = 0;
+            if (!string.IsNullOrEmpty(tenDangNhap))
             {
                 NguoiDung kh = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
                 if (kh != null)
                 {
+                    cart = db.GioHang.Where(g => g.NguoiDungID == kh.NguoiDungID).ToList();
+                    totalQuantity = cart.Sum(item => item.SoLuong);
                     sanPhams = LaySanPhamTheoPhanKhucVaSoThich(kh.PhanKhucKH, kh.SoThich, kh.GioiTinh);
                 }
-                else
-                {
-                    sanPhams = db.SanPham.OrderBy(sp => sp.Gia).Take(10).ToList();
-                }
             }
+            if (sanPhams.Count == 0)
+            {
+                sanPhams = db.SanPham.OrderBy(sp => sp.Gia).Take(10).ToList();
+            }
+            ViewBag.SLSP = totalQuantity;
             ViewBag.SanPhamLienQuan = sanPhams;
             return View(sanPhams);
         }
+
 
         public List<SanPham> LaySanPhamTheoPhanKhucVaSoThich(string phanKhucKH, string soThich, string gioiTinh)
         {

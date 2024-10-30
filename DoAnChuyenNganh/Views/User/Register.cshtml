@@ -64,7 +64,7 @@
 }
 <div class="form-register">
     <h2>Đăng Ký Tài Khoản</h2>
-    @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-register" }))
+    @using (Html.BeginForm("Register", "User", FormMethod.Post))
     {
         <input type="hidden" name="role" value="user" />
 

@@ -1,0 +1,40 @@
+﻿@model DoAnChuyenNganh.Models.ThongTinGiaoHang
+
+@{
+    ViewBag.Title = "Sửa Địa Chỉ";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="container">
+    <div style="height:200px"></div>
+    <h2>@ViewBag.Title</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(m => m.DiaChiID)
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.TenNguoiNhan)
+            @Html.TextBoxFor(m => m.TenNguoiNhan, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.SoDienThoai)
+            @Html.TextBoxFor(m => m.SoDienThoai, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.DiaChiGiaoHang)
+            @Html.TextAreaFor(m => m.DiaChiGiaoHang, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group">
+            @Html.CheckBoxFor(m => m.DiaChiMacDinh)
+            @Html.LabelFor(m => m.DiaChiMacDinh)
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a href="@Url.Action("Index", "Address")" class="btn btn-secondary">Hủy</a>
+    }
+</div>

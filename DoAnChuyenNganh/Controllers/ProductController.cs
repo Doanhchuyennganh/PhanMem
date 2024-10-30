@@ -12,52 +12,48 @@ namespace DoAnChuyenNganh.Controllers
         ShopQuanAoEntities db = new ShopQuanAoEntities();
         public ActionResult Index(string search = "", string SortColumn = "Price", string IconClass = "fa-sort-asc", int page = 1)
         {
-            List<SanPham> lstsp = db.SanPham.Where(row=>row.TenSanPham.Contains(search)).ToList();
+            var authCookie = Request.Cookies["auth"];
+            string tenDangNhap = authCookie != null ? authCookie.Value : null;
+            List<SanPham> lstsp = db.SanPham.Where(row => row.TenSanPham.Contains(search)).ToList();
             List<DanhMuc> lstdm = db.DanhMuc.ToList();
             List<SanPham> lstsp2 = db.SanPham.ToList();
             ViewBag.sp = lstsp2;
             ViewBag.dm = lstdm;
             ViewBag.search = search;
-            //Xắp xếp
             ViewBag.SortColumn = SortColumn;
             ViewBag.IconClass = IconClass;
             if (SortColumn == "Price")
             {
-                if (IconClass == "asc")
-                {
-                    lstsp = lstsp.OrderBy(row => row.Gia).ToList();
-                }
-                else
-                {
-                    lstsp = lstsp.OrderByDescending(row => row.Gia).ToList();
-                }
+                lstsp = IconClass == "asc" ? lstsp.OrderBy(row => row.Gia).ToList() : lstsp.OrderByDescending(row => row.Gia).ToList();
             }
-            if (SortColumn == "Name")
+            else if (SortColumn == "Name")
             {
-                if (IconClass == "asc")
-                {
-                    lstsp = lstsp.OrderBy(row => row.TenSanPham).ToList();
-                }
-                else
-                {
-                    lstsp = lstsp.OrderByDescending(row => row.TenSanPham).ToList();
-                }
+                lstsp = IconClass == "asc" ? lstsp.OrderBy(row => row.TenSanPham).ToList() : lstsp.OrderByDescending(row => row.TenSanPham).ToList();
             }
-            ViewBag.Sortcolumn = SortColumn;
-            ViewBag.IconClass = IconClass;
             // Phân trang
             int NoOfRecordPerPage = 9;
-            int NoOfPages = Convert.ToInt32(Math.Ceiling(
-                Convert.ToDouble(lstsp.Count) / Convert.ToDouble(NoOfRecordPerPage)));
+            int NoOfPages = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(lstsp.Count) / Convert.ToDouble(NoOfRecordPerPage)));
             int NoOfRecordToSkip = (page - 1) * NoOfRecordPerPage;
             ViewBag.Page = page;
             ViewBag.NoOfPages = NoOfPages;
             lstsp = lstsp.Skip(NoOfRecordToSkip).Take(NoOfRecordPerPage).ToList();
+            if (!string.IsNullOrEmpty(tenDangNhap))
+            {
+                NguoiDung user = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                if (user != null)
+                {
+                    List<GioHang> cart = db.GioHang.Where(g => g.NguoiDungID == user.NguoiDungID).ToList();
+                    int totalQuantity = cart.Sum(item => item.SoLuong);
+                    ViewBag.SLSP = totalQuantity;
+                }
+            }
+            else
+            {
+                ViewBag.SLSP = 0;
+            }
             return View(lstsp);
         }
 
-
-        // Thông tin sản phẩm
         public ActionResult Details(int id)
         {
             SanPham pro = db.SanPham.Where(x => x.SanPhamID == id).FirstOrDefault();

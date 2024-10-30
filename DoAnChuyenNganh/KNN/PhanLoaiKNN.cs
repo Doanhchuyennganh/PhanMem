@@ -34,7 +34,7 @@ namespace DoAnChuyenNganh.KNN
                 y_huanLuyen.Add(nhan);
             }
         }
-        public string DuDoan(double[] danhSachNguoiDung, int k = 6)
+        public string DuDoan(double[] danhSachNguoiDung, int k = 9)
         {
             var khoangCach = new List<(double KhoangCach, string Nhan)>();
             for (int i = 0; i < x_huanLuyen.Count; i++)

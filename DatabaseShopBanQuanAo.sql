@@ -28,12 +28,17 @@ CREATE TABLE SanPham (
     MoTa NVARCHAR(MAX),
     Gia DECIMAL(18, 2) NOT NULL,
     SoLuongTonKho INT NOT NULL,
+	SoLuongDaBan INT DEFAULT 0,
     DanhMucID INT,
     HinhAnhUrl NVARCHAR(255),
     NgayTao DATETIME DEFAULT GETDATE(),
     KichHoat BIT DEFAULT 1,
     FOREIGN KEY (DanhMucID) REFERENCES DanhMuc(DanhMucID)
 );
+-- Thêm column SoLuongDaBan
+--ALTER TABLE SanPham
+--ADD SoLuongDaBan INT DEFAULT 0;
+
 CREATE TABLE DonHang (
     DonHangID INT PRIMARY KEY IDENTITY(1,1),
     NguoiDungID INT NOT NULL,
@@ -78,15 +83,25 @@ CREATE TABLE PhanHoi (
     FOREIGN KEY (SanPhamID) REFERENCES SanPham(SanPhamID),
     FOREIGN KEY (NguoiDungID) REFERENCES NguoiDung(NguoiDungID)
 );
+CREATE TABLE ThongTinGiaoHang (
+    DiaChiID INT PRIMARY KEY IDENTITY(1,1),
+    NguoiDungID INT NOT NULL,
+    TenNguoiNhan NVARCHAR(100) NOT NULL,
+    SoDienThoai NVARCHAR(15) NOT NULL,
+    DiaChiGiaoHang NVARCHAR(255) NOT NULL,
+    DiaChiMacDinh BIT DEFAULT 0, -- Địa chỉ mặc định
+    FOREIGN KEY (NguoiDungID) REFERENCES NguoiDung(NguoiDungID)
+);
 
 --delete from NguoiDung
 --delete from NguoiDung where NguoiDungID = 1829
 select * from NguoiDung
-
+select * from GioHang
 select * from SanPham
-
+select * from ChiTietDonHang
 select * from DanhMuc
-
+select * from ThongTinGiaoHang
+select * from ThanhToan
 --Delete from SanPham
 --Delete from NguoiDung
 -- Nhập liệu

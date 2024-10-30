@@ -79,6 +79,7 @@
     <EntitySetMapping Name="SanPham">
       <EntityTypeMapping TypeName="ShopQuanAoModel.SanPham">
         <MappingFragment StoreEntitySet="SanPham">
+          <ScalarProperty Name="SoLuongDaBan" ColumnName="SoLuongDaBan" />
           <ScalarProperty Name="SanPhamID" ColumnName="SanPhamID" />
           <ScalarProperty Name="TenSanPham" ColumnName="TenSanPham" />
           <ScalarProperty Name="MoTa" ColumnName="MoTa" />
@@ -99,6 +100,18 @@
           <ScalarProperty Name="HinhThucThanhToan" ColumnName="HinhThucThanhToan" />
           <ScalarProperty Name="TinhTrangThanhToan" ColumnName="TinhTrangThanhToan" />
           <ScalarProperty Name="NgayThanhToan" ColumnName="NgayThanhToan" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ThongTinGiaoHang">
+      <EntityTypeMapping TypeName="ShopQuanAoModel.ThongTinGiaoHang">
+        <MappingFragment StoreEntitySet="ThongTinGiaoHang">
+          <ScalarProperty Name="DiaChiMacDinh" ColumnName="DiaChiMacDinh" />
+          <ScalarProperty Name="DiaChiGiaoHang" ColumnName="DiaChiGiaoHang" />
+          <ScalarProperty Name="SoDienThoai" ColumnName="SoDienThoai" />
+          <ScalarProperty Name="TenNguoiNhan" ColumnName="TenNguoiNhan" />
+          <ScalarProperty Name="NguoiDungID" ColumnName="NguoiDungID" />
+          <ScalarProperty Name="DiaChiID" ColumnName="DiaChiID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

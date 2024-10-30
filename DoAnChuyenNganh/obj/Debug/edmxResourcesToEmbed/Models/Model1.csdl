@@ -68,6 +68,7 @@
     <NavigationProperty Name="DonHang" Relationship="Self.FK__DonHang__NguoiDu__46E78A0C" FromRole="NguoiDung" ToRole="DonHang" />
     <NavigationProperty Name="GioHang" Relationship="Self.FK__GioHang__NguoiDu__4D94879B" FromRole="NguoiDung" ToRole="GioHang" />
     <NavigationProperty Name="PhanHoi" Relationship="Self.FK__PhanHoi__NguoiDu__5812160E" FromRole="NguoiDung" ToRole="PhanHoi" />
+    <NavigationProperty Name="ThongTinGiaoHang" Relationship="ShopQuanAoModel.FK__ThongTinG__Nguoi__66603565" FromRole="NguoiDung" ToRole="ThongTinGiaoHang" />
   </EntityType>
   <EntityType Name="PhanHoi">
     <Key>
@@ -99,6 +100,7 @@
     <NavigationProperty Name="DanhMuc" Relationship="Self.FK__SanPham__DanhMuc__4316F928" FromRole="SanPham" ToRole="DanhMuc" />
     <NavigationProperty Name="GioHang" Relationship="Self.FK__GioHang__SanPham__4E88ABD4" FromRole="SanPham" ToRole="GioHang" />
     <NavigationProperty Name="PhanHoi" Relationship="Self.FK__PhanHoi__SanPham__571DF1D5" FromRole="SanPham" ToRole="PhanHoi" />
+    <Property Name="SoLuongDaBan" Type="Int32" />
   </EntityType>
   <EntityType Name="ThanhToan">
     <Key>
@@ -264,5 +266,34 @@
       <End Role="SanPham" EntitySet="SanPham" />
       <End Role="PhanHoi" EntitySet="PhanHoi" />
     </AssociationSet>
+    <EntitySet Name="ThongTinGiaoHang" EntityType="ShopQuanAoModel.ThongTinGiaoHang" />
+    <AssociationSet Name="FK__ThongTinG__Nguoi__66603565" Association="ShopQuanAoModel.FK__ThongTinG__Nguoi__66603565">
+      <End Role="NguoiDung" EntitySet="NguoiDung" />
+      <End Role="ThongTinGiaoHang" EntitySet="ThongTinGiaoHang" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="ThongTinGiaoHang">
+    <Key>
+      <PropertyRef Name="DiaChiID" />
+    </Key>
+    <Property Name="DiaChiID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NguoiDungID" Type="Int32" Nullable="false" />
+    <Property Name="TenNguoiNhan" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="SoDienThoai" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChiGiaoHang" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="DiaChiMacDinh" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="NguoiDung" Relationship="ShopQuanAoModel.FK__ThongTinG__Nguoi__66603565" FromRole="ThongTinGiaoHang" ToRole="NguoiDung" />
+  </EntityType>
+  <Association Name="FK__ThongTinG__Nguoi__66603565">
+    <End Type="ShopQuanAoModel.NguoiDung" Role="NguoiDung" Multiplicity="1" />
+    <End Type="ShopQuanAoModel.ThongTinGiaoHang" Role="ThongTinGiaoHang" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NguoiDung">
+        <PropertyRef Name="NguoiDungID" />
+      </Principal>
+      <Dependent Role="ThongTinGiaoHang">
+        <PropertyRef Name="NguoiDungID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

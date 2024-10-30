@@ -40,7 +40,7 @@
     </style>
 }
 @section slmua{
-    <span id="cartItemCount" class="badge text-secondary border border-secondary rounded-circle">@ViewBag.SLSP</span>
+    <span id="cartItemCount">@ViewBag.SLSP</span>
 }
 @{
     string IconClass = "";
@@ -154,16 +154,17 @@
                                             </a>
                                         </div>
                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                            <a href="/product/details/@a.SanPhamID">
+                                            <a href="#">
                                                 @a.DanhMuc.TenDanhMuc
                                             </a>
                                         </div>
                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                            <h4>@a.TenSanPham</h4>
-                                            <p>@a.MoTa</p>
+                                            <a href="/product/details/@a.SanPhamID">
+                                                <h4>@a.TenSanPham</h4>
+                                            </a>
                                             <div class="d-flex justify-content-between flex-lg-wrap">
-                                                <p class="text-dark fs-5 fw-bold mb-0">@a.Gia</p>
-                                                <a href="#" class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                <p class="text-dark fs-5 fw-bold mb-0">@String.Format("{0:n0}", a.Gia) VNĐ</p>
+                                                <a href="@Url.Action("Add", "Cart", new { id = a.SanPhamID , returnUrl = Request.Url.ToString()})" class="btn border border-secondary rounded-pill px-3 text-primary">
                                                     <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào giỏ hàng
                                                 </a>
                                             </div>
@@ -171,7 +172,7 @@
                                     </div>
                                 </div>
                             }
-                            <div class="col-12">
+                            <div class="pagination d-flex justify-content-center mt-5">
                                 @{
                                     int PrevPage = ViewBag.Page - 1;
                                     if (PrevPage <= 0)
@@ -183,23 +184,29 @@
                                     {
                                         NextPage = ViewBag.NoOfPages;
                                     }
+
+                                    int StartPage = Math.Max(1, ViewBag.Page - 5);
+                                    int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 9);
                                 }
-                                <div class="pagination d-flex justify-content-center mt-5">
-                                    <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@PrevPage" class="rounded">Trang trước</a>
-                                    @for (int i = 0; i < ViewBag.NoOfPages; i++)
+                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=1" class="rounded">Trang đầu</a>
+                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@PrevPage" class="rounded">Trang trước</a>
+
+                                @for (int i = StartPage; i <= EndPage; i++)
+                                {
+                                    if (i == ViewBag.Page)
                                     {
-                                        if (i + 1 == ViewBag.Page)
-                                        {
-                                            <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@(i+1)" class="active rounded">@(i+1)</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@(i+1)" class="rounded">@(i+1)</a>
-                                        }
+                                        <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@i" class="active rounded">@i</a>
                                     }
-                                    <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@NextPage" class="active rounded">Tiếp theo</a>
-                                </div>
+                                    else
+                                    {
+                                        <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@i" class="rounded">@i</a>
+                                    }
+                                }
+
+                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@NextPage" class="rounded">Tiếp theo</a>
+                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@ViewBag.NoOfPages" class="rounded">Trang cuối</a>
                             </div>
+
                         </div>
                     </div>
                 </div>

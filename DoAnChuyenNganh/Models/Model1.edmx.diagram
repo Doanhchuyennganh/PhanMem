@@ -22,6 +22,8 @@
         <AssociationConnector Association="ShopQuanAoModel.FK__GioHang__SanPham__4E88ABD4" ManuallyRouted="false" />
         <AssociationConnector Association="ShopQuanAoModel.FK__PhanHoi__NguoiDu__5812160E" ManuallyRouted="false" />
         <AssociationConnector Association="ShopQuanAoModel.FK__PhanHoi__SanPham__571DF1D5" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.ThongTinGiaoHang" Width="1.5" PointX="5.25" PointY="12.75" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ThongTinG__Nguoi__66603565" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
