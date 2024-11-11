@@ -1,13 +1,15 @@
-﻿using DoAnChuyenNganh.Models;
+﻿using DoAnChuyenNganh.Filters;
+using DoAnChuyenNganh.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace DoAnChuyenNganh.Controllers
 {
+    [UserAuthorization]
     public class AddressController : Controller
     {
-        private readonly ShopQuanAoEntities db = new ShopQuanAoEntities();
+        private readonly ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
 
         public ActionResult Index()
         {
@@ -19,7 +21,7 @@ namespace DoAnChuyenNganh.Controllers
         // Lấy danh sách địa chỉ giao hàng của người dùng
         private List<ThongTinGiaoHang> GetShippingAddresses(int userId)
         {
-            return db.ThongTinGiaoHang.Where(addr => addr.NguoiDungID == userId).ToList();
+            return db.ThongTinGiaoHangs.Where(addr => addr.NguoiDungID == userId).ToList();
         }
 
         public ActionResult AddShippingAddress()
@@ -48,14 +50,14 @@ namespace DoAnChuyenNganh.Controllers
                 SetDefaultShippingAddress(userId, address.DiaChiID);
             }
 
-            db.ThongTinGiaoHang.Add(address);
+            db.ThongTinGiaoHangs.Add(address);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
 
         public ActionResult EditShippingAddress(int id)
         {
-            var address = db.ThongTinGiaoHang.Find(id);
+            var address = db.ThongTinGiaoHangs.Find(id);
             if (address == null)
             {
                 return HttpNotFound();
@@ -74,7 +76,7 @@ namespace DoAnChuyenNganh.Controllers
                 return View(updatedAddress); // Trả về đối tượng updatedAddress cho view
             }
 
-            var existingAddress = db.ThongTinGiaoHang.Find(updatedAddress.DiaChiID);
+            var existingAddress = db.ThongTinGiaoHangs.Find(updatedAddress.DiaChiID);
             if (existingAddress != null)
             {
                 existingAddress.TenNguoiNhan = updatedAddress.TenNguoiNhan;
@@ -100,7 +102,7 @@ namespace DoAnChuyenNganh.Controllers
         public ActionResult SetDefaultShippingAddress(int userId, int diaChiId)
         {
             // Bỏ thiết lập tất cả địa chỉ khác là mặc định
-            var otherAddresses = db.ThongTinGiaoHang
+            var otherAddresses = db.ThongTinGiaoHangs
                 .Where(addr => addr.NguoiDungID == userId && addr.DiaChiID != diaChiId)
                 .ToList();
 
@@ -110,7 +112,7 @@ namespace DoAnChuyenNganh.Controllers
             }
 
             // Đặt địa chỉ được chọn làm mặc định
-            var addressToSetDefault = db.ThongTinGiaoHang.Find(diaChiId);
+            var addressToSetDefault = db.ThongTinGiaoHangs.Find(diaChiId);
             if (addressToSetDefault != null)
             {
                 addressToSetDefault.DiaChiMacDinh = true; // Đặt địa chỉ thành mặc định
@@ -123,7 +125,7 @@ namespace DoAnChuyenNganh.Controllers
         // Phương thức thiết lập địa chỉ mặc định mới
         private void SetNewDefaultAddress(int userId)
         {
-            var remainingAddress = db.ThongTinGiaoHang
+            var remainingAddress = db.ThongTinGiaoHangs
                 .Where(addr => addr.NguoiDungID == userId && !addr.DiaChiMacDinh)
                 .FirstOrDefault();
 
@@ -138,10 +140,10 @@ namespace DoAnChuyenNganh.Controllers
         [HttpPost]
         public ActionResult DeleteShippingAddress(int id)
         {
-            var address = db.ThongTinGiaoHang.Find(id);
+            var address = db.ThongTinGiaoHangs.Find(id);
             if (address != null)
             {
-                db.ThongTinGiaoHang.Remove(address);
+                db.ThongTinGiaoHangs.Remove(address);
                 db.SaveChanges();
 
                 // Thiết lập địa chỉ mới mặc định nếu địa chỉ bị xóa là địa chỉ mặc định
@@ -160,7 +162,7 @@ namespace DoAnChuyenNganh.Controllers
             if (authCookie != null)
             {
                 string tenDangNhap = authCookie.Value;
-                var user = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                var user = db.NguoiDungs.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
                 if (user != null)
                 {
                     return user.NguoiDungID;

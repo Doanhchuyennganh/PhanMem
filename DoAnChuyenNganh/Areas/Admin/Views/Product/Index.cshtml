@@ -1,0 +1,153 @@
+﻿@model List<DoAnChuyenNganh.Models.SanPham>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+
+@section css{
+    <style>
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+            .pagination .page-item {
+                margin-right: 5px; /* Khoảng cách giữa các trang */
+            }
+
+            .pagination .page-link {
+                display: block;
+                padding: 0.5rem 1rem;
+                text-decoration: none;
+                border: 1px solid #dee2e6;
+                border-radius: 0.25rem;
+            }
+    </style>
+}
+<div style="height:150px"></div>
+<div class="container d-flex justify-content-center">
+    <div class="w-75">
+        <!-- Thêm tiêu đề -->
+        <h2 class="text-center my-4">Danh Sách Sản Phẩm</h2>
+
+        <!-- Thanh tìm kiếm -->
+        <form method="get" action="@Url.Action("Index", "Product")" class="d-flex justify-content-between mb-4">
+            <input type="text" name="search" class="form-control w-75" placeholder="Nhập tên sản phẩm..." value="@Request.QueryString["search"]" />
+            <button type="submit" class="btn btn-primary ms-2">Tìm kiếm</button>
+        </form>
+
+        <!-- Tùy chỉnh chiều rộng để căn giữa bảng -->
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>Mã Sản Phẩm</th>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Size</th>
+                    <th>Màu</th>
+                    <th>Giá</th>
+                    <th>Số Lượng Tồn Kho</th>
+                    <th>Tình Trạng</th>
+                    <th>Chức Năng</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1 text-dark">@item.SanPhamID</p>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill d-inline text-dark">@item.TenSanPham</span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill d-inline text-dark">@item.Size</span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill d-inline text-dark">@item.Mau</span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill d-inline text-dark">@item.Gia</span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill d-inline text-dark">@item.SoLuongTonKho</span>
+                        </td>
+                        <td>
+                            @if (item.KichHoat == true)
+                            {
+                                <span class="badge badge-success text-dark">Đang Bán</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger text-dark">Dừng Bán</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.KichHoat == true)
+                            {
+                                <a href="/admin/Product/VoHieuKichHoat/@item.SanPhamID?kichHoat=0" class="btn btn-sm btn-danger text-white">Dừng Bán</a>
+                            }
+                            else
+                            {
+                                <a href="/admin/Product/VoHieuKichHoat/@item.SanPhamID?kichHoat=1" class="btn btn-sm btn-danger text-white">Tiếp Tục Bán</a>
+                            }
+                            <br><br>
+                            <a href="/admin/Product/Delete/@item.SanPhamID" class="btn btn-sm btn-danger text-white">Xoá</a>
+                            <i> </i>
+                            <a href="/admin/Product/Edit/@item.SanPhamID" class="btn btn-sm btn-danger text-white">Sửa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Phân trang -->
+        <div class="pagination d-flex justify-content-center mt-5">
+            @{
+                int PrevPage = ViewBag.Page - 1;
+                if (PrevPage <= 0)
+                {
+                    PrevPage = 1;
+                }
+                int NextPage = ViewBag.Page + 1;
+                if (NextPage > ViewBag.NoOfPages)
+                {
+                    NextPage = ViewBag.NoOfPages;
+                }
+
+                int StartPage = Math.Max(1, ViewBag.Page - 5);
+                int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 6);
+            }
+            <a href="/Admin/Product?IconClass=@ViewBag.IconClass&page=1" class="rounded">Trang đầu</a>
+            <a href="/Admin/Product?IconClass=@ViewBag.IconClass&page=@PrevPage" class="rounded">Trang trước</a>
+
+            @for (int i = StartPage; i <= EndPage; i++)
+            {
+                if (i == ViewBag.Page)
+                {
+                    <a href="/Admin/Product?IconClass=@ViewBag.IconClass&page=@i" class="active rounded">@i</a>
+                }
+                else
+                {
+                    <a href="/Admin/Product?IconClass=@ViewBag.IconClass&page=@i" class="rounded">@i</a>
+                }
+            }
+
+            <a href="/Admin/Product?IconClass=@ViewBag.IconClass&page=@NextPage" class="rounded">Tiếp theo</a>
+            <a href="/Admin/Product?IconClass=@ViewBag.IconClass&page=@ViewBag.NoOfPages" class="rounded">Trang cuối</a>
+        </div>
+
+
+        <!-- Thêm người dùng mới -->
+        <div class="d-flex justify-content-center my-5">
+            <a href="/admin/Product/Create" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-circle"></i> Tạo Sản Phẩm
+            </a>
+        </div>
+    </div>
+</div>
+

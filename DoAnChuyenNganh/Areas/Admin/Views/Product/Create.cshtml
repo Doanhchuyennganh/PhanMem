@@ -1,0 +1,70 @@
+﻿@model DoAnChuyenNganh.Models.SanPham
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+<div style="height:150px"></div>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="w-50">
+        @using (Html.BeginForm("Create", "Product", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="mb-3">
+                <h2 class="text-center">Tạo Sản Phẩm</h2>
+            </div>
+
+            <!-- Tên Sản Phẩm -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.TenSanPham, "Tên sản phẩm")
+                @Html.TextBoxFor(model => model.TenSanPham, new { @class = "form-control" })
+            </div>
+
+            <!-- Mô Tả -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.MoTa, "Mô tả")
+                @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3 })
+            </div>
+
+            <!-- Giá -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Gia, "Giá")
+                @Html.TextBoxFor(model => model.Gia, new { @class = "form-control", type = "number", step = "10000" })
+            </div>
+
+            <!-- Số Lượng Tồn Kho -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.SoLuongTonKho, "Số lượng tồn kho")
+                @Html.TextBoxFor(model => model.SoLuongTonKho, new { @class = "form-control", type = "number" })
+            </div>
+
+            <!-- Size (Dropdown) -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Size, "Size")
+                @Html.DropDownListFor(model => model.Size, new SelectList(new[] { "S", "M", "L", "XL", "XXL" }), "Chọn size", new { @class = "form-control" })
+            </div>
+
+            <!-- Danh Mục (Dropdown) -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.DanhMucID, "Danh mục")
+                @Html.DropDownListFor(model => model.DanhMucID, new SelectList(ViewBag.DanhMucList, "DanhMucID", "TenDanhMuc"), "Chọn danh mục", new { @class = "form-control" })
+            </div>
+
+            <!-- Hình Ảnh URL -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.HinhAnhUrl, "Hình ảnh")
+                <input type="file" name="imageFile" id="imageFile" class="form-control" />
+            </div>
+
+            <!-- Màu -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Mau, "Màu")
+                @Html.TextBoxFor(model => model.Mau, new { @class = "form-control" })
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Tạo Sản Phẩm</button>
+                <a href="/admin/Product" class="btn btn-danger">Bỏ</a>
+            </div>
+        }
+    </div>
+</div>

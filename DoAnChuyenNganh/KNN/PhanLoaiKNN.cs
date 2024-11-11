@@ -16,7 +16,7 @@ namespace DoAnChuyenNganh.KNN
         private List<string> y_huanLuyen = new List<string>();
         public void DocDuLieuHuanLuyen()
         {
-            string duongDanFile = @"D:\DoAnTotNghiep\Code\PhanMem\DoAnChuyenNganh\KNN\train_data.txt";
+            string duongDanFile = @"D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\KNN\train_data.txt";
             if (!File.Exists(duongDanFile))
                 throw new FileNotFoundException($"File không tồn tại: {duongDanFile}");
             var cacDong = File.ReadAllLines(duongDanFile);
@@ -64,9 +64,9 @@ namespace DoAnChuyenNganh.KNN
 
         public void DocDuLieuTuCSDL()
         {
-            using (var db = new ShopQuanAoEntities())
+            using (var db = new ShopQuanAoEntities2())
             {
-                var danhSachKhachHang = db.NguoiDung.Where(nd => nd.Train == false).ToList();
+                var danhSachKhachHang = db.NguoiDungs.Where(nd => nd.Train == false).ToList();
                 foreach (var kh in danhSachKhachHang)
                 {
                     double tuoi = kh.DoTuoi ?? 0;
@@ -82,9 +82,9 @@ namespace DoAnChuyenNganh.KNN
 
         public void DocDuLieuNhan()
         {
-            using (var db = new ShopQuanAoEntities())
+            using (var db = new ShopQuanAoEntities2())
             {
-                var danhSachKhachHangMau = db.NguoiDung
+                var danhSachKhachHangMau = db.NguoiDungs
                     .Where(nd => nd.Train == false)
                     .Take(360)
                     .ToList();

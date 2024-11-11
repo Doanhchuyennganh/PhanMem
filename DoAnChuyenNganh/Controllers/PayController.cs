@@ -1,4 +1,5 @@
-﻿using DoAnChuyenNganh.Models;
+﻿using DoAnChuyenNganh.Filters;
+using DoAnChuyenNganh.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,16 +9,17 @@ using System.Web.Mvc;
 
 namespace DoAnChuyenNganh.Controllers
 {
+    [UserAuthorization]
     public class PayController : Controller
     {
-        ShopQuanAoEntities db = new ShopQuanAoEntities();
+        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
 
         public ActionResult Index()
         {
             CheckUserLoggedIn();
 
             int userId = GetCurrentUserId();
-            List<GioHang> cart = db.GioHang.Where(g => g.NguoiDungID == userId).ToList();
+            List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == userId).ToList();
             decimal totalPrice = 0;
             int totalQuantity = 0;
             var selectedAddress = GetDefaultOrFirstShippingAddress(userId);
@@ -47,7 +49,7 @@ namespace DoAnChuyenNganh.Controllers
 
         private List<ThongTinGiaoHang> GetShippingAddresses(int userId)
         {
-            return db.ThongTinGiaoHang.Where(addr => addr.NguoiDungID == userId).ToList();
+            return db.ThongTinGiaoHangs.Where(addr => addr.NguoiDungID == userId).ToList();
         }
         public ThongTinGiaoHang GetDefaultOrFirstShippingAddress(int userId)
         {
@@ -62,7 +64,7 @@ namespace DoAnChuyenNganh.Controllers
             if (authCookie != null)
             {
                 string tenDangNhap = authCookie.Value;
-                var user = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                var user = db.NguoiDungs.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
                 if (user != null)
                 {
                     return user.NguoiDungID;

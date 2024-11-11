@@ -31,14 +31,12 @@ CREATE TABLE SanPham (
 	SoLuongDaBan INT DEFAULT 0,
     DanhMucID INT,
     HinhAnhUrl NVARCHAR(255),
+	Size VARCHAR(10),
+	Mau NVARCHAR(20),
     NgayTao DATETIME DEFAULT GETDATE(),
     KichHoat BIT DEFAULT 1,
     FOREIGN KEY (DanhMucID) REFERENCES DanhMuc(DanhMucID)
 );
--- Thêm column SoLuongDaBan
---ALTER TABLE SanPham
---ADD SoLuongDaBan INT DEFAULT 0;
-
 CREATE TABLE DonHang (
     DonHangID INT PRIMARY KEY IDENTITY(1,1),
     NguoiDungID INT NOT NULL,
@@ -813,6 +811,8 @@ INNER JOIN DanhMuc dm ON sp.DanhMucID = dm.DanhMucID
 WHERE dm.TenDanhMuc = N'Thời trang hot trend'
 AND sp.Gia >= 1000000 AND sp.Gia < 3000000;
 
+Insert into NguoiDung(TenDangNhap,MatKhau,Email,VaiTro)VALUES 
+(N'admin','123','admin@gmail.com','admin')
 
 -- Dữ liệu train phân khúc khách hàng Thanh niên từ 0 đến 37 tuổi chi tiêu thấp
 INSERT INTO NguoiDung (TenDangNhap,MatKhau, DoTuoi, MucChiTieu, SoThich , Train) VALUES 

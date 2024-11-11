@@ -154,9 +154,9 @@
                                             </a>
                                         </div>
                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
-                                            <a href="#">
+                                            <p>
                                                 @a.DanhMuc.TenDanhMuc
-                                            </a>
+                                            </p>
                                         </div>
                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                             <a href="/product/details/@a.SanPhamID">
@@ -186,7 +186,7 @@
                                     }
 
                                     int StartPage = Math.Max(1, ViewBag.Page - 5);
-                                    int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 9);
+                                    int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 6);
                                 }
                                 <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=1" class="rounded">Trang đầu</a>
                                 <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@PrevPage" class="rounded">Trang trước</a>

@@ -1,0 +1,135 @@
+﻿@model List<DoAnChuyenNganh.Models.NguoiDung>
+@{
+    ViewBag.Title = "Danh Sách Người Dùng";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+@section css{
+    <style>
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+        }
+
+            .pagination .page-item {
+                margin-right: 5px; /* Khoảng cách giữa các trang */
+            }
+
+            .pagination .page-link {
+                display: block;
+                padding: 0.5rem 1rem;
+                text-decoration: none;
+                border: 1px solid #dee2e6;
+                border-radius: 0.25rem;
+            }
+    </style>
+}
+<div style="height:100px"></div>
+<div class="container d-flex justify-content-center">
+    <div class="w-75">
+        <!-- Thêm tiêu đề -->
+        <h2 class="text-center my-4">Danh Sách Người Dùng</h2>
+
+        <!-- Thanh tìm kiếm -->
+        <form method="get" action="@Url.Action("Index", "User")" class="d-flex justify-content-between mb-4">
+            <input type="text" name="search" class="form-control w-75" placeholder="Tìm kiếm theo tên đăng nhập..." value="@Request.QueryString["search"]" />
+            <button type="submit" class="btn btn-primary ms-2">Tìm kiếm</button>
+        </form>
+
+        <!-- Tùy chỉnh chiều rộng để căn giữa bảng -->
+        <table class="table align-middle mb-0 bg-white">
+            <thead class="bg-light">
+                <tr>
+                    <th>Mã Người Dùng</th>
+                    <th>Tên Đăng Nhập</th>
+                    <th>Vai Trò</th>
+                    <th>Tình Trạng</th>
+                    <th>Chức năng</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <p class="fw-normal mb-1 text-dark">@item.NguoiDungID</p>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill d-inline text-dark">@item.TenDangNhap</span>
+                        </td>
+                        <td>
+                            <span class="badge text-dark">@item.VaiTro</span>
+                        </td>
+                        <td>
+                            @if (item.KichHoat == true)
+                            {
+                                <span class="badge badge-success text-dark">Kích Hoạt</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger text-dark">Vô Hiệu</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.KichHoat == true)
+                            {
+                                <a href="/admin/User/VoHieuKichHoat/@item.NguoiDungID?kichHoat=0" class="btn btn-sm btn-danger text-white">Vô hiệu</a>
+                            }
+                            else
+                            {
+                                <a href="/admin/User/VoHieuKichHoat/@item.NguoiDungID?kichHoat=1" class="btn btn-sm btn-danger text-white">Kích hoạt</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Phân trang -->
+        <div class="pagination d-flex justify-content-center mt-5">
+            @{
+                int PrevPage = ViewBag.Page - 1;
+                if (PrevPage <= 0)
+                {
+                    PrevPage = 1;
+                }
+                int NextPage = ViewBag.Page + 1;
+                if (NextPage > ViewBag.NoOfPages)
+                {
+                    NextPage = ViewBag.NoOfPages;
+                }
+
+                int StartPage = Math.Max(1, ViewBag.Page - 5);
+                int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 6);
+            }
+            <a href="/Admin/User?IconClass=@ViewBag.IconClass&page=1" class="rounded">Trang đầu</a>
+            <a href="/Admin/User?IconClass=@ViewBag.IconClass&page=@PrevPage" class="rounded">Trang trước</a>
+
+            @for (int i = StartPage; i <= EndPage; i++)
+            {
+                if (i == ViewBag.Page)
+                {
+                    <a href="/Admin/User?IconClass=@ViewBag.IconClass&page=@i" class="active rounded">@i</a>
+                }
+                else
+                {
+                    <a href="/Admin/User?IconClass=@ViewBag.IconClass&page=@i" class="rounded">@i</a>
+                }
+            }
+
+            <a href="/Admin/User?IconClass=@ViewBag.IconClass&page=@NextPage" class="rounded">Tiếp theo</a>
+            <a href="/Admin/User?IconClass=@ViewBag.IconClass&page=@ViewBag.NoOfPages" class="rounded">Trang cuối</a>
+        </div>
+
+
+        <!-- Thêm người dùng mới -->
+        <div class="d-flex justify-content-center my-5">
+            <a href="/admin/User/Create" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-circle"></i> Tạo Tài Khoản Quản Lý
+            </a>
+        </div>
+    </div>
+</div>

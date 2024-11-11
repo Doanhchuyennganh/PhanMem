@@ -5,12 +5,14 @@ using System.Web.Mvc;
 using DoAnChuyenNganh.Models;
 using BCrypt.Net;
 using DoAnChuyenNganh.KNN;
+using DoAnChuyenNganh.Filters;
 
 namespace DoAnChuyenNganh.Controllers
 {
+    [UserAuthorization]
     public class UserController : Controller
     {
-         ShopQuanAoEntities db = new ShopQuanAoEntities();
+        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
 
         // GET: User
         public ActionResult Index()
@@ -28,7 +30,7 @@ namespace DoAnChuyenNganh.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.NguoiDung.Any(u => u.TenDangNhap == newUser.TenDangNhap))
+                if (db.NguoiDungs.Any(u => u.TenDangNhap == newUser.TenDangNhap))
                 {
                     ModelState.AddModelError("TenDangNhap", "Tên đăng nhập đã tồn tại.");
                     return View(newUser);
@@ -60,7 +62,7 @@ namespace DoAnChuyenNganh.Controllers
                     myUser.PhanKhucKH = nhanDuDoan;
                 }
 
-                db.NguoiDung.Add(myUser);
+                db.NguoiDungs.Add(myUser);
                 db.SaveChanges();
                 return RedirectToAction("Login", "User");
             }
@@ -75,32 +77,32 @@ namespace DoAnChuyenNganh.Controllers
         [HttpPost]
         public ActionResult Login(NguoiDung loginUser)
         {
-            if (ModelState.IsValid)
+            if (loginUser != null)
             {
-                NguoiDung myUser = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == loginUser.TenDangNhap);
+                ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
+                NguoiDung myUser = db.NguoiDungs.Where(u => u.TenDangNhap == loginUser.TenDangNhap).FirstOrDefault();
                 if (myUser != null)
                 {
-                    if (BCrypt.Net.BCrypt.Verify(loginUser.MatKhau, myUser.MatKhau))
+                    if (BCrypt.Net.BCrypt.Verify(loginUser.MatKhau, myUser.MatKhau) && myUser.VaiTro == "admin")
                     {
-                        Session["UserID"] = myUser.NguoiDungID;
-                        HttpCookie authCookie = new HttpCookie("auth", myUser.TenDangNhap)
-                        {
-                            Expires = DateTime.Now.AddDays(1),
-                            Path = "/",
-                            HttpOnly = true
-                        };
+                        HttpCookie authCookie = new HttpCookie("auth", myUser.TenDangNhap);
                         HttpCookie roleCookie = new HttpCookie("role", myUser.VaiTro);
                         Response.Cookies.Add(authCookie);
                         Response.Cookies.Add(roleCookie);
-
-                        return myUser.VaiTro == "admin"
-                            ? RedirectToAction("Index", "Home", new { area = "admin" })
-                            : RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Home", new { area = "admin" });
                     }
+                    else if (BCrypt.Net.BCrypt.Verify(loginUser.MatKhau, myUser.MatKhau) && myUser.VaiTro == "user")
+                    {
+                        HttpCookie authCookie = new HttpCookie("auth", myUser.TenDangNhap);
+                        HttpCookie roleCookie = new HttpCookie("role", myUser.VaiTro);
+                        Response.Cookies.Add(authCookie);
+                        Response.Cookies.Add(roleCookie);
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không hợp lệ.");
+                ModelState.AddModelError("Password", "Invalid username or password !!!");
             }
-            return View(loginUser);
+            return View();
         }
 
         public ActionResult Logout()

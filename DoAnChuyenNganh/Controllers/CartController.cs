@@ -1,4 +1,5 @@
-﻿using DoAnChuyenNganh.Models;
+﻿using DoAnChuyenNganh.Filters;
+using DoAnChuyenNganh.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,10 @@ using System.Web.Mvc;
 
 namespace DoAnChuyenNganh.Controllers
 {
+    [UserAuthorization]
     public class CartController : Controller
     {
-        ShopQuanAoEntities db = new ShopQuanAoEntities();
+        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
 
         // Lấy ID người dùng hiện tại từ Session
         private int GetCurrentUserId()
@@ -17,7 +19,7 @@ namespace DoAnChuyenNganh.Controllers
             if (authCookie != null)
             {
                 string tenDangNhap = authCookie.Value;
-                var user = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                var user = db.NguoiDungs.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
                 if (user != null)
                 {
                     return user.NguoiDungID;
@@ -41,7 +43,7 @@ namespace DoAnChuyenNganh.Controllers
             CheckUserLoggedIn();
 
             int userId = GetCurrentUserId();
-            List<GioHang> cart = db.GioHang.Where(g => g.NguoiDungID == userId).ToList();
+            List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == userId).ToList();
             decimal totalPrice = 0;
             int totalQuantity = 0;
             if (cart == null || !cart.Any())
@@ -73,7 +75,7 @@ namespace DoAnChuyenNganh.Controllers
 
             if (id.HasValue)
             {
-                var product = db.SanPham.FirstOrDefault(p => p.SanPhamID == id);
+                var product = db.SanPhams.FirstOrDefault(p => p.SanPhamID == id);
                 if (product == null)
                 {
                     ModelState.AddModelError("", "Sản phẩm không tồn tại.");
@@ -81,7 +83,7 @@ namespace DoAnChuyenNganh.Controllers
                 }
 
                 int userId = GetCurrentUserId();
-                GioHang cartItem = db.GioHang.FirstOrDefault(row => row.GioHangID == id && row.NguoiDungID == userId);
+                GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == id && row.NguoiDungID == userId);
                 if (cartItem != null)
                 {
                     cartItem.SoLuong += 1;
@@ -94,7 +96,7 @@ namespace DoAnChuyenNganh.Controllers
                         SoLuong = 1,
                         NguoiDungID = userId
                     };
-                    db.GioHang.Add(newCartItem);
+                    db.GioHangs.Add(newCartItem);
                 }
 
                 db.SaveChanges();
@@ -115,7 +117,7 @@ namespace DoAnChuyenNganh.Controllers
             if (quan > 0)
             {
                 int userId = GetCurrentUserId();
-                GioHang cartItem = db.GioHang.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
+                GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
 
                 if (cartItem != null)
                 {
@@ -132,11 +134,11 @@ namespace DoAnChuyenNganh.Controllers
             CheckUserLoggedIn();
 
             int userId = GetCurrentUserId();
-            GioHang cartItem = db.GioHang.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
+            GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
 
             if (cartItem != null)
             {
-                db.GioHang.Remove(cartItem);
+                db.GioHangs.Remove(cartItem);
                 db.SaveChanges();
             }
             return RedirectToAction("Index");

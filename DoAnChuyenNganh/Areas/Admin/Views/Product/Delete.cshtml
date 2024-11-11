@@ -1,0 +1,33 @@
+﻿@model DoAnChuyenNganh.Models.SanPham
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div style="height:150px"></div>
+<form action="/admin/Product/Delete/@Model.SanPhamID" method="post">
+    <input type="hidden"
+           name="ProductId"
+           value="@Model.SanPhamID" />
+    <table class="table">
+        <tr>
+            <th>Tên Sản Phẩm</th>
+            <th>@Model.TenSanPham</th>
+        </tr>
+        <tr>
+            <th>Giá</th>
+            <th>@Model.Gia</th>
+        </tr>
+        <tr>
+            <th>Size</th>
+            <th>@Model.Size</th>
+        </tr>
+        <tr>
+            <th>Màu</th>
+            <th>@Model.Mau</th>
+        </tr>
+    </table>
+    <button type="submit" class="btn btn-danger">Xoá</button>
+    <a href="/admin/Product" class="btn btn-dark">Quay Lại</a>
+</form>
+

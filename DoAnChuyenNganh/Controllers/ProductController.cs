@@ -4,19 +4,21 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DoAnChuyenNganh.Models;
+using DoAnChuyenNganh.Filters;
 namespace DoAnChuyenNganh.Controllers
 {
+    [UserAuthorization]
     public class ProductController : Controller
     {
         // GET: Product
-        ShopQuanAoEntities db = new ShopQuanAoEntities();
+        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
         public ActionResult Index(string search = "", string SortColumn = "Price", string IconClass = "fa-sort-asc", int page = 1)
         {
             var authCookie = Request.Cookies["auth"];
             string tenDangNhap = authCookie != null ? authCookie.Value : null;
-            List<SanPham> lstsp = db.SanPham.Where(row => row.TenSanPham.Contains(search)).ToList();
-            List<DanhMuc> lstdm = db.DanhMuc.ToList();
-            List<SanPham> lstsp2 = db.SanPham.ToList();
+            List<SanPham> lstsp = db.SanPhams.Where(row => row.TenSanPham.Contains(search)).ToList();
+            List<DanhMuc> lstdm = db.DanhMucs.ToList();
+            List<SanPham> lstsp2 = db.SanPhams.ToList();
             ViewBag.sp = lstsp2;
             ViewBag.dm = lstdm;
             ViewBag.search = search;
@@ -39,10 +41,10 @@ namespace DoAnChuyenNganh.Controllers
             lstsp = lstsp.Skip(NoOfRecordToSkip).Take(NoOfRecordPerPage).ToList();
             if (!string.IsNullOrEmpty(tenDangNhap))
             {
-                NguoiDung user = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                NguoiDung user = db.NguoiDungs.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
                 if (user != null)
                 {
-                    List<GioHang> cart = db.GioHang.Where(g => g.NguoiDungID == user.NguoiDungID).ToList();
+                    List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == user.NguoiDungID).ToList();
                     int totalQuantity = cart.Sum(item => item.SoLuong);
                     ViewBag.SLSP = totalQuantity;
                 }
@@ -56,11 +58,11 @@ namespace DoAnChuyenNganh.Controllers
 
         public ActionResult Details(int id)
         {
-            SanPham pro = db.SanPham.Where(x => x.SanPhamID == id).FirstOrDefault();
+            SanPham pro = db.SanPhams.Where(x => x.SanPhamID == id).FirstOrDefault();
             int temp = 0;
-            if (db.GioHang != null)
+            if (db.GioHangs != null)
             {
-                foreach (var a in db.GioHang)
+                foreach (var a in db.GioHangs)
                 {
                     temp += a.SoLuong;
                 }

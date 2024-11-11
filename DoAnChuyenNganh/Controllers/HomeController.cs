@@ -1,4 +1,5 @@
-﻿using DoAnChuyenNganh.KNN;
+﻿using DoAnChuyenNganh.Filters;
+using DoAnChuyenNganh.KNN;
 using DoAnChuyenNganh.Models;
 using System;
 using System.Collections.Generic;
@@ -9,13 +10,15 @@ using System.Web.Mvc;
 
 namespace DoAnChuyenNganh.Controllers
 {
+    [UserAuthorization]
     public class HomeController : Controller
     {
-        ShopQuanAoEntities db = new ShopQuanAoEntities();
+        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
 
         // GET: Home
         public ActionResult Index()
         {
+            PhanLoaiKNN kn = new PhanLoaiKNN();
             var authCookie = Request.Cookies["auth"];
             string tenDangNhap = authCookie != null ? authCookie.Value : null;
             List<SanPham> sanPhams = new List<SanPham>();
@@ -23,17 +26,17 @@ namespace DoAnChuyenNganh.Controllers
             int totalQuantity = 0;
             if (!string.IsNullOrEmpty(tenDangNhap))
             {
-                NguoiDung kh = db.NguoiDung.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                NguoiDung kh = db.NguoiDungs.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
                 if (kh != null)
                 {
-                    cart = db.GioHang.Where(g => g.NguoiDungID == kh.NguoiDungID).ToList();
+                    cart = db.GioHangs.Where(g => g.NguoiDungID == kh.NguoiDungID).ToList();
                     totalQuantity = cart.Sum(item => item.SoLuong);
                     sanPhams = LaySanPhamTheoPhanKhucVaSoThich(kh.PhanKhucKH, kh.SoThich, kh.GioiTinh);
                 }
             }
             if (sanPhams.Count == 0)
             {
-                sanPhams = db.SanPham.OrderBy(sp => sp.Gia).Take(10).ToList();
+                sanPhams = db.SanPhams.OrderBy(sp => sp.Gia).Take(10).ToList();
             }
             ViewBag.SLSP = totalQuantity;
             ViewBag.SanPhamLienQuan = sanPhams;
@@ -46,7 +49,7 @@ namespace DoAnChuyenNganh.Controllers
             // Lấy giá tối thiểu và tối đa dựa trên phân khúc
             int giaMin = LayGiaTuPhanKhuc(phanKhucKH, true);
             int giaMax = LayGiaTuPhanKhuc(phanKhucKH, false);
-            var sanPhamsQuery = db.SanPham
+            var sanPhamsQuery = db.SanPhams
                 .Where(sp => sp.Gia >= giaMin && sp.Gia < giaMax);
             if (!string.IsNullOrEmpty(gioiTinh))
             {
