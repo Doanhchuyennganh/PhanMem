@@ -12,7 +12,7 @@ namespace DoAnChuyenNganh.Controllers
     [UserAuthorization]
     public class UserController : Controller
     {
-        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
+        ShopQuanAoEntities db = new ShopQuanAoEntities();
 
         // GET: User
         public ActionResult Index()
@@ -77,32 +77,32 @@ namespace DoAnChuyenNganh.Controllers
         [HttpPost]
         public ActionResult Login(NguoiDung loginUser)
         {
-            if (loginUser != null)
+            if (ModelState.IsValid)
             {
-                ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
-                NguoiDung myUser = db.NguoiDungs.Where(u => u.TenDangNhap == loginUser.TenDangNhap).FirstOrDefault();
+                NguoiDung myUser = db.NguoiDungs.FirstOrDefault(u => u.TenDangNhap == loginUser.TenDangNhap);
                 if (myUser != null)
                 {
-                    if (BCrypt.Net.BCrypt.Verify(loginUser.MatKhau, myUser.MatKhau) && myUser.VaiTro == "admin")
+                    if (BCrypt.Net.BCrypt.Verify(loginUser.MatKhau, myUser.MatKhau))
                     {
-                        HttpCookie authCookie = new HttpCookie("auth", myUser.TenDangNhap);
+                        Session["UserID"] = myUser.NguoiDungID;
+                        HttpCookie authCookie = new HttpCookie("auth", myUser.TenDangNhap)
+                        {
+                            Expires = DateTime.Now.AddDays(1),
+                            Path = "/",
+                            HttpOnly = true
+                        };
                         HttpCookie roleCookie = new HttpCookie("role", myUser.VaiTro);
                         Response.Cookies.Add(authCookie);
                         Response.Cookies.Add(roleCookie);
-                        return RedirectToAction("Index", "Home", new { area = "admin" });
+
+                        return myUser.VaiTro == "admin"
+                            ? RedirectToAction("Index", "Home", new { area = "admin" })
+                            : RedirectToAction("Index", "Product");
                     }
-                    else if (BCrypt.Net.BCrypt.Verify(loginUser.MatKhau, myUser.MatKhau) && myUser.VaiTro == "user")
-                    {
-                        HttpCookie authCookie = new HttpCookie("auth", myUser.TenDangNhap);
-                        HttpCookie roleCookie = new HttpCookie("role", myUser.VaiTro);
-                        Response.Cookies.Add(authCookie);
-                        Response.Cookies.Add(roleCookie);
-                    }
-                    return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("Password", "Invalid username or password !!!");
+                ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không hợp lệ.");
             }
-            return View();
+            return View(loginUser);
         }
 
         public ActionResult Logout()

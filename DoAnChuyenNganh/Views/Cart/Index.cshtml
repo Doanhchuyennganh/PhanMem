@@ -30,15 +30,19 @@
             }
             @foreach (var item in Model)
             {
-                decimal price = item.SanPham.Gia * item.SoLuong;
+                decimal price = item.ChiTietSanPham.Gia * item.SoLuong;
                 totalPrice += price;
                 <tr class="cart-item align-middle">
                     <th scope="row">@i</th>
                     <td>
-                        <img class="img-thumbnail" style="max-height: 80px; width: auto;" src="~/img/@item.SanPham.HinhAnhUrl" alt="@item.SanPham.TenSanPham" />
+                        <img class="img-thumbnail" style="max-height: 80px; width: auto;" src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="@item.ChiTietSanPham.SanPham.TenSanPham" />
                     </td>
                     <td>
-                        <span class="product-name">@Html.DisplayFor(model => item.SanPham.TenSanPham)</span>
+                        <span class="product-name">@Html.DisplayFor(model => item.ChiTietSanPham.SanPham.TenSanPham)</span>
+                        <br />
+                        <span class="product-size">Size: @item.ChiTietSanPham.Size.SizeName</span>
+                        <br />
+                        <span class="product-color">Màu: @item.ChiTietSanPham.Mau.MauName</span>
                     </td>
                     <td>
                         @using (Html.BeginForm("UpdateQuantity", "Cart", FormMethod.Post, new { @class = "update-quantity-form" }))
@@ -61,6 +65,7 @@
                 </tr>
                 i++;
             }
+
             <tr class="cart-total-row">
                 <td colspan="4" class="text-center fw-bold">Tổng Tiền</td>
                 <td colspan="2" class="fw-bold text-danger">@totalPrice.ToString("N0") VNĐ</td>

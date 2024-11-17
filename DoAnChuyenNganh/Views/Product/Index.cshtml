@@ -1,10 +1,19 @@
-﻿@model List<DoAnChuyenNganh.Models.SanPham>
+﻿@model List<DoAnChuyenNganh.Models.ChiTietSanPham>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 @section css{
     <style>
+        .rating {
+            font-size: 1.2em; /* Tăng kích thước sao */
+            color: gold;
+        }
+
+            .rating i {
+                margin-right: 2px; /* Khoảng cách giữa các sao */
+            }
+
         .product-img {
             height: 300px;
             overflow: hidden;
@@ -155,22 +164,42 @@
                                         </div>
                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                                             <p>
-                                                @a.DanhMuc.TenDanhMuc
+                                                @a.SanPham.DanhMuc.TenDanhMuc
                                             </p>
                                         </div>
                                         <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                             <a href="/product/details/@a.SanPhamID">
-                                                <h4>@a.TenSanPham</h4>
+                                                <h4>@a.SanPham.TenSanPham</h4>
                                             </a>
-                                            <div class="d-flex justify-content-between flex-lg-wrap">
-                                                <p class="text-dark fs-5 fw-bold mb-0">@String.Format("{0:n0}", a.Gia) VNĐ</p>
-                                                <a href="@Url.Action("Add", "Cart", new { id = a.SanPhamID , returnUrl = Request.Url.ToString()})" class="btn border border-secondary rounded-pill px-3 text-primary">
-                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm vào giỏ hàng
-                                                </a>
+                                            <a href="/product/details/@a.SanPhamID">
+                                                <h4>@a.Gia</h4>
+                                            </a>
+                                            <!-- Hiển thị số sao -->
+                                            <div class="rating">
+                                                @{
+                                                }
+
+                                                @if (a.SanPham.SoSaoTB != 0)
+                                                {
+                                                    // Nếu có đánh giá (AverageRating không null), hiển thị sao
+                                                    for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        <i class="fa fa-star" style="color:@(i <= a.SanPham.SoSaoTB ? "gold" : "gray")"></i>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    // Nếu không có đánh giá, không hiển thị sao
+                                                    <span>Chưa có đánh giá</span>
+                                                }
                                             </div>
+                                            <!-- Hiển thị số lượt đã bán -->
+                                            <p class="text-muted mb-2">Đã bán: @a.SanPham.SoLuongDaBan</p>
+
                                         </div>
                                     </div>
                                 </div>
+
                             }
                             <div class="pagination d-flex justify-content-center mt-5">
                                 @{

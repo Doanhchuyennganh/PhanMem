@@ -14,6 +14,12 @@ namespace DoAnChuyenNganh.Models
     
     public partial class ThongTinGiaoHang
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ThongTinGiaoHang()
+        {
+            this.DonHangs = new HashSet<DonHang>();
+        }
+    
         public int DiaChiID { get; set; }
         public int NguoiDungID { get; set; }
         public string TenNguoiNhan { get; set; }
@@ -21,6 +27,8 @@ namespace DoAnChuyenNganh.Models
         public string DiaChiGiaoHang { get; set; }
         public bool DiaChiMacDinh { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DonHang> DonHangs { get; set; }
         public virtual NguoiDung NguoiDung { get; set; }
     }
 }

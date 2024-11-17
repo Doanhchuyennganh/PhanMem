@@ -19,8 +19,9 @@ namespace DoAnChuyenNganh.Models
         public int SanPhamID { get; set; }
         public int SoLuong { get; set; }
         public decimal DonGia { get; set; }
+        public Nullable<int> TinhTrangDanhGia { get; set; }
     
         public virtual DonHang DonHang { get; set; }
-        public virtual SanPham SanPham { get; set; }
+        public virtual ChiTietSanPham ChiTietSanPham { get; set; }
     }
 }

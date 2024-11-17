@@ -38,17 +38,13 @@
             <input type="text" name="search" class="form-control w-75" placeholder="Nhập tên sản phẩm..." value="@Request.QueryString["search"]" />
             <button type="submit" class="btn btn-primary ms-2">Tìm kiếm</button>
         </form>
-
-        <!-- Tùy chỉnh chiều rộng để căn giữa bảng -->
         <table class="table align-middle mb-0 bg-white">
             <thead class="bg-light">
                 <tr>
                     <th>Mã Sản Phẩm</th>
                     <th>Tên Sản Phẩm</th>
-                    <th>Size</th>
-                    <th>Màu</th>
-                    <th>Giá</th>
-                    <th>Số Lượng Tồn Kho</th>
+                    <th>Số Lượng Đã Bán</th>
+                    <th>Số Sao TB</th>
                     <th>Tình Trạng</th>
                     <th>Chức Năng</th>
                 </tr>
@@ -57,50 +53,42 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            <p class="fw-normal mb-1 text-dark">@item.SanPhamID</p>
-                        </td>
-                        <td>
-                            <span class="badge rounded-pill d-inline text-dark">@item.TenSanPham</span>
-                        </td>
-                        <td>
-                            <span class="badge rounded-pill d-inline text-dark">@item.Size</span>
-                        </td>
-                        <td>
-                            <span class="badge rounded-pill d-inline text-dark">@item.Mau</span>
-                        </td>
-                        <td>
-                            <span class="badge rounded-pill d-inline text-dark">@item.Gia</span>
-                        </td>
-                        <td>
-                            <span class="badge rounded-pill d-inline text-dark">@item.SoLuongTonKho</span>
-                        </td>
-                        <td>
-                            @if (item.KichHoat == true)
-                            {
-                                <span class="badge badge-success text-dark">Đang Bán</span>
-                            }
-                            else
-                            {
-                                <span class="badge badge-danger text-dark">Dừng Bán</span>
-                            }
-                        </td>
-                        <td>
-                            @if (item.KichHoat == true)
-                            {
-                                <a href="/admin/Product/VoHieuKichHoat/@item.SanPhamID?kichHoat=0" class="btn btn-sm btn-danger text-white">Dừng Bán</a>
-                            }
-                            else
-                            {
-                                <a href="/admin/Product/VoHieuKichHoat/@item.SanPhamID?kichHoat=1" class="btn btn-sm btn-danger text-white">Tiếp Tục Bán</a>
-                            }
-                            <br><br>
-                            <a href="/admin/Product/Delete/@item.SanPhamID" class="btn btn-sm btn-danger text-white">Xoá</a>
-                            <i> </i>
-                            <a href="/admin/Product/Edit/@item.SanPhamID" class="btn btn-sm btn-danger text-white">Sửa</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <p class="fw-normal mb-1 text-dark">@item.SanPhamID</p>
+                    </td>
+                    <td>
+                        <span class="badge rounded-pill d-inline text-dark">@item.TenSanPham</span>
+                    </td>
+                    <td>
+                        <span class="badge rounded-pill d-inline text-dark">@item.SoLuongDaBan</span>
+                    </td>
+                    <td>
+                        <span class="badge rounded-pill d-inline text-dark">@item.SoSaoTB</span>
+                    </td>
+                    <td>
+                        @if (item.KichHoat == true)
+                        {
+                            <span class="badge badge-success text-dark">Đang Bán</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger text-dark">Dừng Bán</span>
+                        }
+                    </td>
+                    <td>
+                        @if (item.KichHoat == true)
+                        {
+                            <a href="/admin/Product/VoHieuKichHoat/@item.SanPhamID?kichHoat=0" class="btn btn-sm btn-danger text-white">Dừng Bán</a>
+                        }
+                        else
+                        {
+                            <a href="/admin/Product/VoHieuKichHoat/@item.SanPhamID?kichHoat=1" class="btn btn-sm btn-danger text-white">Tiếp Tục Bán</a>
+                        }
+                        <br><br>
+                        <a href="/admin/Product/Edit/@item.SanPhamID" class="btn btn-sm btn-danger text-white">Sửa</a>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

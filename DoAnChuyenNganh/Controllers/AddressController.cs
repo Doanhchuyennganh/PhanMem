@@ -9,7 +9,7 @@ namespace DoAnChuyenNganh.Controllers
     [UserAuthorization]
     public class AddressController : Controller
     {
-        private readonly ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
+        private readonly ShopQuanAoEntities db = new ShopQuanAoEntities();
 
         public ActionResult Index()
         {

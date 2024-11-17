@@ -1,77 +1,309 @@
-﻿﻿@model DoAnChuyenNganh.Models.SanPham
+﻿@model List<DoAnChuyenNganh.Models.ChiTietSanPham>
 @{
     ViewBag.Title = "Chi Tiết";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
-@section slmua{
+
+@section slmua {
     <span id="cartItemCount">@ViewBag.SLSP</span>
 }
-<div class="container mt-5">
-    <div style="height:100px">
+@section css{
+    <style>
+        /* Cố định kích thước của hình ảnh chính */
+        #main_product_image {
+            width: 100%; /* Chiếm hết chiều rộng container */
+            max-height: 400px; /* Đảm bảo chiều cao không vượt quá 400px */
+            object-fit: contain; /* Giữ tỷ lệ của ảnh mà không bị bóp méo */
+        }
 
-    </div>
+        /* Cố định kích thước của các hình ảnh thumbnail */
+        .thumbnail-images ul {
+            padding-left: 0;
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+        }
+
+        .thumbnail-images .list-inline-item {
+            cursor: pointer;
+        }
+
+        .thumbnail-images img {
+            width: 100px; /* Đảm bảo các thumbnail có chiều rộng cố định */
+            height: 100px; /* Đảm bảo các thumbnail có chiều cao cố định */
+            object-fit: cover; /* Cắt hình ảnh để giữ tỷ lệ khung hình */
+            border: 2px solid transparent;
+            transition: border 0.3s ease;
+        }
+
+            .thumbnail-images img:hover {
+                border: 2px solid #007bff; /* Thêm viền khi hover */
+            }
+    </style>
+}
+@{
+    decimal gia = ViewBag.sanpham.Gia;
+}
+<div class="container mt-5">
+    <div style="height:100px"></div>
+
     <div class="card">
         <div class="row g-0">
+            <!-- Hình ảnh sản phẩm -->
             <div class="col-md-6">
                 <div class="d-flex flex-column justify-content-center">
                     <div class="main-image">
-                        <img src="~/img/@Model.HinhAnhUrl" id="main_product_image" class="img-fluid" alt="Product Image">
+                        <!-- Hiển thị hình ảnh của sản phẩm đầu tiên trong danh sách -->
+                        <img src="~/img/@Model[0].HinhAnhUrl" id="main_product_image" class="img-fluid" alt="Product Image">
                     </div>
                     <div class="thumbnail-images mt-3">
                         <ul id="thumbnail" class="list-inline">
-                            @{
-                                if (Model.HinhAnhUrl != null)
+                            @foreach (var item in Model)
+                            {
+                                if (!string.IsNullOrEmpty(item.HinhAnhUrl))
                                 {
-                                    string[] dsHinh = Model.HinhAnhUrl.Trim().Split(',');
-                                    foreach (var item in dsHinh)
+                                    string[] dsHinh = item.HinhAnhUrl.Trim().Split(',');
+                                    foreach (var image in dsHinh)
                                     {
                                         <li class="list-inline-item">
-                                            <img onclick="changeImage(this)" src="~/img/@item.ToString().Trim()" class="img-thumbnail" width="100">
+                                            <img onclick="changeImage(this)" src="~/img/@image.Trim()" class="img-thumbnail" width="100">
                                         </li>
                                     }
-                                }
-                                else
-                                {
-                                    <p class="text-muted">Không có hình ảnh.</p>
                                 }
                             }
                         </ul>
                     </div>
                 </div>
             </div>
+
+            <!-- Thông tin sản phẩm -->
             <div class="col-md-6">
                 <div class="p-3 d-flex flex-column justify-content-between">
                     <br />
-                    <br />
-                    <br />
-                    <br />
-                    <h3> Tên sản phẩm: @Html.DisplayFor(mode => Model.TenSanPham)</h3>
-                    <div class="ratings d-flex flex-row align-items-center">
-                        <div class="d-flex flex-row">
-                            <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i class='bx bx-star'></i>
-                        </div>
-                    </div>
+                    <h3>Tên sản phẩm: @ViewBag.sanpham.SanPham.TenSanPham</h3>
                     <div class="mt-2 content">
-                        <p>Mô Tả:@Html.DisplayFor(mode => Model.MoTa)</p>
+                        <p>Mô Tả: @ViewBag.sanpham.SanPham.MoTa)</p>
                     </div>
-                    <h3 class="mt-3">Giá: @Html.DisplayFor(mode => Model.Gia)</h3>
-                    <div class="buttons d-flex flex-row mt-4 gap-3">
-                        <a href="/Cart/Details/@Model.SanPhamID"><button type="submit" class="btn btn-outline-dark">Mua Ngay</button></a>
-                        <a href="@Url.Action("Add", "Cart", new { id = @Model.SanPhamID })"><button type="submit" class="btn btn-dark">Thêm Giỏ Hàng</button></a>
+                    <h3 class="mt-3">Giá: <span id="giaSanPham">@gia</span></h3>
+
+
+                    <div class="form-group mt-3">
+                        <label>Size:</label>
+                        <div class="form-group mt-3">
+                            <label>Size:</label>
+                            <select id="sizeSelect" class="form-select" onchange="filterColors()">
+                                <option value="">Chọn Size</option>
+                                @foreach (var item in Model)
+                                {
+                                    // Mỗi SizeID có thể xuất hiện nhiều lần, nhưng chúng ta sẽ loại bỏ trùng lặp trong JavaScript
+                                    <option value="@item.SizeID" data-size-name="@item.Size.SizeName">@item.Size.SizeName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group mt-3">
+                            <label>Màu:</label>
+                            <select id="colorSelect" class="form-select" onchange="updatePrice()" disabled>
+                                <option value="">Chọn Màu</option>
+                                @foreach (var item in Model)
+                                {
+                                    bool isSelectedColor = item.MauID == ViewBag.sanpham.MauID; // So sánh với Màu mặc định
+                                    <option value="@item.MauID" data-sizeid="@item.SizeID" @(isSelectedColor ? "selected" : "")>@item.Mau.MauName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <script>
+                            // Khi trang được tải, xử lý size và màu
+                            window.onload = function() {
+                                const sizeSelect = document.getElementById('sizeSelect');
+                                const colorSelect = document.getElementById('colorSelect');
+                                const options = sizeSelect.getElementsByTagName('option');
+                                const defaultSizeID = '@ViewBag.sanpham.SizeID';  // Lấy SizeID mặc định từ ViewBag
+                                const defaultColorID = '@ViewBag.sanpham.MauID'; // Lấy MauID mặc định từ ViewBag
+
+                                // Mảng lưu trữ các tên size duy nhất
+                                const uniqueSizes = [];
+
+                                // Duyệt qua các options để loại bỏ các tên size trùng lặp
+                                for (let i = 1; i < options.length; i++) { // Bỏ qua option đầu tiên là "Chọn Size"
+                                    const sizeName = options[i].getAttribute('data-size-name');
+
+                                    // Nếu tên size chưa có trong mảng uniqueSizes, thêm vào và để lại option
+                                    if (!uniqueSizes.includes(sizeName)) {
+                                        uniqueSizes.push(sizeName);
+                                    } else {
+                                        // Nếu tên size đã có trong mảng, loại bỏ option
+                                        options[i].remove();
+                                    }
+                                }
+
+                                // Sau khi loại bỏ các option trùng lặp, chọn size mặc định từ ViewBag.sanpham.SizeID
+                                for (let i = 0; i < options.length; i++) {
+                                    const sizeID = options[i].value;
+                                    if (sizeID === defaultSizeID) {
+                                        options[i].selected = true;  // Chọn size mặc định
+                                        break;
+                                    }
+                                }
+
+                                // Kích hoạt/khóa dropdown màu tùy thuộc vào việc có chọn size hay không
+                                sizeSelect.addEventListener('change', function() {
+                                    if (sizeSelect.value) {
+                                        // Kích hoạt dropdown màu khi đã chọn size
+                                        colorSelect.disabled = false;
+
+                                        // Chỉ hiển thị màu phù hợp với size đã chọn
+                                        const colorOptions = colorSelect.getElementsByTagName('option');
+                                        for (let i = 1; i < colorOptions.length; i++) { // Bỏ qua option đầu tiên là "Chọn Màu"
+                                            const sizeID = colorOptions[i].getAttribute('data-sizeid');
+                                            if (sizeID !== sizeSelect.value) {
+                                                colorOptions[i].style.display = 'none'; // Ẩn màu không tương ứng
+                                            } else {
+                                                colorOptions[i].style.display = 'block'; // Hiển thị màu phù hợp
+                                            }
+                                        }
+
+                                    } else {
+                                        // Khóa dropdown màu nếu chưa chọn size
+                                        colorSelect.disabled = true;
+                                        // Reset màu đã chọn
+                                        colorSelect.value = '';
+                                    }
+                                });
+
+                                // Nếu size đã được chọn sẵn từ ViewBag, kích hoạt và hiển thị màu phù hợp
+                                if (sizeSelect.value) {
+                                    colorSelect.disabled = false;
+
+                                    const colorOptions = colorSelect.getElementsByTagName('option');
+                                    for (let i = 1; i < colorOptions.length; i++) {
+                                        const sizeID = colorOptions[i].getAttribute('data-sizeid');
+                                        if (sizeID !== sizeSelect.value) {
+                                            colorOptions[i].style.display = 'none'; // Ẩn màu không tương ứng
+                                        } else {
+                                            colorOptions[i].style.display = 'block'; // Hiển thị màu phù hợp
+                                        }
+                                    }
+                                }
+                            };
+                        </script>
+
+
+
+
+                        <!-- Các nút mua hàng -->
+                        <div class="buttons d-flex flex-row mt-4 gap-3">
+                            <button type="button" class="btn btn-dark" onclick="addToCart()">Thêm Giỏ Hàng</button>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <a href="/product" class="btn btn-outline-primary mt-3">
-        <i class="fas fa-arrow-left"></i>
-        <span class="ms-2">Quay lại danh sách sản phẩm</span>
-    </a>
-</div>
 
-<script>
+
+        <div style="padding: 20px;">
+            <h2 style="text-align: left;">Bình luận về sản phẩm</h2>
+
+            @if (ViewBag.phanhoi != null && ViewBag.phanhoi.Count > 0)
+            {
+                <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; padding: 15px; background-color: #f9f9f9;">
+                    @foreach (var phanHoi in ViewBag.phanhoi)
+                    {
+                        <div style="margin-bottom: 20px; padding: 10px; border-radius: 8px; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <p style="font-size: 16px; font-weight: bold; color: #333;">@phanHoi.NguoiDung.TenDangNhap</p>
+                            <p style="font-size: 12px; color: #777; margin-bottom: 10px;">
+                                <em>@phanHoi.NgayPhanHoi.ToString("dd/MM/yyyy")</em>
+                            </p>
+                            <p style="font-size: 14px; color: #555;">@phanHoi.NoiDung</p>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p style="font-size: 16px; color: #888; text-align: left;">Chưa có bình luận nào.</p>
+            }
+        </div>
+
+
+        <a href="/product" class="btn btn-outline-primary mt-3">
+            <i class="fas fa-arrow-left"></i>
+            <span class="ms-2">Quay lại danh sách sản phẩm</span>
+        </a>
+    </div>
+
+    <script>
+
     function changeImage(element) {
-        var main_prodcut_image = document.getElementById('main_product_image');
-        main_prodcut_image.src = element.src;
-    }
-</script>
+                var mainImage = document.getElementById("main_product_image");
+                mainImage.src = element.src; // Cập nhật hình ảnh chính
+            }
+            function updatePrice() {
+                var sizeValue = document.getElementById('sizeSelect').value;
+                var colorValue = document.getElementById('colorSelect').value;
+                var productID = @Model[0].SanPhamID;
+
+                if (!sizeValue || !colorValue) {
+                    return; // Nếu chưa chọn size hoặc màu, không cập nhật giá
+                }
+
+    // Gửi yêu cầu Ajax để lấy giá dựa trên SizeID, MauID và ChiTietSanPhamID
+    $.ajax({
+                url: '/Product/GetPrice',
+        type: 'GET',
+        data: { sizeID: sizeValue, colorID: colorValue, productID: productID },
+        success: function(response) {
+            // Cập nhật giá hiển thị
+            $('#giaSanPham').text(response.gia);
+                    },
+        error: function() {
+                        alert('Có lỗi xảy ra khi lấy giá.');
+                    }
+                });
+            }
+
+            function addToCart() {
+                var sizeValue = document.getElementById('sizeSelect').value;
+                var colorValue = document.getElementById('colorSelect').value;
+
+                if (!sizeValue || !colorValue) {
+                    alert('Vui lòng chọn Size và Màu trước khi thêm vào giỏ hàng.');
+                    return false; // Dừng lại nếu chưa chọn đủ
+                }
+
+                // Sử dụng Url.Action để tạo đường dẫn đúng với tham số được mã hóa
+                var baseUrl = '@Url.Action("Add", "Cart", new { id = Model[0].SanPhamID })';
+                var addToCartUrl = `${baseUrl}?sizeID=${encodeURIComponent(sizeValue)}&colorID=${encodeURIComponent(colorValue)}`;
+
+                // Điều hướng đến đường dẫn mới
+                window.location.href = addToCartUrl;
+            }
+
+
+
+            function filterColors() {
+                var selectedSize = document.getElementById('sizeSelect').value;
+                var colorOptions = document.getElementById('colorSelect').options;
+
+                // Hiện/ẩn các lựa chọn màu sắc dựa trên Size đã chọn
+                for (var i = 0; i < colorOptions.length; i++) {
+                    var option = colorOptions[i];
+                    if (selectedSize) {
+                        if (option.getAttribute('data-sizeid') === selectedSize) {
+                            option.style.display = 'block'; // Hiển thị màu sắc phù hợp với size
+                        } else {
+                            option.style.display = 'none'; // Ẩn màu sắc không phù hợp với size
+                        }
+                    } else {
+                        option.style.display = 'block'; // Nếu không chọn size, hiển thị tất cả màu sắc
+                    }
+                }
+
+                // Đặt lại giá trị màu sắc đã chọn (nếu có)
+                document.getElementById('colorSelect').value = "";
+                updatePrice(); // Cập nhật giá lại sau khi thay đổi
+            }
+
+    </script>

@@ -1,0 +1,79 @@
+﻿@model DoAnChuyenNganh.Models.ChiTietSanPham
+@{
+    ViewBag.Title = "EditCTSP";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div style="height:300px;"></div>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="w-50">
+        @using (Html.BeginForm("EditCTSP", "Product", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="mb-3">
+                <h2 class="text-center">Sửa Sản Phẩm</h2>
+            </div>
+
+            <!-- SanPhamID (Hidden Field) -->
+            @Html.HiddenFor(model => model.ChiTietSanPhamID)
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Gia, "Giá")
+                @Html.TextBoxFor(model => model.Gia, new { @class = "form-control", type = "number", step = "10000" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.SoLuongTonKho, "Số lượng tồn kho")
+                @Html.TextBoxFor(model => model.SoLuongTonKho, new { @class = "form-control", type = "number" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.SizeID, "Size")
+                @Html.DropDownListFor(model => model.SizeID, new SelectList(ViewBag.Size, "SizeID", "SizeName"), "Chọn size", new { @class = "form-control" })
+            </div>
+
+            <!-- Màu -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.MauID, "Màu")
+                @Html.DropDownListFor(model => model.MauID, new SelectList(ViewBag.Mau, "MauID", "MauName"), "Chọn màu", new { @class = "form-control" })
+            </div>
+
+            <!-- Hình Ảnh URL -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.HinhAnhUrl, "Hình ảnh")
+                <input type="file" name="imageFile" id="imageFile" class="form-control" onchange="previewImage(event)" />
+
+                <!-- Hiển thị ảnh hiện tại (nếu có) -->
+                @if (!string.IsNullOrEmpty(Model.HinhAnhUrl))
+                {
+                    <img id="currentImage" src="~/img/@Model.HinhAnhUrl" alt="Current Image" class="img-thumbnail mt-2" style="width: 150px;" />
+                }
+                else
+                {
+                    <img id="currentImage" src="#" alt="No image" class="img-thumbnail mt-2" style="width: 150px; display: none;" />
+                }
+            </div>
+
+            <script>
+                // JavaScript function to preview the selected image
+                function previewImage(event) {
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var output = document.getElementById('currentImage');
+                        output.src = reader.result;  // Set the source of the image to the selected file
+                        output.style.display = 'block'; // Ensure image is visible
+                    }
+                    reader.readAsDataURL(event.target.files[0]);  // Read the file as a data URL
+                }
+            </script>
+
+
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+                <a href="/admin/Product" class="btn btn-danger">Bỏ</a>
+            </div>
+        }
+    </div>
+</div>
+
+

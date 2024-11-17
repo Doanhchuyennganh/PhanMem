@@ -19,7 +19,7 @@ namespace DoAnChuyenNganh.Models
         public int SanPhamID { get; set; }
         public int SoLuong { get; set; }
     
+        public virtual ChiTietSanPham ChiTietSanPham { get; set; }
         public virtual NguoiDung NguoiDung { get; set; }
-        public virtual SanPham SanPham { get; set; }
     }
 }

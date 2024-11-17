@@ -10,7 +10,7 @@ namespace DoAnChuyenNganh.Controllers
     [UserAuthorization]
     public class CartController : Controller
     {
-        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
+        ShopQuanAoEntities db = new ShopQuanAoEntities();
 
         // Lấy ID người dùng hiện tại từ Session
         private int GetCurrentUserId()
@@ -54,7 +54,7 @@ namespace DoAnChuyenNganh.Controllers
             {
                 foreach (var item in cart)
                 {
-                    totalPrice += item.SanPham.Gia * item.SoLuong;
+                    totalPrice += item.ChiTietSanPham.Gia * item.SoLuong;
                     totalQuantity += item.SoLuong;
                 }
             }
@@ -65,7 +65,7 @@ namespace DoAnChuyenNganh.Controllers
         }
 
         // Thêm sản phẩm vào giỏ hàng
-        public ActionResult Add(int? id, string returnUrl)
+        public ActionResult Add(int? id, int? sizeID, int? colorID, string returnUrl)
         {
             var checkLoginResult = CheckUserLoggedIn();
             if (checkLoginResult != null)
@@ -73,17 +73,25 @@ namespace DoAnChuyenNganh.Controllers
                 return checkLoginResult;
             }
 
-            if (id.HasValue)
+            if (id.HasValue && sizeID.HasValue && colorID.HasValue)
             {
-                var product = db.SanPhams.FirstOrDefault(p => p.SanPhamID == id);
-                if (product == null)
+                // Tìm sản phẩm trong bảng ChiTietSanPham với SanPhamID, SizeID và MauID
+                var productDetail = db.ChiTietSanPhams
+                    .FirstOrDefault(p => p.SanPhamID == id && p.SizeID == sizeID && p.MauID == colorID);
+
+                if (productDetail == null)
                 {
-                    ModelState.AddModelError("", "Sản phẩm không tồn tại.");
+                    ModelState.AddModelError("", "Sản phẩm với kích thước và màu sắc này không tồn tại.");
                     return RedirectToAction("Index", "Product");
                 }
 
                 int userId = GetCurrentUserId();
-                GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == id && row.NguoiDungID == userId);
+
+                // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+                var cartItem = db.GioHangs.FirstOrDefault(row =>
+                    row.ChiTietSanPham.ChiTietSanPhamID == productDetail.ChiTietSanPhamID &&
+                    row.NguoiDungID == userId);
+
                 if (cartItem != null)
                 {
                     cartItem.SoLuong += 1;
@@ -92,7 +100,7 @@ namespace DoAnChuyenNganh.Controllers
                 {
                     GioHang newCartItem = new GioHang
                     {
-                        SanPhamID = (int)id,
+                        SanPhamID = productDetail.ChiTietSanPhamID, // Sử dụng ChiTietSanPhamID cho mục giỏ hàng
                         SoLuong = 1,
                         NguoiDungID = userId
                     };
@@ -101,12 +109,19 @@ namespace DoAnChuyenNganh.Controllers
 
                 db.SaveChanges();
             }
+            else
+            {
+                ModelState.AddModelError("", "Vui lòng chọn kích thước và màu sắc.");
+                return RedirectToAction("Details", "Product", new { id = id }); // Redirect lại trang chi tiết sản phẩm nếu thiếu size hoặc màu
+            }
+
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Product");
         }
+
 
 
         // Cập nhật số lượng sản phẩm trong giỏ hàng

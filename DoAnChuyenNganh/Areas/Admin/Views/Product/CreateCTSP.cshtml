@@ -1,0 +1,59 @@
+﻿@model DoAnChuyenNganh.Models.ChiTietSanPham
+@{
+    ViewBag.Title = "CreateCTSP";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div style="height:150px"></div>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="w-50">
+        @using (Html.BeginForm("CreateCTSP", "Product", new { area = "Admin", id = ViewBag.id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="mb-3">
+                <h2 class="text-center">Thêm Chi Tiết Sản Phẩm</h2>
+            </div>
+            <!-- Giá -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.Gia, "Giá")
+                @Html.TextBoxFor(model => model.Gia, new { @class = "form-control", type = "number", step = "10000" })
+            </div>
+
+            <!-- Số Lượng Tồn Kho -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.SoLuongTonKho, "Số lượng tồn kho")
+                @Html.TextBoxFor(model => model.SoLuongTonKho, new { @class = "form-control", type = "number" })
+            </div>
+
+            <!-- Size -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.SizeID, "Size")
+                @Html.DropDownListFor(model => model.SizeID, new SelectList(ViewBag.Size, "SizeID", "SizeName"), "Chọn size", new { @class = "form-control" })
+            </div>
+
+            <!-- Màu -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.MauID, "Màu")
+                @Html.DropDownListFor(model => model.MauID, new SelectList(ViewBag.Mau, "MauID", "MauName"), "Chọn màu", new { @class = "form-control" })
+            </div>
+
+
+
+            <!-- Hình Ảnh URL -->
+            <div class="mb-3">
+                @Html.LabelFor(model => model.HinhAnhUrl, "Hình ảnh")
+                <input type="file" name="imageFile" id="imageFile" class="form-control" />
+            </div>
+
+
+
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Thêm Chi Tiết Sản Phẩm</button>
+                <a href="/admin/Product" class="btn btn-danger">Bỏ</a>
+            </div>
+        }
+    </div>
+</div>
+
+

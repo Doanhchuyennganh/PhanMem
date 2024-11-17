@@ -17,7 +17,7 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
         }
         public ActionResult Mypf(int? id)
         {
-            ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
+            ShopQuanAoEntities db = new ShopQuanAoEntities();
             NguoiDung user = db.NguoiDungs.FirstOrDefault(row => row.NguoiDungID == id);
 
             if (user == null)

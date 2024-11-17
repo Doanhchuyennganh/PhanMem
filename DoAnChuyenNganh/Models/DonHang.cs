@@ -18,20 +18,23 @@ namespace DoAnChuyenNganh.Models
         public DonHang()
         {
             this.ChiTietDonHangs = new HashSet<ChiTietDonHang>();
-            this.ThanhToans = new HashSet<ThanhToan>();
         }
     
         public int DonHangID { get; set; }
         public int NguoiDungID { get; set; }
+        public Nullable<int> NhanVienID { get; set; }
+        public int DiaChiID { get; set; }
         public decimal TongTien { get; set; }
         public string TinhTrangDonHang { get; set; }
         public Nullable<System.DateTime> NgayDatHang { get; set; }
-        public string DiaChiGiaoHang { get; set; }
+        public string HinhThucThanhToan { get; set; }
+        public string TinhTrangThanhToan { get; set; }
+        public Nullable<System.DateTime> NgayThanhToan { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; }
+        public virtual ThongTinGiaoHang ThongTinGiaoHang { get; set; }
         public virtual NguoiDung NguoiDung { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ThanhToan> ThanhToans { get; set; }
+        public virtual NguoiDung NguoiDung1 { get; set; }
     }
 }

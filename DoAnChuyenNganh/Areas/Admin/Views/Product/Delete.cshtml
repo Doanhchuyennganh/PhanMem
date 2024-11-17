@@ -9,6 +9,7 @@
     <input type="hidden"
            name="ProductId"
            value="@Model.SanPhamID" />
+    <h2 style="text-align">Bạn muốn xoá sản phẩm bên dưới đúng không?</h2>
     <table class="table">
         <tr>
             <th>Tên Sản Phẩm</th>
@@ -16,15 +17,7 @@
         </tr>
         <tr>
             <th>Giá</th>
-            <th>@Model.Gia</th>
-        </tr>
-        <tr>
-            <th>Size</th>
-            <th>@Model.Size</th>
-        </tr>
-        <tr>
-            <th>Màu</th>
-            <th>@Model.Mau</th>
+            <th>@Model.MoTa</th>
         </tr>
     </table>
     <button type="submit" class="btn btn-danger">Xoá</button>

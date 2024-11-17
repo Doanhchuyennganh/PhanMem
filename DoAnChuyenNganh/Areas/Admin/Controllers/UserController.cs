@@ -10,7 +10,7 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
     [AdminAuthorization]
     public class UserController : Controller
     {
-        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
+        ShopQuanAoEntities db = new ShopQuanAoEntities();
         // GET: Admin/User
         public ActionResult Index(string search = "", string IconClass = "fa-sort-asc", int page = 1)
         {

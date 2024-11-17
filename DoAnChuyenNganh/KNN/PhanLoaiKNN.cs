@@ -64,7 +64,7 @@ namespace DoAnChuyenNganh.KNN
 
         public void DocDuLieuTuCSDL()
         {
-            using (var db = new ShopQuanAoEntities2())
+            using (var db = new ShopQuanAoEntities())
             {
                 var danhSachKhachHang = db.NguoiDungs.Where(nd => nd.Train == false).ToList();
                 foreach (var kh in danhSachKhachHang)
@@ -82,7 +82,7 @@ namespace DoAnChuyenNganh.KNN
 
         public void DocDuLieuNhan()
         {
-            using (var db = new ShopQuanAoEntities2())
+            using (var db = new ShopQuanAoEntities())
             {
                 var danhSachKhachHangMau = db.NguoiDungs
                     .Where(nd => nd.Train == false)

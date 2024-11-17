@@ -4,8 +4,8 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
 }
 
-<div style="height:300px;"></div>
-<div class="d-flex justify-content-center align-items-center vh-100">
+<div style="height:150px"></div>
+<div class="d-flex justify-content-center align-items-center vh-200">
     <div class="w-50">
         @using (Html.BeginForm("Edit", "Product", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -28,63 +28,95 @@
             </div>
 
             <div class="mb-3">
-                @Html.LabelFor(model => model.Gia, "Giá")
-                @Html.TextBoxFor(model => model.Gia, new { @class = "form-control", type = "number", step = "10000" })
-            </div>
-
-            <div class="mb-3">
-                @Html.LabelFor(model => model.SoLuongTonKho, "Số lượng tồn kho")
-                @Html.TextBoxFor(model => model.SoLuongTonKho, new { @class = "form-control", type = "number" })
-            </div>
-
-            <div class="mb-3">
-                @Html.LabelFor(model => model.Size, "Size")
-                @Html.DropDownListFor(model => model.Size, new SelectList(new[] { "S", "M", "L", "XL", "XXL" }, Model.Size), "Chọn size", new { @class = "form-control" })
-            </div>
-
-            <div class="mb-3">
                 @Html.LabelFor(model => model.DanhMucID, "Danh mục")
                 @Html.DropDownListFor(model => model.DanhMucID, new SelectList(ViewBag.Brands, "DanhMucID", "TenDanhMuc", Model.DanhMucID), "Chọn danh mục", new { @class = "form-control" })
             </div>
-
-            <!-- Hình Ảnh URL -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.HinhAnhUrl, "Hình ảnh")
-                <input type="file" name="imageFile" id="imageFile" class="form-control" onchange="previewImage(event)" />
-
-                <!-- Hiển thị ảnh hiện tại (nếu có) -->
-                @if (!string.IsNullOrEmpty(Model.HinhAnhUrl))
-                {
-                    <img id="currentImage" src="~/img/@Model.HinhAnhUrl" alt="Current Image" class="img-thumbnail mt-2" style="width: 150px;" />
-                }
-                else
-                {
-                    <img id="currentImage" src="#" alt="No image" class="img-thumbnail mt-2" style="width: 150px; display: none;" />
-                }
-            </div>
-
-            <script>
-                // JavaScript function to preview the selected image
-                function previewImage(event) {
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        var output = document.getElementById('currentImage');
-                        output.src = reader.result;  // Set the source of the image to the selected file
-                        output.style.display = 'block'; // Ensure image is visible
-                    }
-                    reader.readAsDataURL(event.target.files[0]);  // Read the file as a data URL
-                }
-            </script>
-
-            <div class="mb-3">
-                @Html.LabelFor(model => model.Mau, "Màu")
-                @Html.TextBoxFor(model => model.Mau, new { @class = "form-control" })
-            </div>
-
             <div class="text-center">
                 <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
                 <a href="/admin/Product" class="btn btn-danger">Bỏ</a>
             </div>
+            <div class="mt-4">
+                <h3>Danh sách Chi Tiết Sản Phẩm</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Size</th>
+                            <th>Màu</th>
+                            <th>Giá</th>
+                            <th>Số Lượng</th>
+                            <th>Trạng Thái</th>
+                            <th>Hình ảnh</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var chiTiet in ViewBag.ChiTietSanPham)
+                        {
+                            <tr>
+                                <!-- Size -->
+                                <td>
+                                    <p>@chiTiet.Size.SizeName</p>
+                                </td>
+
+                                <!-- Màu -->
+                                <td>
+                                    <p>@chiTiet.Mau.MauName</p>
+                                </td>
+
+                                <!-- Giá -->
+                                <td>
+                                    <p>@chiTiet.Gia</p>
+                                </td>
+
+                                <!-- Số Lượng -->
+                                <td>
+                                    @chiTiet.SoLuongTonKho
+                                </td>
+                                <td>
+                                    @if (chiTiet.KichHoat == true)
+                                    {
+                                        <p>Đang bán</p>
+                                    }
+                                    else
+                                    {
+                                       <p>Dừng bán</p>
+                                    }
+                                </td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(chiTiet.HinhAnhUrl))
+                                    {
+                                        <img src="~/img/@chiTiet.HinhAnhUrl" alt="Product Image" class="img-thumbnail" style="width: 80px; height: auto;" /> }
+                                    else
+                                    {
+                                        <p>Không có hình ảnh</p>}
+                                </td>
+                                <td>
+                                    @if (chiTiet.KichHoat == true)
+                                    {
+                                        <a href="/admin/Product/VoHieuKichHoatCTSP/@chiTiet.ChiTietSanPhamID?kichHoat=0" class="btn btn-sm btn-danger text-white">Dừng Bán</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/admin/Product/VoHieuKichHoatCTSP/@chiTiet.ChiTietSanPhamID?kichHoat=1" class="btn btn-sm btn-danger text-white">Tiếp Tục Bán</a>
+                                    }
+                                    <br /><br />
+                                    <a href="/admin/Product/EditCTSP/@chiTiet.ChiTietSanPhamID" class="btn btn-danger btn-sm">Chỉnh sửa</a>
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                </table>
+            </div>
+
+            <a href="/admin/Product/CreateCTSP/@Model.SanPhamID" class="btn btn-danger">Thêm Chi Tiết Sản Phẩm</a>
+
+
+
+
+
         }
+
     </div>
 </div>

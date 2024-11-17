@@ -1,10 +1,13 @@
+using DoAnChuyenNganh.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Unity;
 
 namespace DoAnChuyenNganh
 {
@@ -12,6 +15,14 @@ namespace DoAnChuyenNganh
     {
         protected void Application_Start()
         {
+            var container = new UnityContainer();
+            container.RegisterType<IVnPayServers, VnPayServer>();
+            // Set Unity as the dependency resolver for MVC
+            DependencyResolver.SetResolver(new UnityDependencyResolver(container));
+            // Set Unity as the dependency resolver for Web API
+            GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
+
+
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }

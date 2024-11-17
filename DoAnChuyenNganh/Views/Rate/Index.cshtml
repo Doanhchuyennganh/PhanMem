@@ -1,0 +1,45 @@
+﻿@model List<DoAnChuyenNganh.Models.ChiTietDonHang>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<div style="height:150px"></div>
+<div style="margin-top: 20px;"></div>
+<h2 style="text-align: center; margin-bottom: 20px;">Danh sách sản phẩm</h2>
+
+<table style="width: 100%; border-collapse: collapse; margin: auto;">
+    <thead>
+        <tr style="background-color: #f2f2f2; text-align: left;">
+            <th style="padding: 10px;">Hình Ảnh</th>
+            <th style="padding: 10px;">Tên Sản Phẩm</th>
+            <th style="padding: 10px;">Size</th>
+            <th style="padding: 10px;">Màu</th>
+            <th style="padding: 10px;">Chức Năng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="border-bottom: 1px solid #ddd;">
+                <!-- Hiển thị hình ảnh -->
+                <td style="padding: 10px; text-align: center;">
+                    <img src="~/img/@item.ChiTietSanPham.HinhAnhUrl"
+                         alt="Ảnh sản phẩm"
+                         style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                </td>
+
+                <!-- Hiển thị thông tin sản phẩm -->
+                <td style="padding: 10px; vertical-align: middle;">@item.ChiTietSanPham.SanPham.TenSanPham</td>
+                <td style="padding: 10px; vertical-align: middle;">@item.ChiTietSanPham.Size.SizeName</td>
+                <td style="padding: 10px; vertical-align: middle;">@item.ChiTietSanPham.Mau.MauName</td>
+
+                <!-- Hiển thị nút chức năng -->
+                <td style="padding: 10px; text-align: center; vertical-align: middle;">
+                    <a href="@Url.Action("Rate", "Rate", new { id = item.ChiTietSanPham.ChiTietSanPhamID, iddonhang = ViewBag.iddonhang })" class="btn btn-success" style="padding: 8px 12px; text-decoration: none; color: white; background-color: #28a745; border-radius: 5px;">Đánh Giá</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Home/index/" class="btn btn-success" style="padding: 8px 12px; text-decoration: none; color: white; background-color: #28a745; border-radius: 5px;">Thoát</a>
+

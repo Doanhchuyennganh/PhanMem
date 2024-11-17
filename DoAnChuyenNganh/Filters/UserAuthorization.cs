@@ -10,7 +10,7 @@ namespace DoAnChuyenNganh.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (filterContext.HttpContext.User.IsInRole("admin"))
+            if (filterContext.HttpContext.User.IsInRole("admin") == true)
             {
                 filterContext.Result = new RedirectToRouteResult(
                     new System.Web.Routing.RouteValueDictionary(

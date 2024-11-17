@@ -13,7 +13,7 @@ namespace DoAnChuyenNganh.Controllers
     [UserAuthorization]
     public class HomeController : Controller
     {
-        ShopQuanAoEntities2 db = new ShopQuanAoEntities2();
+        ShopQuanAoEntities db = new ShopQuanAoEntities();
 
         // GET: Home
         public ActionResult Index()
@@ -21,7 +21,7 @@ namespace DoAnChuyenNganh.Controllers
             PhanLoaiKNN kn = new PhanLoaiKNN();
             var authCookie = Request.Cookies["auth"];
             string tenDangNhap = authCookie != null ? authCookie.Value : null;
-            List<SanPham> sanPhams = new List<SanPham>();
+            List<ChiTietSanPham> sanPhams = new List<ChiTietSanPham>();
             List<GioHang> cart = new List<GioHang>();
             int totalQuantity = 0;
             if (!string.IsNullOrEmpty(tenDangNhap))
@@ -34,22 +34,27 @@ namespace DoAnChuyenNganh.Controllers
                     sanPhams = LaySanPhamTheoPhanKhucVaSoThich(kh.PhanKhucKH, kh.SoThich, kh.GioiTinh);
                 }
             }
+            
             if (sanPhams.Count == 0)
             {
-                sanPhams = db.SanPhams.OrderBy(sp => sp.Gia).Take(10).ToList();
+                sanPhams = db.ChiTietSanPhams.OrderBy(sp => sp.Gia).Take(10).ToList();
             }
+            sanPhams = sanPhams
+             .GroupBy(row => row.SanPham.SanPhamID)
+             .Select(group => group.OrderBy(row => row.Gia).FirstOrDefault())
+             .ToList();
             ViewBag.SLSP = totalQuantity;
             ViewBag.SanPhamLienQuan = sanPhams;
             return View(sanPhams);
         }
 
 
-        public List<SanPham> LaySanPhamTheoPhanKhucVaSoThich(string phanKhucKH, string soThich, string gioiTinh)
+        public List<ChiTietSanPham> LaySanPhamTheoPhanKhucVaSoThich(string phanKhucKH, string soThich, string gioiTinh)
         {
             // Lấy giá tối thiểu và tối đa dựa trên phân khúc
             int giaMin = LayGiaTuPhanKhuc(phanKhucKH, true);
             int giaMax = LayGiaTuPhanKhuc(phanKhucKH, false);
-            var sanPhamsQuery = db.SanPhams
+            var sanPhamsQuery = db.ChiTietSanPhams
                 .Where(sp => sp.Gia >= giaMin && sp.Gia < giaMax);
             if (!string.IsNullOrEmpty(gioiTinh))
             {
@@ -58,14 +63,14 @@ namespace DoAnChuyenNganh.Controllers
                 if (gioiTinhLower == "nam")
                 {
                     sanPhamsQuery = sanPhamsQuery.Where(sp =>
-                        sp.TenSanPham.ToLower().Contains("nam") ||
-                        sp.TenSanPham.ToLower().Contains("unisex"));
+                        sp.SanPham.TenSanPham.ToLower().Contains("nam") ||
+                        sp.SanPham.TenSanPham.ToLower().Contains("unisex"));
                 }
                 else if (gioiTinhLower == "nữ")
                 {
                     sanPhamsQuery = sanPhamsQuery.Where(sp =>
-                        sp.TenSanPham.ToLower().Contains("nữ") ||
-                        sp.TenSanPham.ToLower().Contains("unisex"));
+                        sp.SanPham.TenSanPham.ToLower().Contains("nữ") ||
+                        sp.SanPham.TenSanPham.ToLower().Contains("unisex"));
                 }
             }
 
@@ -73,7 +78,7 @@ namespace DoAnChuyenNganh.Controllers
             {
                 var soThichArray = soThich.Split(',').Select(st => st.Trim()).ToArray();
                 sanPhamsQuery = sanPhamsQuery
-                    .Where(sp => soThichArray.Any(st => sp.DanhMuc.TenDanhMuc.Contains(st)));
+                    .Where(sp => soThichArray.Any(st => sp.SanPham.DanhMuc.TenDanhMuc.Contains(st)));
             }
             return sanPhamsQuery.Distinct().ToList();
         }

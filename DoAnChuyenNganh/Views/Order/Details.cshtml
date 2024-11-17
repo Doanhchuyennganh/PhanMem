@@ -1,0 +1,56 @@
+﻿@model List<DoAnChuyenNganh.Models.ChiTietDonHang>
+
+@{
+    ViewBag.Title = "Chi Tiết Đơn Hàng";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div style="height:150px"></div>
+
+<h2>Chi Tiết Đơn Hàng</h2>
+
+<!-- Hiển thị thông tin đơn hàng -->
+<div>
+    <strong>Mã Đơn Hàng:</strong> @ViewBag.Order.DonHangID <br />
+    <strong>Ngày Đặt Hàng:</strong> @ViewBag.Order.NgayDatHang.ToString("dd/MM/yyyy") <br />
+    <strong>Tình Trạng Đơn Hàng:</strong> @ViewBag.Order.TinhTrangDonHang <br />
+    <strong>Phương Thức Thanh Toán:</strong> @ViewBag.Order.HinhThucThanhToan <br />
+    <strong>Tổng Tiền:</strong> @ViewBag.Order.TongTien.ToString("#,0") VNĐ <br />
+</div>
+
+<h3>Danh Sách Sản Phẩm</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên Sản Phẩm</th>
+            <th>Số Lượng</th>
+            <th>Đơn Giá</th>
+            <th>Tổng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.ChiTietSanPham.SanPham.TenSanPham
+                    <br />
+                    <img src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="Hình Ảnh Sản Phẩm" style="width: 50px; height: 50px;" />
+                </td>
+                <td>@item.SoLuong</td>
+                <td>@item.DonGia.ToString("#,0") VNĐ</td>
+                @{
+                    double tong = (double)(item.SoLuong * item.DonGia);
+                }
+                <td>@tong.ToString("#,0") VNĐ</td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+<!-- Bootstrap 5 Button with Icon and Styles -->
+<a href="/Order/index" class="btn btn-outline-primary">
+    <i class="bi bi-arrow-left-circle"></i> Quay lại
+</a>
+

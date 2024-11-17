@@ -431,3 +431,17 @@ D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Microsoft.Owin.
 D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Microsoft.Owin.Security.xml
 D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Microsoft.Owin.Security.Cookies.xml
 D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Microsoft.Owin.Security.OAuth.xml
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Newtonsoft.Json.Bson.dll
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\System.Net.Http.Formatting.dll
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\System.Web.Http.dll
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\System.Web.Http.WebHost.dll
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Unity.Abstractions.dll
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Unity.Container.dll
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Unity.WebApi.dll
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Newtonsoft.Json.Bson.pdb
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Newtonsoft.Json.Bson.xml
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\System.Net.Http.Formatting.xml
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\System.Web.Http.xml
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\System.Web.Http.WebHost.xml
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Unity.Abstractions.pdb
+D:\HK7\DoAnCHuyenNganh\KhuVucLamViec\PhanMem\DoAnChuyenNganh\bin\Unity.Container.pdb

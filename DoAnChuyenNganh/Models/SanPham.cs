@@ -17,29 +17,21 @@ namespace DoAnChuyenNganh.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SanPham()
         {
-            this.ChiTietDonHangs = new HashSet<ChiTietDonHang>();
-            this.GioHangs = new HashSet<GioHang>();
+            this.ChiTietSanPhams = new HashSet<ChiTietSanPham>();
             this.PhanHois = new HashSet<PhanHoi>();
         }
     
         public int SanPhamID { get; set; }
         public string TenSanPham { get; set; }
         public string MoTa { get; set; }
-        public decimal Gia { get; set; }
-        public int SoLuongTonKho { get; set; }
         public Nullable<int> SoLuongDaBan { get; set; }
+        public Nullable<int> SoSaoTB { get; set; }
         public Nullable<int> DanhMucID { get; set; }
-        public string HinhAnhUrl { get; set; }
-        public string Size { get; set; }
-        public string Mau { get; set; }
-        public Nullable<System.DateTime> NgayTao { get; set; }
         public Nullable<bool> KichHoat { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; }
+        public virtual ICollection<ChiTietSanPham> ChiTietSanPhams { get; set; }
         public virtual DanhMuc DanhMuc { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GioHang> GioHangs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PhanHoi> PhanHois { get; set; }
     }

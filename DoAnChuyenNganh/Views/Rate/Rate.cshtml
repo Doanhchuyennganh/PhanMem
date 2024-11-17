@@ -1,0 +1,90 @@
+﻿@model DoAnChuyenNganh.Models.ChiTietSanPham
+@{
+    ViewBag.Title = "Rate";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@section css{
+    <style>
+        .star-rating {
+            display: flex;
+            justify-content: center; /* Căn giữa theo chiều ngang */
+            align-items: center; /* Căn giữa theo chiều dọc */
+            cursor: pointer;
+        }
+
+        .star {
+            font-size: 30px;
+            color: black;
+            margin: 0 5px; /* Thêm khoảng cách giữa các sao */
+        }
+
+            .star.checked {
+                color: gold;
+            }
+
+        /* Căn giữa form */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+}
+<div style="height:150px"></div>
+<div style="text-align: center;">
+    <h2>Đánh giá sản phẩm</h2>
+    <h3>@Model.SanPham.TenSanPham</h3>
+    @if (TempData["Success"] != null)
+    {
+        <div style="margin-top: 20px; color: green;">
+            @TempData["Success"]
+        </div>
+    }
+
+    <form action="@Url.Action("Rate", "Rate", new { id = Model.ChiTietSanPhamID, iddonhang = ViewBag.iddonhang })" method="post">
+        <div style="margin-top: 20px;">
+            <label>Số sao:</label>
+            <div class="star-rating" id="star-rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            <input type="hidden" name="danhGia" id="soSao" value="0" />
+        </div>
+
+        <div style="margin-top: 20px;">
+            <label for="noiDung">Nội dung đánh giá:</label><br>
+            <textarea id="noiDung" name="noiDung" rows="4" cols="50" required></textarea>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('soSao');
+
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            const rating = star.getAttribute('data-value');
+            ratingInput.value = rating;
+            updateStars(rating);
+        });
+    });
+
+    function updateStars(rating) {
+        stars.forEach(star => {
+            const starValue = star.getAttribute('data-value');
+            if (parseInt(starValue) <= rating) {
+                star.classList.add('checked');
+            } else {
+                star.classList.remove('checked');
+            }
+        });
+    }
+</script>

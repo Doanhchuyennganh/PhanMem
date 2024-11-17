@@ -4,27 +4,32 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="42f7476d40194e10a28e58af709206f2" Name="Diagram1">
-        <EntityTypeShape EntityType="ShopQuanAoModel.ChiTietDonHang" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.DanhMuc" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.DonHang" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.GioHang" Width="1.5" PointX="5.25" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.NguoiDung" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.PhanHoi" Width="1.5" PointX="8.25" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.SanPham" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.sysdiagram" Width="1.5" PointX="7.75" PointY="2.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.ThanhToan" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="ShopQuanAoModel.ThongTinGiaoHang" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietDo__DonHa__5CD6CB2B" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietDo__SanPh__5DCAEF64" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__SanPham__DanhMuc__5629CD9C" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__DonHang__NguoiDu__59FA5E80" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__ThanhToan__DonHa__656C112C" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__GioHang__NguoiDu__60A75C0F" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__GioHang__SanPham__619B8048" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__PhanHoi__NguoiDu__6B24EA82" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__ThongTinG__Nguoi__6EF57B66" ManuallyRouted="false" />
-        <AssociationConnector Association="ShopQuanAoModel.FK__PhanHoi__SanPham__6A30C649" ManuallyRouted="false" />
+      <Diagram DiagramId="421faeb188614301a1ff90cec6920caa" Name="Diagram1">
+        <EntityTypeShape EntityType="ShopQuanAoModel.ChiTietDonHang" Width="1.5" PointX="7.5" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.ChiTietSanPham" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.DanhMuc" Width="1.5" PointX="1.5" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.DonHang" Width="1.5" PointX="5.25" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.GioHang" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.Mau" Width="1.5" PointX="1.5" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.NguoiDung" Width="1.5" PointX="0.75" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.PhanHoi" Width="1.5" PointX="6" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.SanPham" Width="1.5" PointX="1.5" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.Size" Width="1.5" PointX="1.5" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShopQuanAoModel.ThongTinGiaoHang" Width="1.5" PointX="3" PointY="19.875" IsExpanded="true" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietDo__DonHa__6E01572D" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietDo__SanPh__6EF57B66" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietSa__MauID__6383C8BA" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietSa__SanPh__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ChiTietSa__SizeI__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__GioHang__SanPham__72C60C4A" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__SanPham__DanhMuc__59FA5E80" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__DonHang__DiaChiI__6A30C649" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__DonHang__NguoiDu__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__DonHang__NhanVie__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__GioHang__NguoiDu__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__PhanHoi__NguoiDu__787EE5A0" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__ThongTinG__Nguoi__52593CB8" ManuallyRouted="false" />
+        <AssociationConnector Association="ShopQuanAoModel.FK__PhanHoi__SanPham__778AC167" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

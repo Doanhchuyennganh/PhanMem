@@ -24,23 +24,6 @@
                 @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3 })
             </div>
 
-            <!-- Giá -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.Gia, "Giá")
-                @Html.TextBoxFor(model => model.Gia, new { @class = "form-control", type = "number", step = "10000" })
-            </div>
-
-            <!-- Số Lượng Tồn Kho -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.SoLuongTonKho, "Số lượng tồn kho")
-                @Html.TextBoxFor(model => model.SoLuongTonKho, new { @class = "form-control", type = "number" })
-            </div>
-
-            <!-- Size (Dropdown) -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.Size, "Size")
-                @Html.DropDownListFor(model => model.Size, new SelectList(new[] { "S", "M", "L", "XL", "XXL" }), "Chọn size", new { @class = "form-control" })
-            </div>
 
             <!-- Danh Mục (Dropdown) -->
             <div class="mb-3">
@@ -48,17 +31,6 @@
                 @Html.DropDownListFor(model => model.DanhMucID, new SelectList(ViewBag.DanhMucList, "DanhMucID", "TenDanhMuc"), "Chọn danh mục", new { @class = "form-control" })
             </div>
 
-            <!-- Hình Ảnh URL -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.HinhAnhUrl, "Hình ảnh")
-                <input type="file" name="imageFile" id="imageFile" class="form-control" />
-            </div>
-
-            <!-- Màu -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.Mau, "Màu")
-                @Html.TextBoxFor(model => model.Mau, new { @class = "form-control" })
-            </div>
 
             <!-- Submit Button -->
             <div class="text-center">

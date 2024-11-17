@@ -18,6 +18,7 @@ namespace DoAnChuyenNganh.Models
         public NguoiDung()
         {
             this.DonHangs = new HashSet<DonHang>();
+            this.DonHangs1 = new HashSet<DonHang>();
             this.GioHangs = new HashSet<GioHang>();
             this.PhanHois = new HashSet<PhanHoi>();
             this.ThongTinGiaoHangs = new HashSet<ThongTinGiaoHang>();
@@ -42,6 +43,8 @@ namespace DoAnChuyenNganh.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DonHang> DonHangs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DonHang> DonHangs1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GioHang> GioHangs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

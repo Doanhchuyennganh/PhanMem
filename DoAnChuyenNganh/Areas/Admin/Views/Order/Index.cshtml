@@ -1,0 +1,49 @@
+﻿@model List<DoAnChuyenNganh.Models.DonHang>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div style="height:150px"></div>
+
+<h2>Lịch sử đơn hàng</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã đơn hàng</th>
+            <th>Ngày đặt hàng</th>
+            <th>Tình trạng đơn hàng</th>
+            <th>Hình thức thanh toán</th>
+            <th>Tổng tiền</th>
+            <th>Chi tiết</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.DonHangID</td>
+                <td>@(order.NgayDatHang?.ToString("dd/MM/yyyy") ?? "N/A")</td>
+                <td>@order.TinhTrangDonHang</td>
+                <td>@order.HinhThucThanhToan</td>
+                <td>@order.TongTien.ToString("C")</td>
+                <td>
+                    <a href="@Url.Action("Details", "Order", new { id = order.DonHangID })" class="btn btn-info">Xem chi tiết</a>
+
+                    @if (order.TinhTrangDonHang == "Đang xử lý")
+                    {
+                        <!-- Display buttons for "Xác Nhận" and "Hủy Đơn Hàng" when order is "Đang xử lý" -->
+                        <a href="@Url.Action("ConfirmOrder", "Order", new { id = order.DonHangID })" class="btn btn-primary">Xác Nhận</a>
+                        <a href="@Url.Action("Cancel", "Order", new { id = order.DonHangID })" class="btn btn-danger">Hủy Đơn Hàng</a>
+                    }
+                    else if (order.TinhTrangDonHang == "Đã Xác Nhận")
+                    {
+                        <!-- Display button for "Vận Chuyển" when order is "Đã xác nhận" -->
+                        <a href="@Url.Action("ShipOrder", "Order", new { id = order.DonHangID })" class="btn btn-warning">Vận Chuyển</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

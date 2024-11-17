@@ -1,1 +1,54 @@
-﻿
+﻿@model List<DoAnChuyenNganh.Models.DonHang>
+
+@{
+    ViewBag.Title = "Lịch sử đơn hàng";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div style="height:150px"></div>
+
+<h2>Lịch sử đơn hàng</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã đơn hàng</th>
+            <th>Ngày đặt hàng</th>
+            <th>Tình trạng đơn hàng</th>
+            <th>Hình thức thanh toán</th>
+            <th>Tổng tiền</th>
+            <th>Chi tiết</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.DonHangID</td>
+                <td>@(order.NgayDatHang?.ToString("dd/MM/yyyy") ?? "N/A")</td>
+                <td>@order.TinhTrangDonHang</td>
+                <td>@order.HinhThucThanhToan</td>
+                <td>@order.TongTien.ToString("C")</td>
+                <td>
+                    <a href="@Url.Action("Details", "Order", new { id = order.DonHangID })" class="btn btn-info">Xem chi tiết</a>
+
+                    @if (order.TinhTrangDonHang == "Đã Xác Nhận")
+                    {
+                        <!-- Nút Hủy Đơn Hàng bị vô hiệu hóa khi đơn hàng đã xác nhận -->
+                        <button class="btn btn-danger" hidden>Hủy Đơn Hàng</button>
+                    }
+                    else if (order.TinhTrangDonHang == "Đang Vận Chuyển")
+                    {
+                        <!-- Nút Đã Nhận Hàng xuất hiện khi đơn hàng đang giao -->
+                        <a href="@Url.Action("index", "Rate", new { id = order.DonHangID })" class="btn btn-success">Đã Nhận Hàng</a>
+                    }
+                    else if (order.TinhTrangDonHang == "Đang xử lý")
+                    {
+                        <!-- Nút Hủy Đơn Hàng xuất hiện khi tình trạng đơn hàng là "Đang Xử Lý" -->
+                        <a href="@Url.Action("Cancel", "Order", new { id = order.DonHangID })" class="btn btn-danger">Hủy Đơn Hàng</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
