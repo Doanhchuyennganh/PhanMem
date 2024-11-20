@@ -127,10 +127,15 @@
                                             int Temp = 0;
                                             <li>
                                                 <div class="d-flex justify-content-between clothing-name">
-                                                    <a href="/product/index/@b.DanhMucID"><i class="fas fa-tshirt me-2"></i>@b.TenDanhMuc</a>
+                                                    <!-- Link to filter products by category -->
+                                                    <a href="@Url.Action("Index", "Product", new { DanhMucID = b.DanhMucID, search = ViewBag.search, SortColumn = ViewBag.SortColumn, IconClass = ViewBag.IconClass, page = 1 })">
+                                                        <i class="fas fa-tshirt me-2"></i>@b.TenDanhMuc
+                                                    </a>
+
+                                                    <!-- Count products in this category -->
                                                     @foreach (var a in ViewBag.sp)
                                                     {
-                                                        if (a.DanhMuc.TenDanhMuc == b.TenDanhMuc)
+                                                        if (a.DanhMucID == b.DanhMucID) // Ensure the correct comparison
                                                         {
                                                             Temp++;
                                                         }
@@ -158,9 +163,16 @@
                                 <div class="col-md-6 col-lg-6 col-xl-4">
                                     <div class="rounded position-relative product-item">
                                         <div class="product-img">
-                                            <a href="/product/details/@a.SanPhamID">
-                                                <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed" alt="">
-                                            </a>
+                                            @if (a.SoLuongTonKho > 0 && a.KichHoat == true)
+                                            {
+                                                <a href="/product/details/@a.SanPhamID">
+                                                    <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed" alt="">
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed grayscale" alt="Hết hàng">
+                                            }
                                         </div>
                                         <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                                             <p>
@@ -172,7 +184,7 @@
                                                 <h4>@a.SanPham.TenSanPham</h4>
                                             </a>
                                             <a href="/product/details/@a.SanPhamID">
-                                                <h4>@a.Gia</h4>
+                                                <h4>@a.Gia.ToString("N0") VNĐ</h4>
                                             </a>
                                             <!-- Hiển thị số sao -->
                                             <div class="rating">

@@ -3,85 +3,125 @@
     ViewBag.Title = "Thanh Toán";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
-
 @section slmua {
     <span id="cartItemCount">@ViewBag.SLSP</span>
 }
-@section css{
-    <style>
-        .payment-option label {
-            padding: 10px;
-            border: 2px solid transparent;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, border-color 0.3s;
+<style>
+    .payment-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        border-radius: 10px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .payment-title {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
 
-        .payment-option input[type="radio"] {
-            display: none; /* Ẩn input */
+    .btn-success {
+        width: 100%;
+        padding: 12px;
+        background-color: #28a745;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
         }
 
-            /* Khi radio button được chọn, thay đổi màu nền và viền của label tương ứng */
-            .payment-option input[type="radio"]:checked + label {
-                background-color: #28a745; /* Màu xanh lá cây */
-                border-color: #28a745;
-                color: white;
-            }
+    .text-danger {
+        font-size: 0.9em;
+    }
 
-        /* Thêm hiệu ứng hover cho label */
-        .payment-option label:hover {
+    .address-info {
+        border: 1px solid #ced4da;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+    .payment-option label {
+        padding: 10px;
+        border: 2px solid transparent;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .payment-option input[type="radio"] {
+        display: none;
+    }
+
+        .payment-option input[type="radio"]:checked + label {
+            background-color: #28a745;
             border-color: #28a745;
+            color: white;
         }
-    </style>
-}
-<form action="@Url.Action("Index", "Pay")" method="post" class="payment-container container my-5">
-    <div style="height:100px"></div>
-    <h2 class="payment-title" style="text-align: center;">Thông tin đơn hàng</h2>
 
-    <h4>Địa chỉ giao hàng</h4>
-    <div class="mt-3">
-        <a href="@Url.Action("Index", "Address")" class="btn" style="width: 100%;">
-            <div class="address-info p-3 border rounded mb-4 d-flex justify-content-between align-items-center">
-                <div class="address-details" style="width: 100%; text-align: left; font-weight: bold;">
-                    @if (ViewBag.DiaChiGiaoHang != null)
-                    {
-                        var selectedAddress = ViewBag.DiaChiGiaoHang;
-                        <div class="address-row d-flex">
-                            <p style="width: 150px; margin: 0;">Tên người nhận:</p>
-                            <p style="margin: 0;">@selectedAddress.TenNguoiNhan</p>
-                        </div>
-                        <div class="address-row d-flex">
-                            <p style="width: 150px; margin: 0;">Số điện thoại:</p>
-                            <p style="margin: 0;">@selectedAddress.SoDienThoai</p>
-                        </div>
-                        <div class="address-row d-flex">
-                            <p style="width: 150px;margin: 0;">Địa chỉ:</p>
-                            <p style="margin: 0;">@selectedAddress.DiaChiGiaoHang</p>
-                        </div>
-                    }
-                    else
-                    {
-                        <div>
-                            <p>Không có địa chỉ giao hàng được chọn. <a href="@ViewBag.AddAddressLink">Thêm địa chỉ giao hàng</a></p>
-                        </div>
-                    }
-                </div>
-                <div class="add-address-icon d-flex align-items-center" style="min-width: 150px; text-align: right; padding-left: 20px;">
-                    <p style="margin-left: 5px;"><i class="fas fa-plus"></i>Thêm Địa Chỉ</p>
-                </div>
-            </div>
+    .payment-option label:hover {
+        border-color: #28a745;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 0.9em;
+        margin-top: 10px;
+        text-align: center;
+    }
+</style>
+
+
+<div style="height:200px">
+</div>
+<form action="@Url.Action("Index", "Pay")" method="post" class="payment-container">
+    <h2 class="payment-title">Thông tin đơn hàng</h2>
+    <div class="form-group">
+        <label>Địa chỉ giao hàng:</label>
+        <a href="@Url.Action("Index", "Address")" class="address-info d-block">
+            @if (ViewBag.DiaChiGiaoHang != null)
+            {
+                var selectedAddress = ViewBag.DiaChiGiaoHang;
+                <p><strong>Tên người nhận:</strong> @selectedAddress.TenNguoiNhan</p>
+                <p><strong>Số điện thoại:</strong> @selectedAddress.SoDienThoai</p>
+                <p><strong>Địa chỉ:</strong> @selectedAddress.DiaChiGiaoHang</p>
+            }
+            else
+            {
+                <p style="color: red;">Vui lòng thêm địa chỉ giao hàng.</p>
+            }
         </a>
     </div>
-
-    <h4>Thông tin đơn hàng</h4>
-    <table class="table table-responsive table-hover">
+    <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Hình ảnh</th>
-                <th scope="col">Tên sản phẩm</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Giá</th>
+                <th>STT</th>
+                <th>Hình ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
             </tr>
         </thead>
         <tbody>
@@ -93,55 +133,85 @@
             {
                 decimal price = item.ChiTietSanPham.Gia * item.SoLuong;
                 totalPrice += price;
-                <tr class="order-item align-middle">
-                    <th scope="row">@i</th>
+                <tr>
+                    <td>@i</td>
                     <td>
-                        <img class="img-thumbnail" style="max-height: 80px; width: auto;" src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="@item.ChiTietSanPham.SanPham.TenSanPham" />
+                        <img class="img-thumbnail" src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="@item.ChiTietSanPham.SanPham.TenSanPham" style="max-height: 80px;">
                     </td>
                     <td>
-                        <span class="product-name">@Html.DisplayFor(model => item.ChiTietSanPham.SanPham.TenSanPham)</span>
-                        <br />
-                        <span class="product-size">Size: @item.ChiTietSanPham.Size.SizeName</span>
-                        <br />
-                        <span class="product-color">Màu: @item.ChiTietSanPham.Mau.MauName</span>
+                        <span>@item.ChiTietSanPham.SanPham.TenSanPham</span><br />
+                        <span>Size: @item.ChiTietSanPham.Size.SizeName</span><br />
+                        <span>Màu: @item.ChiTietSanPham.Mau.MauName</span>
                     </td>
-                    <td>
-                        <span class="product-quantity">@item.SoLuong</span>
-                    </td>
-                    <td>
-                        <span class="product-price">@price.ToString("N0") VNĐ</span>
-                    </td>
+                    <td>@item.SoLuong</td>
+                    <td>@price.ToString("N0") VNĐ</td>
                 </tr>
                 i++;
             }
-
-            <tr class="order-total-row">
-                <td colspan="3" class="text-center fw-bold">Tổng Tiền</td>
-                <td colspan="2" class="fw-bold text-danger">@totalPrice.ToString("N0") VNĐ</td>
-            </tr>
+        <tr>
+            <td colspan="5" class="text-center fw-bold">
+                Tổng Tiền:  <span style="color: red; text-align:center">@totalPrice.ToString("N0")VNĐ</span>
+            </td>
+            @*<td colspan="2" class="fw-bold text-danger">@totalPrice.ToString("N0") VNĐ</td>*@
+        </tr>
         </tbody>
     </table>
-
-    <div class="mb-3">
-        <label class="form-label">Phương Thức Thanh Toán</label>
+    <div class="form-group">
+        <label>Phương thức thanh toán:</label>
         <div class="d-flex">
-            <div class="payment-option me-3" style="padding-right:30px">
-                <input type="radio" name="paymentMethod" id="vnpay" value="vnpay" required>
-                <label class="form-check-label d-flex align-items-center" for="vnpay">
-                    <img src="~/img/vnpay.png" alt="Ví VNPay" class="payment-icon me-2" style="width:80px; height:auto">VNPAY
+            <div class="payment-option me-3">
+                <input type="radio" name="paymentMethod" id="vnpay" value="vnpay">
+                <label for="vnpay">
+                    <img src="~/img/vnpay.png" alt="VNPay" style="width: 80px;"> VNPay
                 </label>
             </div>
-            <div class="payment-option" style="padding-right:30px">
-                <input type="radio" name="paymentMethod" id="cash" value="tiền mặt" required>
-                <label class="form-check-label d-flex align-items-center" for="cash">
-                    <img src="~/img/tienmat.jpg" alt="Thanh Toán Khi Nhận Hàng" class="payment-icon me-2" style="width:80px; height:auto;">THANH TOÁN KHI NHẬN HÀNG
+            <div class="payment-option">
+                <input type="radio" name="paymentMethod" id="cash" value="cash">
+                <label for="cash">
+                    <img src="~/img/tienmat.jpg" alt="Cash" style="width: 80px;"> Tiền mặt
                 </label>
             </div>
         </div>
     </div>
 
-    <div class="payment-actions mt-4 d-flex justify-content-between">
-        <a href="/product" class="btn btn-outline-secondary">Tiếp tục mua hàng</a>
-        <button type="submit" class="btn btn-success mt-3">Xác nhận thanh toán</button>
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-success">Xác nhận thanh toán</button>
+    </div>
+
+    <div class="error-message" id="paymentMethodError" style="display: none;">
+        Vui lòng chọn phương thức thanh toán.
     </div>
 </form>
+
+<script>
+    document.querySelector(".payment-container button[type='submit']").addEventListener("click", function (e) {
+        e.preventDefault(); // Ngăn chặn gửi form nếu có lỗi
+        let isValid = true;
+
+        // Xóa thông báo lỗi cũ
+        document.querySelectorAll(".text-danger").forEach(el => el.remove());
+        document.getElementById("paymentMethodError").style.display = 'none';
+
+        // Kiểm tra địa chỉ giao hàng
+        const address = document.querySelector(".address-info p");
+        if (!address) {
+            isValid = false;
+            const errorMessage = document.createElement("div");
+            errorMessage.classList.add("text-danger");
+            errorMessage.textContent = "Vui lòng thêm địa chỉ giao hàng.";
+            document.querySelector(".address-info").appendChild(errorMessage);
+        }
+
+        // Kiểm tra phương thức thanh toán
+        const paymentMethod = document.querySelector("[name='paymentMethod']:checked");
+        if (!paymentMethod) {
+            isValid = false;
+            document.getElementById("paymentMethodError").style.display = 'block';
+        }
+
+        // Nếu hợp lệ, gửi form
+        if (isValid) {
+            document.querySelector(".payment-container").submit();
+        }
+    });
+</script>

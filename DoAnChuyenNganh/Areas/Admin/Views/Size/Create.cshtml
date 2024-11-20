@@ -1,0 +1,33 @@
+﻿@model DoAnChuyenNganh.Models.Size
+@{
+    ViewBag.Title = "Create Size";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+<div style="height:150px"></div>
+
+<h2 class="text-center text-primary mb-4">Thêm size</h2>
+
+@using (Html.BeginForm("Create", "Size", new { area = "Admin" }, FormMethod.Post))
+{
+    <input type="hidden" name="role" value="user" />
+
+    <!-- Tên danh mục -->
+    <div class="form-group row justify-content-center">
+        <div class="col-sm-2 text-center">
+            @Html.LabelFor(model => model.SizeName, "Tên size", new { @class = "col-form-label" })
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(model => model.SizeName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.SizeName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <!-- Các nút thao tác -->
+    <div class="form-group row justify-content-center">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6">
+            <button type="submit" class="btn btn-primary btn-lg">Thêm</button>
+            <a href="/admin/size" class="btn btn-danger btn-lg">Bỏ</a>
+        </div>
+    </div>
+}

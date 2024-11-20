@@ -17,7 +17,7 @@ namespace DoAnChuyenNganh.Controllers
             var authCookie = Request.Cookies["auth"];
             string tenDangNhap = authCookie != null ? authCookie.Value : null;
             List<ChiTietSanPham> lstsp = db.ChiTietSanPhams
-             .Where(row => row.SanPham.TenSanPham.Contains(search))
+             .Where(row => row.SanPham.TenSanPham.Contains(search) && row.SoLuongTonKho > 0 && row.KichHoat == true)
              .GroupBy(row => row.SanPham.SanPhamID)
              .Select(group => group.OrderBy(row => row.Gia).FirstOrDefault())
              .ToList();
@@ -28,6 +28,7 @@ namespace DoAnChuyenNganh.Controllers
             ViewBag.search = search;
             ViewBag.SortColumn = SortColumn;
             ViewBag.IconClass = IconClass;
+            
             if (SortColumn == "Price")
             {
                 lstsp = IconClass == "asc" ? lstsp.OrderBy(row => row.Gia).ToList() : lstsp.OrderByDescending(row => row.Gia).ToList();
@@ -62,20 +63,44 @@ namespace DoAnChuyenNganh.Controllers
 
         public ActionResult Details(int id)
         {
+            // Lấy cookie xác thực
+            var authCookie = Request.Cookies["auth"];
+            string tenDangNhap = authCookie != null ? authCookie.Value : null;
+
+            // Lấy chi tiết sản phẩm (đảm bảo chỉ lấy sản phẩm đang hoạt động hoặc còn hàng)
             List<ChiTietSanPham> pro = db.ChiTietSanPhams.Where(x => x.SanPhamID == id).ToList();
-            int temp = 0;
-            if (db.GioHangs != null)
+
+            // Kiểm tra sản phẩm có tồn tại không
+            if (pro == null || !pro.Any())
             {
-                foreach (var a in db.GioHangs)
+                return HttpNotFound("Không tìm thấy sản phẩm hoặc sản phẩm không khả dụng.");
+            }
+
+            // Lấy thông tin người dùng nếu đã đăng nhập
+            if (!string.IsNullOrEmpty(tenDangNhap))
+            {
+                NguoiDung user = db.NguoiDungs.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                if (user != null)
                 {
-                    temp += a.SoLuong;
+                    // Lấy giỏ hàng
+                    List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == user.NguoiDungID).ToList();
+                    int totalQuantity = cart.Sum(item => item.SoLuong);
+                    ViewBag.SLSP = totalQuantity;
                 }
             }
-            ViewBag.SLSP = temp;
-            ViewBag.sanpham = pro.OrderBy(x => x.Gia).FirstOrDefault();
+            else
+            {
+                ViewBag.SLSP = 0; // Không có sản phẩm trong giỏ
+            }
+
+            // Lấy sản phẩm chính và phản hồi liên quan
+            ViewBag.sanpham = pro.OrderBy(x => x.Gia).FirstOrDefault(); // Sản phẩm giá thấp nhất
             ViewBag.phanhoi = db.PhanHois.Where(x => x.SanPhamID == id).ToList();
+
+            // Trả về View với danh sách sản phẩm
             return View(pro);
         }
+
         [HttpPost]
         public ActionResult UpdateOptions(int? sizeID, int? mauID, int sanPhamID)
         {

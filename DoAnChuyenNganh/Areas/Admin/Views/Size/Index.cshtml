@@ -1,0 +1,38 @@
+﻿@model List<DoAnChuyenNganh.Models.Size>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+<div style="height:150px"></div>
+
+<!-- Title -->
+<h2 class="text-center text-primary mb-4">Danh sách size</h2>
+
+<!-- Button Thêm Danh Mục -->
+<div class="text-center mb-4">
+    <a href="/admin/Size/Create" type="button" class="btn btn-success btn-lg">Thêm size</a>
+</div>
+
+<!-- Table -->
+<table class="table table-bordered table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>SizeID</th>
+            <th>Tên size</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SizeID</td>
+                <td>@item.SizeName</td>
+                <td>
+                    <a href="/admin/Size/Update/@item.SizeID" type="button" class="btn btn-warning btn-sm">Cập nhật</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

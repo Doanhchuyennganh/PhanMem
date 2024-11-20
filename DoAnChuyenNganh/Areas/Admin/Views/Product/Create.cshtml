@@ -3,40 +3,155 @@
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
 }
-<div style="height:150px"></div>
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="w-50">
-        @using (Html.BeginForm("Create", "Product", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="mb-3">
-                <h2 class="text-center">Tạo Sản Phẩm</h2>
-            </div>
 
-            <!-- Tên Sản Phẩm -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.TenSanPham, "Tên sản phẩm")
-                @Html.TextBoxFor(model => model.TenSanPham, new { @class = "form-control" })
-            </div>
-
-            <!-- Mô Tả -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.MoTa, "Mô tả")
-                @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3 })
-            </div>
-
-
-            <!-- Danh Mục (Dropdown) -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.DanhMucID, "Danh mục")
-                @Html.DropDownListFor(model => model.DanhMucID, new SelectList(ViewBag.DanhMucList, "DanhMucID", "TenDanhMuc"), "Chọn danh mục", new { @class = "form-control" })
-            </div>
-
-
-            <!-- Submit Button -->
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Tạo Sản Phẩm</button>
-                <a href="/admin/Product" class="btn btn-danger">Bỏ</a>
-            </div>
+@section css {
+    <style>
+        body {
+            padding-top: 200px;
         }
-    </div>
+
+        .form-register {
+            max-width: 600px;
+            margin: 5px auto 5px;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+            .form-register h2 {
+                padding: 30px;
+                text-align: center;
+                color: #333;
+            }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+
+            .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+
+        .btn-primary {
+            width: 30%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .text-muted {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+            .text-muted a {
+                color: #007bff;
+            }
+
+        .form-group {
+            padding: 5px;
+        }
+    </style>
+}
+
+<div class="form-register">
+    <h2>Tạo Sản Phẩm</h2>
+    @using (Html.BeginForm("Create", "Product", new { area = "Admin", id = ViewBag.id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @* Các trường trong form *@
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenSanPham, "Tên sản phẩm")
+            @Html.TextBoxFor(model => model.TenSanPham, new { @class = "form-control", placeholder = "Nhập tên sản phẩm" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MoTa, "Mô tả")
+            @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3, placeholder = "Nhập mô tả sản phẩm" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DanhMucID, "Danh mục")
+            @Html.DropDownListFor(model => model.DanhMucID, new SelectList(ViewBag.DanhMucList, "DanhMucID", "TenDanhMuc"), "Chọn danh mục", new { @class = "form-control" })
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">Tạo Sản Phẩm</button>
+            <a href="/admin/Product" class="btn btn-danger">Bỏ</a>
+        </div>
+    }
 </div>
+
+<script>
+    document.querySelector(".form-register button[type='submit']").addEventListener("click", function (e) {
+        e.preventDefault(); // Ngăn chặn gửi form nếu có lỗi
+        let isValid = true;
+
+        // Xóa thông báo lỗi cũ
+        document.querySelectorAll(".form-group .text-danger").forEach(el => el.remove());
+
+        // Lấy các trường dữ liệu
+        const fields = [
+            {
+                name: "TenSanPham",
+                label: "Tên sản phẩm",
+                value: document.querySelector("[name='TenSanPham']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Tên sản phẩm không được để trống." },
+                    { test: val => val.length >= 3, error: "Tên sản phẩm phải có ít nhất 3 ký tự." }
+                ]
+            },
+            {
+                name: "MoTa",
+                label: "Mô tả",
+                value: document.querySelector("[name='MoTa']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Mô tả không được để trống." },
+                    { test: val => val.length >= 10, error: "Mô tả phải có ít nhất 10 ký tự." }
+                ]
+            },
+            {
+                name: "DanhMucID",
+                label: "Danh mục",
+                value: document.querySelector("[name='DanhMucID']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Danh mục không được để trống." }
+                ]
+            }
+        ];
+
+        fields.forEach(field => {
+            const fieldElement = document.querySelector(`[name='${field.name}']`);
+            const fieldGroup = fieldElement.closest(".form-group");
+
+            for (let rule of field.rules) {
+                if (!rule.test(field.value)) {
+                    isValid = false;
+
+                    // Thêm lỗi dưới label và dừng kiểm tra các quy tắc tiếp theo
+                    const errorElement = document.createElement("div");
+                    errorElement.classList.add("text-danger");
+                    errorElement.textContent = rule.error;
+                    fieldGroup.appendChild(errorElement);
+                    break; // Ngừng kiểm tra các quy tắc tiếp theo
+                }
+            }
+        });
+
+        // Nếu hợp lệ, gửi form
+        if (isValid) {
+            document.querySelector(".form-register form").submit();
+        }
+    });
+</script>

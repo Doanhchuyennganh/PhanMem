@@ -13,36 +13,50 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         ShopQuanAoEntities db = new ShopQuanAoEntities();
-        public ActionResult Index(string search = "", string IconClass = "fa-sort-asc", int page = 1)
+
+        // Hiển thị danh sách sản phẩm
+        public ActionResult Index(string search = "", int page = 1)
         {
-            List<SanPham> sanphams = db.SanPhams.Where(row => row.TenSanPham.Contains(search)).ToList();
+            List<SanPham> sanphams = db.SanPhams
+                .Where(row => row.TenSanPham.Contains(search))
+                .OrderBy(row => row.TenSanPham)
+                .ToList();
+
             int NoOfRecordPerPage = 5;
-            int NoOfPages = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(sanphams.Count) / Convert.ToDouble(NoOfRecordPerPage)));
+            int NoOfPages = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(sanphams.Count) / NoOfRecordPerPage));
             int NoOfRecordToSkip = (page - 1) * NoOfRecordPerPage;
+            foreach (var sanpham in sanphams)
+            {
+                var chiTietSanPhams = db.ChiTietSanPhams
+                    .Where(ct => ct.SanPhamID == sanpham.SanPhamID)
+                    .ToList();
+
+                if (chiTietSanPhams.All(ct => ct.SoLuongTonKho == 0 || ct.KichHoat == false))
+                {
+                    sanpham.KichHoat = false; // Deactivate the product
+                }
+                else
+                {
+                    // If any of the ChiTietSanPhams has stock or is active, activate the product
+                    if (chiTietSanPhams.Any(ct => ct.SoLuongTonKho > 0 && ct.KichHoat == true))
+                    {
+                        sanpham.KichHoat = true; // Activate the product
+                    }
+                }
+            }
             ViewBag.Page = page;
             ViewBag.NoOfPages = NoOfPages;
             sanphams = sanphams.Skip(NoOfRecordToSkip).Take(NoOfRecordPerPage).ToList();
             return View(sanphams);
         }
-        public ActionResult VoHieuKichHoat(int id, int kichHoat)
-        {
-            SanPham sanphams = db.SanPhams.Where(row => row.SanPhamID == id).FirstOrDefault();
-            if (kichHoat == 1)
-            {
-                sanphams.KichHoat = true;
-            }
-            else
-            {
-                sanphams.KichHoat = false;
-            }
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+
+        // Tạo mới sản phẩm
         public ActionResult Create()
         {
             ViewBag.DanhMucList = db.DanhMucs.ToList();
             return View();
         }
+
         [HttpPost]
         public ActionResult Create(SanPham sanpham)
         {
@@ -55,77 +69,32 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            
+
+            ViewBag.DanhMucList = db.DanhMucs.ToList();
             return View(sanpham);
         }
-        //[HttpPost]
-        //public ActionResult Create(SanPham sanPham, HttpPostedFileBase imageFile)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (imageFile != null && imageFile.ContentLength > 0)
-        //        {
-        //            var fileName = Path.GetFileName(imageFile.FileName);
-        //            var path = Path.Combine(Server.MapPath("~/img"), fileName);
-        //            imageFile.SaveAs(path);
-        //            sanPham.HinhAnhUrl = fileName;
-        //        }
-        //        sanPham.NgayTao = DateTime.Now;
-        //        sanPham.SoLuongDaBan = 0;
-        //        sanPham.KichHoat = true;
-        //        db.SanPhams.Add(sanPham);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.DanhMucList = db.DanhMucs.ToList();
-        //    return View(sanPham);
-        //}
-        //public ActionResult Delete(int id)
-        //{
-        //    SanPham products = db.SanPhams.Where(row => row.SanPhamID == id).FirstOrDefault();
-        //    return View(products);
-        //}
-        //[HttpPost]
 
-
-        //[HttpPost]
-        //public ActionResult Delete(int id, SanPham p)
-        //{
-        //    SanPham products = db.SanPhams.Where(row => row.SanPhamID == id).FirstOrDefault();
-        //    if (products.HinhAnhUrl != null)
-        //    {
-        //        var imagePath = Path.Combine(Server.MapPath("~/img"), products.HinhAnhUrl);
-        //        if (System.IO.File.Exists(imagePath))
-        //        {
-        //            System.IO.File.Delete(imagePath);
-        //        }
-        //    }
-        //    db.SanPhams.Remove(products);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // Sửa thông tin sản phẩm
         public ActionResult Edit(int id)
         {
-            SanPham products = db.SanPhams.Where(row => row.SanPhamID == id).FirstOrDefault();
+            SanPham products = db.SanPhams.FirstOrDefault(row => row.SanPhamID == id);
+            if (products == null) return HttpNotFound();
+
             ViewBag.Brands = db.DanhMucs.ToList();
             ViewBag.ChiTietSanPham = db.ChiTietSanPhams.Where(x => x.SanPhamID == id).ToList();
             return View(products);
         }
+
         [HttpPost]
         public ActionResult Edit(SanPham pro)
         {
-            // Tìm sản phẩm trong cơ sở dữ liệu theo ID
-            SanPham products = db.SanPhams.Where(row => row.SanPhamID == pro.SanPhamID).FirstOrDefault();
+            SanPham products = db.SanPhams.FirstOrDefault(row => row.SanPhamID == pro.SanPhamID);
+            if (products == null) return HttpNotFound();
 
-            if (products == null)
-            {
-                return HttpNotFound();
-            }
-
-            // Cập nhật thông tin sản phẩm
             products.TenSanPham = pro.TenSanPham;
             products.MoTa = pro.MoTa;
             products.DanhMucID = pro.DanhMucID;
+
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -156,68 +125,55 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
             }
             return View(ctsp);
         }
+        // Sửa chi tiết sản phẩm
         public ActionResult EditCTSP(int id)
         {
-            ChiTietSanPham products = db.ChiTietSanPhams.Where(row => row.ChiTietSanPhamID == id).FirstOrDefault();
+            ChiTietSanPham products = db.ChiTietSanPhams.Find(id);
+            if (products == null) return HttpNotFound();
             ViewBag.Size = db.Sizes.ToList();
             ViewBag.Mau = db.Maus.ToList();
             return View(products);
         }
+
         [HttpPost]
         public ActionResult EditCTSP(ChiTietSanPham pro, HttpPostedFileBase imageFile)
         {
-            // Tìm sản phẩm trong cơ sở dữ liệu theo ID
-            ChiTietSanPham products = db.ChiTietSanPhams.Where(row => row.ChiTietSanPhamID == pro.ChiTietSanPhamID).FirstOrDefault();
+            ChiTietSanPham products = db.ChiTietSanPhams.FirstOrDefault(row => row.ChiTietSanPhamID == pro.ChiTietSanPhamID);
+            if (products == null) return HttpNotFound();
 
-            if (products == null)
-            {
-                return HttpNotFound();
-            }
-
-            // Cập nhật thông tin sản phẩm
             products.Gia = pro.Gia;
             products.MauID = pro.MauID;
             products.SizeID = pro.SizeID;
             products.SoLuongTonKho = pro.SoLuongTonKho;
 
-            // Kiểm tra và cập nhật ảnh nếu có ảnh mới
             if (imageFile != null)
             {
-                // Đường dẫn của ảnh hiện tại
                 var oldImagePath = Path.Combine(Server.MapPath("~/img"), products.HinhAnhUrl);
-
-                // Xóa ảnh cũ nếu tồn tại
                 if (System.IO.File.Exists(oldImagePath))
                 {
                     System.IO.File.Delete(oldImagePath);
                 }
 
-                // Lưu ảnh mới và cập nhật đường dẫn
                 var fileName = Path.GetFileName(imageFile.FileName);
                 var newPath = Path.Combine(Server.MapPath("~/img"), fileName);
                 imageFile.SaveAs(newPath);
 
-                // Cập nhật URL ảnh trong cơ sở dữ liệu
                 products.HinhAnhUrl = fileName;
             }
 
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-        public ActionResult VoHieuKichHoatCTSP(int id, int kichHoat)
-        {
-            ChiTietSanPham sanphams = db.ChiTietSanPhams.Where(row => row.ChiTietSanPhamID == id).FirstOrDefault();
-            if (kichHoat == 1)
-            {
-                sanphams.KichHoat = true;
-            }
-            else
-            {
-                sanphams.KichHoat = false;
-            }
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Edit", new { id = products.SanPhamID });
         }
 
+        // Vô hiệu hoặc kích hoạt chi tiết sản phẩm
+        public ActionResult VoHieuKichHoatCTSP(int id, int kichHoat)
+        {
+            ChiTietSanPham sanphams = db.ChiTietSanPhams.FirstOrDefault(row => row.ChiTietSanPhamID == id);
+            if (sanphams == null) return HttpNotFound();
+
+            sanphams.KichHoat = kichHoat == 1;
+            db.SaveChanges();
+            return RedirectToAction("Edit", new { id = sanphams.SanPhamID });
+        }
     }
 }

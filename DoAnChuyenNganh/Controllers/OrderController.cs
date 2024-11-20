@@ -16,26 +16,51 @@ namespace DoAnChuyenNganh.Controllers
         // GET: Order
         public ActionResult Index()
         {
-            if (Session["UserId"] == null)
+            CheckUserLoggedIn();
+
+            int userId = GetCurrentUserId();
+            List<DonHang> lst = db.DonHangs.Where(x => x.NguoiDungID == userId).ToList();
+            List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == userId).ToList();
+            int totalQuantity = 0;
+            if (cart == null || !cart.Any())
             {
-                return RedirectToAction("Login", "User");
+                ViewBag.SLSP = 0;
+            }
+            if (cart.Any())
+            {
+                foreach (var item in cart)
+                {
+                    totalQuantity += item.SoLuong;
+                }
             }
 
-            int userId = (int)Session["UserId"];
-            List<DonHang> lst = db.DonHangs.Where(x => x.NguoiDungID == userId).ToList();
+            ViewBag.SLSP = totalQuantity;
             return View(lst);
         }
         public ActionResult Details(int id)
         {
-            if (Session["UserId"] == null)
+            CheckUserLoggedIn();
+
+            int userId = GetCurrentUserId();
+            List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == userId).ToList();
+            int totalQuantity = 0;
+            if (cart == null || !cart.Any())
             {
-                return RedirectToAction("Login", "User");
+                ViewBag.SLSP = 0;
+            }
+            if (cart.Any())
+            {
+                foreach (var item in cart)
+                {
+                    totalQuantity += item.SoLuong;
+                }
             }
 
+            ViewBag.SLSP = totalQuantity;
 
             // Lấy thông tin đơn hàng của người dùng
             var order = db.DonHangs
-                          .Where(o => o.DonHangID == id)
+                          .Where(o => o.DonHangID == id && o.NguoiDungID == userId)
                           .FirstOrDefault();
 
             if (order == null)
@@ -62,6 +87,27 @@ namespace DoAnChuyenNganh.Controllers
             return RedirectToAction("Index");
         }
 
-
+        private ActionResult CheckUserLoggedIn()
+        {
+            if (Session["UserID"] == null)
+            {
+                return RedirectToAction("Login", "User");
+            }
+            return null;
+        }
+        private int GetCurrentUserId()
+        {
+            var authCookie = Request.Cookies["auth"];
+            if (authCookie != null)
+            {
+                string tenDangNhap = authCookie.Value;
+                var user = db.NguoiDungs.FirstOrDefault(u => u.TenDangNhap == tenDangNhap);
+                if (user != null)
+                {
+                    return user.NguoiDungID;
+                }
+            }
+            return 0;
+        }
     }
 }

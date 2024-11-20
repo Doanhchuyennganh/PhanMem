@@ -17,8 +17,8 @@ namespace DoAnChuyenNganh.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ChiTietSanPham()
         {
-            this.ChiTietDonHangs = new HashSet<ChiTietDonHang>();
-            this.GioHangs = new HashSet<GioHang>();
+            this.ChiTietDonHang = new HashSet<ChiTietDonHang>();
+            this.GioHang = new HashSet<GioHang>();
         }
     
         public int ChiTietSanPhamID { get; set; }
@@ -31,11 +31,11 @@ namespace DoAnChuyenNganh.Models
         public Nullable<bool> KichHoat { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietDonHang> ChiTietDonHangs { get; set; }
+        public virtual ICollection<ChiTietDonHang> ChiTietDonHang { get; set; }
         public virtual Mau Mau { get; set; }
         public virtual SanPham SanPham { get; set; }
         public virtual Size Size { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GioHang> GioHangs { get; set; }
+        public virtual ICollection<GioHang> GioHang { get; set; }
     }
 }

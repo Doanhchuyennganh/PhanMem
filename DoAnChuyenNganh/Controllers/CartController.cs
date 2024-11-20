@@ -43,7 +43,7 @@ namespace DoAnChuyenNganh.Controllers
             CheckUserLoggedIn();
 
             int userId = GetCurrentUserId();
-            List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == userId).ToList();
+            List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == userId && g.ChiTietSanPham.SoLuongTonKho > 0).ToList();
             decimal totalPrice = 0;
             int totalQuantity = 0;
             if (cart == null || !cart.Any())
@@ -58,7 +58,10 @@ namespace DoAnChuyenNganh.Controllers
                     totalQuantity += item.SoLuong;
                 }
             }
-
+            else
+            {
+                ViewBag.Message = "Giỏ hàng của bạn trống hoặc sản phẩm trong giỏ đã hết hàng.";
+            }
             ViewBag.SLSP = totalQuantity;
             ViewBag.TotalPrice = totalPrice;
             return View(cart);
@@ -132,14 +135,32 @@ namespace DoAnChuyenNganh.Controllers
             if (quan > 0)
             {
                 int userId = GetCurrentUserId();
+
+                // Find the cart item for the user and product
                 GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
 
                 if (cartItem != null)
                 {
-                    cartItem.SoLuong = quan;
-                    db.SaveChanges();
+                    // Get the product associated with the cart item
+                    ChiTietSanPham product = db.ChiTietSanPhams.FirstOrDefault(p => p.ChiTietSanPhamID == cartItem.SanPhamID);
+
+                    if (product != null)
+                    {
+                        // Check if the requested quantity is less than or equal to the available stock
+                        if (quan <= product.SoLuongTonKho)
+                        {
+                            cartItem.SoLuong = quan;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            TempData["ErrorMessage"] = $"Số lượng yêu cầu vượt quá số lượng tồn kho (Tồn kho: {product.SoLuongTonKho}).";
+                            TempData["ProductId"] = proid;
+                        }
+                    }
                 }
             }
+
             return RedirectToAction("Index");
         }
 

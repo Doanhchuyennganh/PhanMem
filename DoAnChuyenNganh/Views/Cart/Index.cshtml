@@ -47,11 +47,29 @@
                     <td>
                         @using (Html.BeginForm("UpdateQuantity", "Cart", FormMethod.Post, new { @class = "update-quantity-form" }))
                         {
-                            <input type="number" value="@item.SoLuong" name="quan" min="1" style="width: 60px" class="form-control d-inline" />
-                            <input type="hidden" name="proid" value="@item.GioHangID" />
-                            <button type="submit" class="btn btn-sm btn-primary ms-2">Cập Nhật</button>
+                            if (item.ChiTietSanPham.SoLuongTonKho > 0 && item.ChiTietSanPham.KichHoat == true)
+                            {
+                                <!-- Quantity input -->
+                                <input type="number"
+                                       value="@item.SoLuong"
+                                       name="quan"
+                                       min="1"
+                                       max="@item.ChiTietSanPham.SoLuongTonKho"
+                                       style="width: 60px"
+                                       class="form-control d-inline" />
+                                <input type="hidden" name="proid" value="@item.GioHangID" />
+
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-sm btn-primary ms-2">Cập Nhật</button>
+                            }
+                            else
+                            {
+                                <!-- Display out-of-stock message -->
+                                <span class="text-danger">Hết hàng</span>
+                            }
                         }
-                    </td>
+                        </td>
+
                     <td>
                         <span class="product-price">@price.ToString("N0") VNĐ</span>
                     </td>

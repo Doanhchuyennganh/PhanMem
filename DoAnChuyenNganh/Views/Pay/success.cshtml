@@ -1,9 +1,45 @@
-﻿
-@{
-    ViewBag.Title = "success";
+﻿@{
+    ViewBag.Title = "Đặt Hàng Thành Công";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
-<div style="height:150px"></div>
-<h1 style="text-align:center">Đặt Hàng Thành Công</h1>
-<a href="/Home/index" class="bg-success">Tiếp Tục Mua Xắm</a>
+
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="text-success mb-4">Đặt Hàng Thành Công!</h1>
+        <p class="lead text-muted">Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi. Đơn hàng của bạn đã được xử lý thành công.</p>
+
+        <div class="mt-4">
+            <a href="/Home/index" class="btn btn-success btn-lg px-4 py-2 mr-3">
+                Tiếp Tục Mua Xắm
+            </a>
+            <a href="/Order/index" class="btn btn-info btn-lg px-4 py-2">
+                Xem Thông Tin Đơn Hàng
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-success, .btn-info {
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-success:hover {
+            background-color: #28a745;
+        }
+
+        .btn-info:hover {
+            background-color: #17a2b8;
+        }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .lead {
+        font-size: 1.2rem;
+        color: #6c757d;
+    }
+</style>
 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="ShopQuanAoModelStoreContainer" CdmEntityContainer="ShopQuanAoEntities">
-    <EntitySetMapping Name="ChiTietDonHangs">
+    <EntitySetMapping Name="ChiTietDonHang">
       <EntityTypeMapping TypeName="ShopQuanAoModel.ChiTietDonHang">
         <MappingFragment StoreEntitySet="ChiTietDonHang">
           <ScalarProperty Name="ChiTietDonHangID" ColumnName="ChiTietDonHangID" />
@@ -13,7 +13,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ChiTietSanPhams">
+    <EntitySetMapping Name="ChiTietSanPham">
       <EntityTypeMapping TypeName="ShopQuanAoModel.ChiTietSanPham">
         <MappingFragment StoreEntitySet="ChiTietSanPham">
           <ScalarProperty Name="ChiTietSanPhamID" ColumnName="ChiTietSanPhamID" />
@@ -27,7 +27,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="DanhMucs">
+    <EntitySetMapping Name="DanhMuc">
       <EntityTypeMapping TypeName="ShopQuanAoModel.DanhMuc">
         <MappingFragment StoreEntitySet="DanhMuc">
           <ScalarProperty Name="DanhMucID" ColumnName="DanhMucID" />
@@ -35,7 +35,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="DonHangs">
+    <EntitySetMapping Name="DonHang">
       <EntityTypeMapping TypeName="ShopQuanAoModel.DonHang">
         <MappingFragment StoreEntitySet="DonHang">
           <ScalarProperty Name="DonHangID" ColumnName="DonHangID" />
@@ -51,7 +51,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="GioHangs">
+    <EntitySetMapping Name="GioHang">
       <EntityTypeMapping TypeName="ShopQuanAoModel.GioHang">
         <MappingFragment StoreEntitySet="GioHang">
           <ScalarProperty Name="GioHangID" ColumnName="GioHangID" />
@@ -61,7 +61,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Maus">
+    <EntitySetMapping Name="Mau">
       <EntityTypeMapping TypeName="ShopQuanAoModel.Mau">
         <MappingFragment StoreEntitySet="Mau">
           <ScalarProperty Name="MauID" ColumnName="MauID" />
@@ -69,7 +69,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="NguoiDungs">
+    <EntitySetMapping Name="NguoiDung">
       <EntityTypeMapping TypeName="ShopQuanAoModel.NguoiDung">
         <MappingFragment StoreEntitySet="NguoiDung">
           <ScalarProperty Name="NguoiDungID" ColumnName="NguoiDungID" />
@@ -91,7 +91,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PhanHois">
+    <EntitySetMapping Name="PhanHoi">
       <EntityTypeMapping TypeName="ShopQuanAoModel.PhanHoi">
         <MappingFragment StoreEntitySet="PhanHoi">
           <ScalarProperty Name="PhanHoiID" ColumnName="PhanHoiID" />
@@ -103,7 +103,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SanPhams">
+    <EntitySetMapping Name="SanPham">
       <EntityTypeMapping TypeName="ShopQuanAoModel.SanPham">
         <MappingFragment StoreEntitySet="SanPham">
           <ScalarProperty Name="SanPhamID" ColumnName="SanPhamID" />
@@ -116,7 +116,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Sizes">
+    <EntitySetMapping Name="Size">
       <EntityTypeMapping TypeName="ShopQuanAoModel.Size">
         <MappingFragment StoreEntitySet="Size">
           <ScalarProperty Name="SizeID" ColumnName="SizeID" />
@@ -124,7 +124,7 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ThongTinGiaoHangs">
+    <EntitySetMapping Name="ThongTinGiaoHang">
       <EntityTypeMapping TypeName="ShopQuanAoModel.ThongTinGiaoHang">
         <MappingFragment StoreEntitySet="ThongTinGiaoHang">
           <ScalarProperty Name="DiaChiID" ColumnName="DiaChiID" />

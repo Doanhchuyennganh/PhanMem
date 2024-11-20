@@ -1,0 +1,38 @@
+﻿@model List<DoAnChuyenNganh.Models.Size>
+@{
+    ViewBag.Title = "Update Size";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+<div style="height:150px"></div>
+<h2 class="text-center text-primary mb-4">Chỉnh sửa size</h2>
+
+@using (Html.BeginForm("Update", "Size", new { area = "Admin" }, FormMethod.Post))
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="text-center">Size ID</th>
+                <th class="text-center">Tên size</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.TextBox("sizes[" + i + "].SizeID", Model[i].SizeID, new { @readonly = "readonly", @class = "form-control" })
+                    </td>
+                    <td>
+                        @Html.TextBox("sizes[" + i + "].SizeName", Model[i].SizeName, new { @class = "form-control" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Nút submit -->
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary btn-lg">Lưu</button>
+        <a href="/admin/size" class="btn btn-danger btn-lg">Bỏ</a>
+    </div>
+}

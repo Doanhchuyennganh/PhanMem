@@ -4,56 +4,185 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
 }
 
-<div style="height:150px"></div>
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="w-50">
-        @using (Html.BeginForm("CreateCTSP", "Product", new { area = "Admin", id = ViewBag.id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            <div class="mb-3">
-                <h2 class="text-center">Thêm Chi Tiết Sản Phẩm</h2>
-            </div>
-            <!-- Giá -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.Gia, "Giá")
-                @Html.TextBoxFor(model => model.Gia, new { @class = "form-control", type = "number", step = "10000" })
-            </div>
-
-            <!-- Số Lượng Tồn Kho -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.SoLuongTonKho, "Số lượng tồn kho")
-                @Html.TextBoxFor(model => model.SoLuongTonKho, new { @class = "form-control", type = "number" })
-            </div>
-
-            <!-- Size -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.SizeID, "Size")
-                @Html.DropDownListFor(model => model.SizeID, new SelectList(ViewBag.Size, "SizeID", "SizeName"), "Chọn size", new { @class = "form-control" })
-            </div>
-
-            <!-- Màu -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.MauID, "Màu")
-                @Html.DropDownListFor(model => model.MauID, new SelectList(ViewBag.Mau, "MauID", "MauName"), "Chọn màu", new { @class = "form-control" })
-            </div>
-
-
-
-            <!-- Hình Ảnh URL -->
-            <div class="mb-3">
-                @Html.LabelFor(model => model.HinhAnhUrl, "Hình ảnh")
-                <input type="file" name="imageFile" id="imageFile" class="form-control" />
-            </div>
-
-
-
-
-            <!-- Submit Button -->
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Thêm Chi Tiết Sản Phẩm</button>
-                <a href="/admin/Product" class="btn btn-danger">Bỏ</a>
-            </div>
+@section css {
+    <style>
+        body {
+            padding-top: 200px;
         }
-    </div>
+
+        .form-register {
+            max-width: 600px;
+            margin: 5px auto 5px;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+            .form-register h2 {
+                padding: 30px;
+                text-align: center;
+                color: #333;
+            }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+
+            .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+
+        .btn-primary {
+            width: 30%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .text-muted {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+            .text-muted a {
+                color: #007bff;
+            }
+
+        .form-group {
+            padding: 5px;
+        }
+
+        .text-danger {
+            color: red;
+        }
+    </style>
+}
+
+<div style="height:150px"></div>
+<div class="form-register">
+    @using (Html.BeginForm("CreateCTSP", "Product", new { area = "Admin",id = ViewBag.id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="form-group">
+            <h2 class="text-center">Thêm Chi Tiết Sản Phẩm</h2>
+        </div>
+
+        <!-- Giá -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Gia, "Giá")
+            @Html.TextBoxFor(model => model.Gia, new { @class = "form-control", type = "number", step = "10000" })
+        </div>
+
+        <!-- Số Lượng Tồn Kho -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.SoLuongTonKho, "Số lượng tồn kho")
+            @Html.TextBoxFor(model => model.SoLuongTonKho, new { @class = "form-control", type = "number" })
+        </div>
+
+        <!-- Size -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.SizeID, "Size")
+            @Html.DropDownListFor(model => model.SizeID, new SelectList(ViewBag.Size, "SizeID", "SizeName"), "Chọn size", new { @class = "form-control" })
+        </div>
+
+        <!-- Màu -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.MauID, "Màu")
+            @Html.DropDownListFor(model => model.MauID, new SelectList(ViewBag.Mau, "MauID", "MauName"), "Chọn màu", new { @class = "form-control" })
+        </div>
+
+        <!-- Hình Ảnh URL -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.HinhAnhUrl, "Hình ảnh")
+            <input type="file" name="imageFile" id="imageFile" class="form-control" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Thêm Chi Tiết Sản Phẩm</button>
+            <a href="/admin/Product" class="btn btn-danger">Bỏ</a>
+        </div>
+    }
 </div>
 
+<script>
+    document.querySelector(".form-register button[type='submit']").addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent form submission if there are errors
+        let isValid = true;
 
+        // Remove previous error messages
+        document.querySelectorAll(".form-group .text-danger").forEach(el => el.remove());
+
+        // Field validation
+        const fields = [
+            {
+                name: "Gia",
+                label: "Giá",
+                value: document.querySelector("[name='Gia']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Giá không được để trống." },
+                    { test: val => parseInt(val) > 0, error: "Giá phải lớn hơn 0." }
+                ]
+            },
+            {
+                name: "SoLuongTonKho",
+                label: "Số lượng tồn kho",
+                value: document.querySelector("[name='SoLuongTonKho']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Số lượng tồn kho không được để trống." },
+                    { test: val => parseInt(val) > 0, error: "Số lượng tồn kho phải lớn hơn 0." }
+                ]
+            },
+            {
+                name: "SizeID",
+                label: "Size",
+                value: document.querySelector("[name='SizeID']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Vui lòng chọn một size." }
+                ]
+            },
+            {
+                name: "MauID",
+                label: "Màu",
+                value: document.querySelector("[name='MauID']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Vui lòng chọn một màu." }
+                ]
+            }
+        ];
+
+        fields.forEach(field => {
+            const fieldElement = document.querySelector(`[name='${field.name}']`);
+            const fieldGroup = fieldElement.closest(".form-group");
+
+            for (let rule of field.rules) {
+                if (!rule.test(field.value)) {
+                    isValid = false;
+
+                    // Add error message below the label and stop further validation
+                    const errorElement = document.createElement("div");
+                    errorElement.classList.add("text-danger");
+                    errorElement.textContent = rule.error;
+                    fieldGroup.appendChild(errorElement);
+                    break;
+                }
+            }
+        });
+
+        // If valid, submit the form
+        if (isValid) {
+            document.forms[0].submit();
+        }
+    });
+</script>

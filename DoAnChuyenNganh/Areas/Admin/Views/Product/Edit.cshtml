@@ -65,7 +65,7 @@
 
                                 <!-- Giá -->
                                 <td>
-                                    <p>@chiTiet.Gia</p>
+                                    <p>@chiTiet.Gia.ToString("N0") VNĐ</p>
                                 </td>
 
                                 <!-- Số Lượng -->
@@ -73,13 +73,17 @@
                                     @chiTiet.SoLuongTonKho
                                 </td>
                                 <td>
-                                    @if (chiTiet.KichHoat == true)
+                                    @if (chiTiet.SoLuongTonKho == 0)
+                                    {
+                                        <p class="text-danger">Hết hàng</p>
+                                    }
+                                    else if (chiTiet.KichHoat == true)
                                     {
                                         <p>Đang bán</p>
                                     }
                                     else
                                     {
-                                       <p>Dừng bán</p>
+                                        <p>Dừng bán</p>
                                     }
                                 </td>
                                 <td>
@@ -91,17 +95,24 @@
                                         <p>Không có hình ảnh</p>}
                                 </td>
                                 <td>
-                                    @if (chiTiet.KichHoat == true)
-                                    {
-                                        <a href="/admin/Product/VoHieuKichHoatCTSP/@chiTiet.ChiTietSanPhamID?kichHoat=0" class="btn btn-sm btn-danger text-white">Dừng Bán</a>
-                                    }
-                                    else
-                                    {
-                                        <a href="/admin/Product/VoHieuKichHoatCTSP/@chiTiet.ChiTietSanPhamID?kichHoat=1" class="btn btn-sm btn-danger text-white">Tiếp Tục Bán</a>
-                                    }
-                                    <br /><br />
-                                    <a href="/admin/Product/EditCTSP/@chiTiet.ChiTietSanPhamID" class="btn btn-danger btn-sm">Chỉnh sửa</a>
+                                    <div class="btn-group-vertical" style="width: 100%;">
+                                        @if (chiTiet.KichHoat == true)
+                                        {
+                                            <a href="/admin/Product/VoHieuKichHoatCTSP/@chiTiet.ChiTietSanPhamID?kichHoat=0"
+                                               class="btn btn-sm btn-danger text-white mb-2">Dừng Bán</a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/admin/Product/VoHieuKichHoatCTSP/@chiTiet.ChiTietSanPhamID?kichHoat=1"
+                                               class="btn btn-sm btn-success text-white mb-2">Tiếp Tục Bán</a>
+                                        }
+                                        <a href="/admin/Product/EditCTSP/@chiTiet.ChiTietSanPhamID"
+                                           class="btn btn-sm btn-primary text-white mb-2">Chỉnh Sửa</a>
+
+                                    </div>
+
                                 </td>
+
                             </tr>
                         }
 
@@ -109,14 +120,7 @@
                     </tbody>
                 </table>
             </div>
-
             <a href="/admin/Product/CreateCTSP/@Model.SanPhamID" class="btn btn-danger">Thêm Chi Tiết Sản Phẩm</a>
-
-
-
-
-
         }
-
     </div>
 </div>

@@ -3,35 +3,202 @@
     ViewBag.Title = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
 }
-    
-<div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="w-50">
-        @using (Html.BeginForm("Create", "User", new { area = "Admin" }, FormMethod.Post))
+@section css {
+    <style>
+        body {
+            padding-top: 200px;
+        }
+
+        .form-register {
+            max-width: 600px;
+            margin: 5px auto 5px;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+            .form-register h2 {
+                padding: 30px;
+                text-align: center;
+                color: #333;
+            }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+
+            .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+
+        .btn-primary {
+            width: 30%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .text-muted {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+            .text-muted a {
+                color: #007bff;
+            }
+
+        .form-group {
+            padding: 5px;
+        }
+    </style>
+}
+<div class="form-register">
+    <h2>Tạo Tài Khoản Admin</h2>
+    @using (Html.BeginForm("Create", "User", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
         {
-            <div class="mb-3">
-                <h2 class="text-center">Tạo Tài Khoản Quản Lý</h2>
+            <input type="hidden" name="role" value="user" />
+
+            @* Các trường trong form *@
+            <div class="form-group">
+                @Html.LabelFor(model => model.TenDangNhap, "Tên Đăng Nhập")
+                @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control", placeholder = "Nhập tên đăng nhập" })
+                @Html.ValidationMessageFor(model => model.TenDangNhap, "", new { @class = "text-danger" })
             </div>
-            <div class="mb-3">
-                @Html.LabelFor(model => model.TenDangNhap, "Tên đăng nhập")
-                @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.MatKhau, "Mật Khẩu")
+                @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", type = "password", placeholder = "Nhập mật khẩu" })
             </div>
-            <div class="mb-3">
-                @Html.LabelFor(model => model.MatKhau, "Mật khẩu")
-                @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", type = "password" })
-            </div>
-            <div class="mb-3">
-                @Html.Label("Nhập Lại Mật Khẩu", new { @for = "NhapLaiMatKhau" })
-                @Html.TextBox("retypePassword", "",new { @class = "form-control", type = "password" })
-            </div>
-            <div class="mb-3">
+
+            <div class="form-group">
                 @Html.LabelFor(model => model.Email, "Email")
-                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Nhập email" })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
             </div>
-            <div class="text-center">
+
+            <!-- Thêm trường cho Độ tuổi -->
+            <div class="form-group">
+                @Html.Label("Độ Tuổi")
+                <input type="number" name="DoTuoi" min="1" max="120" value="18" class="form-control" />
+            </div>
+
+            <!-- Thêm trường cho Sở thích -->
+            <div class="form-group">
+                @Html.Label("Sở Thích")
+                <select name="SoThich" class="form-control">
+                    <option value="Thể thao">Thể thao năng động</option>
+                    <option value="Công sở, lịch sự">Công sở, lịch sự</option>
+                    <option value="Đơn giản, thường ngày">Đơn giản, thường ngày</option>
+                    <option value="Thời trang du lịch">Thời trang du lịch</option>
+                    <option value="Thời trang hot trend">Thời trang hot trend</option>
+                </select>
+            </div>
+
+            <!-- Thêm trường cho Mức chi tiêu -->
+            <div class="form-group">
+                @Html.Label("Mức Chi Tiêu Trong Năm ")
+                <select name="MucChiTieu" class="form-control">
+                    @for (int i = 5000000; i <= 1000000000; i += 5000000)
+                    {
+                        <option value="@i">@i.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</option>
+                    }
+                </select>
+            </div>
+
+
+            <!-- Thêm trường cho Giới tính -->
+            <div class="form-group">
+                @Html.Label("Giới Tính")
+                <select name="GioiTinh" class="form-control">
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                </select>
+            </div>
+
+            <div class="form-group text-center">
                 <button type="submit" class="btn btn-primary">Tạo</button>
                 <a href="/admin/user" class="btn btn-danger">Bỏ</a>
             </div>
         }
-
+    }
     </div>
-</div>
+<script>
+    document.querySelector(".form-register button[type='submit']").addEventListener("click", function (e) {
+        e.preventDefault(); // Ngăn chặn gửi form nếu có lỗi
+        let isValid = true;
+
+        // Xóa thông báo lỗi cũ
+        document.querySelectorAll(".form-group .text-danger").forEach(el => el.remove());
+
+        // Lấy các trường dữ liệu
+        const fields = [
+            {
+                name: "TenDangNhap",
+                label: "Tên đăng nhập",
+                value: document.querySelector("[name='TenDangNhap']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Tên đăng nhập không được để trống." },
+                    { test: val => val.length >= 3, error: "Tên đăng nhập phải có ít nhất 3 ký tự." }
+                ]
+            },
+            {
+                name: "MatKhau",
+                label: "Mật khẩu",
+                value: document.querySelector("[name='MatKhau']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Mật khẩu không được để trống." },
+                    { test: val => val.length >= 6, error: "Mật khẩu phải có ít nhất 6 ký tự." }
+                ]
+            },
+            {
+                name: "Email",
+                label: "Email",
+                value: document.querySelector("[name='Email']").value.trim(),
+                rules: [
+                    { test: val => val, error: "Email không được để trống." },
+                    { test: val => val.includes("@@"), error: "Email phải chứa ký tự '@@'." },
+                    {
+                        test: val => /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(val),
+                        error: "Email không hợp lệ."
+                    }
+                ]
+            }
+        ];
+
+        fields.forEach(field => {
+            const fieldElement = document.querySelector(`[name='${field.name}']`);
+            const fieldGroup = fieldElement.closest(".form-group");
+
+            for (let rule of field.rules) {
+                if (!rule.test(field.value)) {
+                    isValid = false;
+
+                    // Thêm lỗi dưới label và dừng kiểm tra các quy tắc tiếp theo
+                    const errorElement = document.createElement("div");
+                    errorElement.classList.add("text-danger");
+                    errorElement.textContent = rule.error;
+                    fieldGroup.appendChild(errorElement);
+                    break; // Ngừng kiểm tra các quy tắc tiếp theo
+                }
+            }
+        });
+        // Nếu hợp lệ, gửi form
+        if (isValid) {
+            document.querySelector(".form-register form").submit();
+        }
+    });
+
+</script>

@@ -127,7 +127,7 @@
                                                         <h4>@a.SanPham.TenSanPham</h4>
                                                     </a>
                                                     <a href="/product/details/@a.SanPhamID">
-                                                        <h4>@a.Gia</h4>
+                                                        <h4>@a.Gia.ToString("N0") VNĐ</h4>
                                                     </a>
                                                     <!-- Hiển thị số sao -->
                                                     <div class="rating">
@@ -156,7 +156,7 @@
                                         </div>
 
                                     }   
-                                }
+                                 }
                                 else
                                 {
                                     <p>Không có sản phẩm nào phù hợp.</p>

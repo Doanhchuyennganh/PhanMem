@@ -4,53 +4,64 @@
     ViewBag.Title = "Chi Tiết Đơn Hàng";
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
-
+@section slmua{
+    <span id="cartItemCount">@ViewBag.SLSP</span>
+}
 <div style="height:150px"></div>
 
-<h2>Chi Tiết Đơn Hàng</h2>
+<div class="container mt-4">
+    <h2 class="text-center text-primary mb-4">Chi Tiết Đơn Hàng</h2>
 
-<!-- Hiển thị thông tin đơn hàng -->
-<div>
-    <strong>Mã Đơn Hàng:</strong> @ViewBag.Order.DonHangID <br />
-    <strong>Ngày Đặt Hàng:</strong> @ViewBag.Order.NgayDatHang.ToString("dd/MM/yyyy") <br />
-    <strong>Tình Trạng Đơn Hàng:</strong> @ViewBag.Order.TinhTrangDonHang <br />
-    <strong>Phương Thức Thanh Toán:</strong> @ViewBag.Order.HinhThucThanhToan <br />
-    <strong>Tổng Tiền:</strong> @ViewBag.Order.TongTien.ToString("#,0") VNĐ <br />
-</div>
+    <!-- Hiển thị thông tin đơn hàng -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Thông Tin Đơn Hàng</h5>
+            <p><strong>Mã Đơn Hàng:</strong> @ViewBag.Order.DonHangID</p>
+            <p><strong>Ngày Đặt Hàng:</strong> @ViewBag.Order.NgayDatHang.ToString("dd/MM/yyyy")</p>
+            <p><strong>Tình Trạng Đơn Hàng:</strong> @ViewBag.Order.TinhTrangDonHang</p>
+            <p><strong>Phương Thức Thanh Toán:</strong> @ViewBag.Order.HinhThucThanhToan</p>
+            <p><strong>Tổng Tiền:</strong> <span class="text-success">@ViewBag.Order.TongTien.ToString("#,0") VNĐ</span></p>
+        </div>
+    </div>
 
-<h3>Danh Sách Sản Phẩm</h3>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Tên Sản Phẩm</th>
-            <th>Số Lượng</th>
-            <th>Đơn Giá</th>
-            <th>Tổng</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @item.ChiTietSanPham.SanPham.TenSanPham
-                    <br />
-                    <img src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="Hình Ảnh Sản Phẩm" style="width: 50px; height: 50px;" />
-                </td>
-                <td>@item.SoLuong</td>
-                <td>@item.DonGia.ToString("#,0") VNĐ</td>
-                @{
-                    double tong = (double)(item.SoLuong * item.DonGia);
+    <h3 class="text-center text-primary mb-4">Danh Sách Sản Phẩm</h3>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Tên Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Đơn Giá</th>
+                    <th>Tổng Tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <img src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="Hình Ảnh Sản Phẩm" class="rounded me-3" style="width: 50px; height: 50px;" />
+                                @item.ChiTietSanPham.SanPham.TenSanPham
+                            </div>
+                        </td>
+                        <td class="text-center">@item.SoLuong</td>
+                        <td class="text-center">@item.DonGia.ToString("N0") VNĐ</td>
+                        @{
+                            double tong = (double)(item.SoLuong * item.DonGia);
+                        }
+                        <td class="text-center text-success">@tong.ToString("N0") VNĐ</td>
+                    </tr>
                 }
-                <td>@tong.ToString("#,0") VNĐ</td>
+            </tbody>
+        </table>
+    </div>
 
-
-            </tr>
-        }
-    </tbody>
-</table>
-<!-- Bootstrap 5 Button with Icon and Styles -->
-<a href="/Order/index" class="btn btn-outline-primary">
-    <i class="bi bi-arrow-left-circle"></i> Quay lại
-</a>
+    <div class="text-center mt-4">
+        <a href="/Order/index" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left-circle"></i> Quay lại
+        </a>
+    </div>
+</div>
 

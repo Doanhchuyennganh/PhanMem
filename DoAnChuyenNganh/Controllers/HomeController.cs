@@ -3,6 +3,7 @@ using DoAnChuyenNganh.KNN;
 using DoAnChuyenNganh.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
@@ -18,7 +19,9 @@ namespace DoAnChuyenNganh.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            PhanLoaiKNN kn = new PhanLoaiKNN();
+            //PhanLoaiKNN kn = new PhanLoaiKNN();
+            //kn.DocDuLieuHuanLuyen();
+            //kn.DocDuLieuTuCSDL();
             var authCookie = Request.Cookies["auth"];
             string tenDangNhap = authCookie != null ? authCookie.Value : null;
             List<ChiTietSanPham> sanPhams = new List<ChiTietSanPham>();
@@ -34,15 +37,20 @@ namespace DoAnChuyenNganh.Controllers
                     sanPhams = LaySanPhamTheoPhanKhucVaSoThich(kh.PhanKhucKH, kh.SoThich, kh.GioiTinh);
                 }
             }
-            
+            List<SanPham> sps = new List<SanPham>();
             if (sanPhams.Count == 0)
             {
-                sanPhams = db.ChiTietSanPhams.OrderBy(sp => sp.Gia).Take(10).ToList();
+                sps = db.SanPhams
+                        .Where(sp => sp.ChiTietSanPham.Any(ctsp => ctsp.SoLuongTonKho > 0 && ctsp.KichHoat == true)) // Chỉ lấy sản phẩm có chi tiết tồn kho > 0
+                        .OrderByDescending(sp => sp.SoLuongDaBan) // Ưu tiên sản phẩm có số lượng đã bán nhiều nhất
+                        .ThenByDescending(sp => sp.SoSaoTB) // Ưu tiên sản phẩm có đánh giá 5 sao nhiều nhất
+                        .Take(20) // Lấy 20 sản phẩm đầu tiên
+                        .ToList();
             }
-            sanPhams = sanPhams
-             .GroupBy(row => row.SanPham.SanPhamID)
-             .Select(group => group.OrderBy(row => row.Gia).FirstOrDefault())
-             .ToList();
+            //sanPhams = sanPhams
+            // .GroupBy(row => row.SanPham.SanPhamID)
+            // .Select(group => group.OrderBy(row => row.Gia).FirstOrDefault())
+            // .ToList();
             ViewBag.SLSP = totalQuantity;
             ViewBag.SanPhamLienQuan = sanPhams;
             return View(sanPhams);
@@ -55,7 +63,7 @@ namespace DoAnChuyenNganh.Controllers
             int giaMin = LayGiaTuPhanKhuc(phanKhucKH, true);
             int giaMax = LayGiaTuPhanKhuc(phanKhucKH, false);
             var sanPhamsQuery = db.ChiTietSanPhams
-                .Where(sp => sp.Gia >= giaMin && sp.Gia < giaMax);
+                .Where(sp => sp.Gia >= giaMin && sp.Gia < giaMax && sp.SoLuongTonKho > 0);
             if (!string.IsNullOrEmpty(gioiTinh))
             {
                 string gioiTinhLower = gioiTinh.ToLower();

@@ -31,10 +31,10 @@
             transition: border-color 0.3s;
         }
 
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-        }
+            .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
 
         .btn-primary {
             width: 30%;
@@ -47,18 +47,19 @@
             transition: background-color 0.3s;
         }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
 
         .text-muted {
             text-align: center;
             margin-top: 15px;
         }
 
-        .text-muted a {
-            color: #007bff;
-        }
+            .text-muted a {
+                color: #007bff;
+            }
+
         .form-group {
             padding: 5px;
         }
@@ -70,10 +71,12 @@
     {
         <div class="form-group">
             @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control", placeholder = "Nhập tên đăng nhập" })
+            @Html.ValidationMessageFor(model => model.TenDangNhap, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
             @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", type = "password", placeholder = "Nhập mật khẩu" })
+            @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group text-center">
@@ -85,3 +88,61 @@
         </div>
     }
 </div>
+
+
+<script>
+    document.querySelector(".form-login button[type='submit']").addEventListener("click", function (e) {
+        e.preventDefault(); // Ngăn chặn gửi form nếu có lỗi
+        let isValid = true;
+
+        // Xóa thông báo lỗi cũ
+        document.querySelectorAll(".form-group .text-danger").forEach(el => el.remove());
+
+        // Lấy các trường dữ liệu và kiểm tra
+        const fields = [
+            {
+                name: "TenDangNhap",
+                label: "Tên đăng nhập",
+                value: document.querySelector("[name='TenDangNhap']").value.trim(),
+                rules: [
+                    { test: val => val !== "", error: "Tên đăng nhập không được để trống." }
+                ]
+            },
+            {
+                name: "MatKhau",
+                label: "Mật khẩu",
+                value: document.querySelector("[name='MatKhau']").value.trim(),
+                rules: [
+                    { test: val => val !== "", error: "Mật khẩu không được để trống." }
+                ]
+            }
+        ];
+
+        // Kiểm tra các trường
+        fields.forEach(field => {
+            field.rules.forEach(rule => {
+                if (!rule.test(field.value)) {
+                    isValid = false; // Nếu có lỗi, không hợp lệ
+
+                    // Tạo thông báo lỗi và thêm vào trường
+                    const errorMessage = document.createElement("div");
+                    errorMessage.classList.add("text-danger");
+                    errorMessage.textContent = rule.error;
+
+                    // Thêm thông báo lỗi vào phần tử chứa trường input
+                    const fieldElement = document.querySelector(`[name='${field.name}']`);
+                    fieldElement.parentElement.appendChild(errorMessage);
+                }
+            });
+        });
+
+        // Nếu hợp lệ, gửi form
+        if (isValid) {
+            document.querySelector(".form-login form").submit();
+        }
+    });
+
+</script>
+
+
+

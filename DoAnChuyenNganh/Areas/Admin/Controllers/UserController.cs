@@ -30,28 +30,22 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(NguoiDung user, string retypePassword)
+        public ActionResult Create([Bind(Include = "TenDangNhap,MatKhau,Email,DoTuoi,GioiTinh,MucChiTieu,SoThich")] NguoiDung user)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
-            if (user.MatKhau != retypePassword)
-            {
-                ModelState.AddModelError("retypePassword", "Passwords do not match.");
-                return View();
-            }
             NguoiDung myUser = db.NguoiDungs.Where(u => u.TenDangNhap == user.TenDangNhap).FirstOrDefault();
-            if (myUser != null)
+            if (db.NguoiDungs.Any(u => u.TenDangNhap == user.TenDangNhap))
             {
-                ModelState.AddModelError("UserName", "UserName already exist.");
-                return View();
+                ModelState.AddModelError("TenDangNhap", "Tên đăng nhập đã tồn tại.");
+                return View(user);
             }
-            myUser = db.NguoiDungs.Where(u => u.Email == user.Email).FirstOrDefault();
-            if (myUser != null)
+            if (db.NguoiDungs.Any(u => u.Email == user.Email))
             {
-                ModelState.AddModelError("EmailAddress", "EmailAddress already exist.");
-                return View();
+                ModelState.AddModelError("Email", "Email đã tồn tại.");
+                return View(user);
             }
             myUser = new NguoiDung();
             myUser.TenDangNhap = user.TenDangNhap;

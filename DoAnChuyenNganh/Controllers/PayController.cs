@@ -70,9 +70,9 @@ namespace DoAnChuyenNganh.Controllers
                 var selectedAddress = GetDefaultOrFirstShippingAddress(userId);
                 if (selectedAddress == null)
                 {
-                    return RedirectToAction("Index"); // Quay lại trang nếu không có địa chỉ giao hàng
+                    ModelState.AddModelError("DiaChiGiaoHang", "Vui lòng chọn địa chỉ giao hàng.");
+                    return RedirectToAction("Index");
                 }
-
                 // Tính tổng giá trị đơn hàng
                 decimal totalPrice = cart.Sum(item => item.ChiTietSanPham.Gia * item.SoLuong);
                 TempData["PaymentMethod"] = paymentMethod; // Lưu giá trị paymentMethod vào TempData
@@ -127,8 +127,8 @@ namespace DoAnChuyenNganh.Controllers
             var selectedAddress = GetDefaultOrFirstShippingAddress(userId);
             if (selectedAddress == null)
             {
-                TempData["ErrorMessage"] = "Vui lòng chọn địa chỉ giao hàng.";
-                return RedirectToAction("Index"); // Quay lại trang nếu không có địa chỉ giao hàng
+                ModelState.AddModelError("DiaChiGiaoHang", "Vui lòng chọn địa chỉ giao hàng.");
+                return RedirectToAction("Index");
             }
 
             // Tính tổng giá trị đơn hàng
