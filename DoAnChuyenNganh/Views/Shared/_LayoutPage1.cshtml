@@ -97,12 +97,13 @@
                                 <div class="dropdown-menu">
                                     @if (Request.Cookies["auth"] != null)
                                     {
-                                        <a href="@Url.Action("Logout", "User")" class="dropdown-item">Logout</a>
+                                        <a href="@Url.Action("Logout", "User")" class="dropdown-item">Đăng xuất</a>
+                                        <a href="@Url.Action("ThongTinCaNhan", "User")" class="dropdown-item">Thông tin cá nhân</a>
                                     }
                                     else
                                     {
-                                        <a href="@Url.Action("Login", "User")" class="dropdown-item">Login</a>
-                                        <a href="@Url.Action("Register", "User")" class="dropdown-item">Register</a>
+                                        <a href="@Url.Action("Login", "User")" class="dropdown-item">Đăng nhập</a>
+                                        <a href="@Url.Action("Register", "User")" class="dropdown-item">Đăng ký</a>
                                     }
                                 </div>
                             </a>

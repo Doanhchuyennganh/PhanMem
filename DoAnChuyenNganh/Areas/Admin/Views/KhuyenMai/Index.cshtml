@@ -1,0 +1,182 @@
+﻿@model List<DoAnChuyenNganh.Models.KhuyenMai>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+@section css{
+    <style>
+        .pagination {
+            display: flex;
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 0;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .pagination .page-item {
+                margin: 0 5px; /* Khoảng cách giữa các trang */
+            }
+
+            .pagination .page-link {
+                display: block;
+                padding: 0.5rem 1rem;
+                text-decoration: none;
+                border: 1px solid #dee2e6;
+                border-radius: 0.25rem;
+                color: #007bff;
+                font-weight: 600;
+                font-size: 16px;
+            }
+
+                .pagination .page-link:hover {
+                    background-color: #e9ecef;
+                    color: #0056b3;
+                }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+            font-size: 16px; /* Chữ to hơn */
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+        }
+
+        .badge {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+
+        .table td .btn {
+            margin: 5px 0;
+            padding: 5px 10px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 0.25rem;
+        }
+
+        .d-flex.justify-content-center {
+            justify-content: center;
+        }
+
+        .form-control {
+            border-radius: 0.25rem;
+        }
+
+        .btn-primary {
+            padding: 6px 15px;
+            font-size: 14px;
+            border-radius: 0.25rem;
+        }
+
+        .btn-danger {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 0.25rem;
+        }
+
+        /* Đảm bảo chữ tình trạng là màu đen */
+        .status-text {
+            color: #000; /* Chữ đen */
+            font-weight: 600;
+        }
+
+        .status-active {
+            color: green;
+            font-weight: bold;
+        }
+
+        .status-inactive {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Danh Sách Chương Trình Khuyến Mãi</h2>
+
+    <!-- Thanh tìm kiếm -->
+    <form method="get" action="@Url.Action("Index", "KhuyenMai")" class="d-flex justify-content-center mb-4">
+        <input type="text" name="search" class="form-control w-75" placeholder="Nhập tên chương trình khuyến mãi..." value="@Request.QueryString["search"]" />
+        <button type="submit" class="btn btn-primary ms-2">Tìm kiếm</button>
+    </form>
+
+    <!-- Table -->
+    <table class="table table-bordered table-striped bg-white">
+        <thead>
+            <tr>
+                <th>Mã Khuyến Mãi</th>
+                <th>Tên Chương Trình Khuyến Mãi</th>
+                <th>Mức Giảm</th>
+                <th>Mô Tả</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.MaKhuyenMai</td>
+                    <td><span class="badge rounded-pill text-dark">@item.TenChuongTrinhKM</span></td>
+                    <td>@item.MucGiam</td>
+                    <td>@item.MoTa</td>
+                    <td>@item.NgayBatDau</td>
+                    <td>@item.NgayKetThuc</td>
+                    <td>
+                        <a href="/admin/KhuyenMai/Edit/@item.MaKhuyenMai" class="btn btn-sm btn-warning">Chỉnh Sửa</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <div class="pagination d-flex justify-content-center mt-5">
+        @{
+            int PrevPage = ViewBag.Page - 1;
+            if (PrevPage <= 0)
+            {
+                PrevPage = 1;
+            }
+            int NextPage = ViewBag.Page + 1;
+            if (NextPage > ViewBag.NoOfPages)
+            {
+                NextPage = ViewBag.NoOfPages;
+            }
+
+            int StartPage = Math.Max(1, ViewBag.Page - 5);
+            int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 6);
+        }
+        <a href="/Admin/KhuyenMai?search=@ViewBag.search&page=1" class="page-link">Trang đầu</a>
+        <a href="/Admin/KhuyenMai?search=@ViewBag.search&page=@PrevPage" class="page-link">Trang trước</a>
+
+        @for (int i = StartPage; i <= EndPage; i++)
+        {
+            if (i == ViewBag.Page)
+            {
+                <a href="/Admin/KhuyenMai?search=@ViewBag.search&page=@i" class="active rounded">@i</a>
+            }
+            else
+            {
+                <a href="/Admin/KhuyenMai?search=@ViewBag.search&page=@i" class="rounded">@i</a>
+            }
+        }
+
+        <a href="/Admin/KhuyenMai?search=@ViewBag.search&page=@NextPage" class="page-link">Tiếp theo</a>
+        <a href="/Admin/KhuyenMai?search=@ViewBag.search&page=@ViewBag.NoOfPages" class="page-link">Trang cuối</a>
+    </div>
+
+    <!-- Thêm sản phẩm mới -->
+    <div class="d-flex justify-content-center my-5">
+        <a href="/admin/KhuyenMai/Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Tạo Chương trình khuyến mãi
+        </a>
+    </div>
+</div>

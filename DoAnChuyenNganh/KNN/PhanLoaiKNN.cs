@@ -16,7 +16,7 @@ namespace DoAnChuyenNganh.KNN
         private List<string> y_huanLuyen = new List<string>();
         public void DocDuLieuHuanLuyen()
         {
-            string duongDanFile = @"D:\DoAnTotNghiep\Code\PhanMem\DoAnChuyenNganh\KNN\train_data.txt";
+            string duongDanFile = @"D:\HK7\DoAnCHuyenNganh\DoAnChuyenNganh_ChinhThuc\PhienBan5\PhanMem\DoAnChuyenNganh\KNN\train_data.txt";
             if (!File.Exists(duongDanFile))
                 throw new FileNotFoundException($"File không tồn tại: {duongDanFile}");
             var cacDong = File.ReadAllLines(duongDanFile);

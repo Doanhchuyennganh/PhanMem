@@ -1,0 +1,131 @@
+﻿@model DoAnChuyenNganh.Models.KhuyenMai
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+@section css {
+    <style>
+
+        .form-register {
+            max-width: 600px;
+            margin: 5px auto 5px;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+            .form-register h2 {
+                padding: 30px;
+                text-align: center;
+                color: #333;
+            }
+
+        .form-control {
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+            transition: border-color 0.3s;
+        }
+
+            .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            }
+
+        .btn-primary {
+            width: 30%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+        .text-muted {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+            .text-muted a {
+                color: #007bff;
+            }
+
+        .form-group {
+            padding: 5px;
+        }
+    </style>
+}
+
+
+
+
+
+<div class="form-register">
+    <h2>Tạo Chương Trình Khuyến Mãi</h2>
+    @using (Html.BeginForm("Create", "KhuyenMai", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return validateForm();" }))
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.TenChuongTrinhKM, "Tên chương trình khuyến mãi")
+            @Html.TextBoxFor(model => model.TenChuongTrinhKM, new { @class = "form-control", placeholder = "Nhập tên chương trình khuyến mãi", id = "TenChuongTrinhKM" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MoTa, "Mô tả")
+            @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3, placeholder = "Nhập mô tả chương trình", id = "MoTa" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MucGiam, "Mức Giảm (%)")
+            @Html.DropDownListFor(model => model.MucGiam, new SelectList(Enumerable.Range(0, 101)), new { @class = "form-control", id = "MucGiam" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NgayBatDau, "Ngày Bắt Đầu")
+            @Html.TextBoxFor(model => model.NgayBatDau, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "NgayBatDau" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NgayKetThuc, "Ngày Kết Thúc")
+            @Html.TextBoxFor(model => model.NgayKetThuc, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "NgayKetThuc" })
+        </div>
+
+
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-primary">Tạo</button>
+            <a href="/Admin/KhuyenMai" class="btn btn-danger">Quay Lại</a>
+        </div>
+    }
+</div>
+<script>
+    function validateForm() {
+        // Get form values
+        var tenChuongTrinh = document.getElementById('TenChuongTrinhKM').value;
+        var mucGiam = document.getElementById('MucGiam').value;
+        var moTa = document.getElementById('MoTa').value;
+        var ngayBatDau = document.getElementById('NgayBatDau').value;
+        var ngayKetThuc = document.getElementById('NgayKetThuc').value;
+
+        // Check if all required fields are filled
+        if (!tenChuongTrinh || !mucGiam || !moTa || !ngayBatDau || !ngayKetThuc) {
+            alert("Vui lòng điền đầy đủ thông tin.");
+            return false; // Prevent form submission
+        }
+
+        // Check if Ngày kết thúc is later than Ngày bắt đầu
+        if (new Date(ngayKetThuc) < new Date(ngayBatDau)) {
+            alert("Ngày kết thúc không thể sớm hơn ngày bắt đầu.");
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission
+    }
+</script>

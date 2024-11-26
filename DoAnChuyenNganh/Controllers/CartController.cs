@@ -54,7 +54,7 @@ namespace DoAnChuyenNganh.Controllers
             {
                 foreach (var item in cart)
                 {
-                    totalPrice += item.ChiTietSanPham.Gia * item.SoLuong;
+                    totalPrice += (item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)) * item.SoLuong;
                     totalQuantity += item.SoLuong;
                 }
             }

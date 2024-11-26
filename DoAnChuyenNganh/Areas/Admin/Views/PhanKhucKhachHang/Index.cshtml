@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<h2>Danh sách phân khúc khách hàng</h2>
+
+@if (ViewBag.ThongBao != null)
+{
+    <p style="color: red">@ViewBag.ThongBao</p>
+}
+else
+{
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+        @foreach (var phanKhuc in ViewBag.DanhSachPhanKhuc)
+        {
+            <a href="@Url.Action("SanPham", "PhanKhucKhachHang", new { phankhuc = phanKhuc })"
+               style="text-decoration: none;">
+                <button type="button"
+                        style="
+                            background-color: #007bff;
+                            color: white;
+                            border: none;
+                            border-radius: 5px;
+                            padding: 10px 20px;
+                            cursor: pointer;
+                            transition: background-color 0.3s;
+                            min-width: 150px;
+                            height: auto;
+                            text-align: center;
+                            font-size: 16px;
+                            white-space: normal;
+                            word-wrap: break-word;">
+                    @phanKhuc
+                </button>
+            </a>
+        }
+    </div>
+}

@@ -6,7 +6,7 @@
 }
 
 
-<h2>Chi Tiết Đơn Hàng</h2>
+<h2 style="color:red">Chi Tiết Đơn Hàng</h2>
 
 <!-- Hiển thị thông tin đơn hàng -->
 <div>
@@ -17,6 +17,24 @@
     <strong>Tổng Tiền:</strong> @ViewBag.Order.TongTien.ToString("#,0") VNĐ <br />
 </div>
 
+@if (@ViewBag.Order.TinhTrangDonHang == "Hoàn Thành")
+{
+    <h6>Thông tin người nhận</h6>
+    <div>
+        <strong>Địa Chỉ:</strong> **************** <br />
+        <strong>SDT:</strong> ************** <br />
+        <strong>Tên người nhận:</strong> ***************<br />
+    </div>
+}
+else
+{
+    <h6>Thông tin người nhận</h6>
+    <div>
+        <strong>Địa Chỉ:</strong> @ViewBag.Order.ThongTinGiaoHang.DiaChiGiaoHang <br />
+        <strong>SDT:</strong> @ViewBag.Order.ThongTinGiaoHang.SoDienThoai <br />
+        <strong>Tên người nhận:</strong> @ViewBag.Order.ThongTinGiaoHang.TenNguoiNhan<br />
+    </div>
+}
 <h3>Danh Sách Sản Phẩm</h3>
 <table class="table table-bordered">
     <thead>
@@ -32,23 +50,23 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                <p>@item.ChiTietSanPham.SanPham.TenSanPham</p>
-                <br />
-                <img src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="Hình Ảnh Sản Phẩm" style="width: 50px; height: 50px;" />
-            </td>
-            <td>@item.ChiTietSanPham.Size.SizeName VNĐ</td>
-            <td>@item.ChiTietSanPham.Mau.MauName VNĐ</td>
-            <td>@item.SoLuong</td>
-            <td>@item.DonGia.ToString("#,0") VNĐ</td>
-            @{
-                double tong = (double)(item.SoLuong * item.DonGia);
-            }
-            <td>@tong.ToString("#,0") VNĐ</td>
+            <tr>
+                <td>
+                    <p>@item.ChiTietSanPham.SanPham.TenSanPham</p>
+                    <br />
+                    <img src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="Hình Ảnh Sản Phẩm" style="width: 50px; height: 50px;" />
+                </td>
+                <td>@item.ChiTietSanPham.Size.SizeName</td>
+                <td>@item.ChiTietSanPham.Mau.MauName</td>
+                <td>@item.SoLuong</td>
+                <td>@item.DonGia.ToString("#,0") VNĐ</td>
+                @{
+                    double tong = (double)(item.SoLuong * item.DonGia);
+                }
+                <td>@tong.ToString("#,0") VNĐ</td>
 
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

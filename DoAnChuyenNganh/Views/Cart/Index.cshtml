@@ -30,7 +30,7 @@
             }
             @foreach (var item in Model)
             {
-                decimal price = item.ChiTietSanPham.Gia * item.SoLuong;
+                decimal price = (item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)) * item.SoLuong;
                 totalPrice += price;
                 <tr class="cart-item align-middle">
                     <th scope="row">@i</th>

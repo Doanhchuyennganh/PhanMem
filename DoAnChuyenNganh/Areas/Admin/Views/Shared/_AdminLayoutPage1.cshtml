@@ -41,19 +41,22 @@
             background-color: #343a40;
             padding-top: 50px;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            max-height: 100vh; /* Giới hạn chiều cao sidebar */
         }
 
-        .sidebar a {
-            padding: 15px 25px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #f8f9fa;
-            display: block;
-        }
+            .sidebar a {
+                padding: 15px 25px;
+                text-decoration: none;
+                font-size: 18px;
+                color: #f8f9fa;
+                display: block;
+            }
 
-        .sidebar a:hover {
-            background-color: #575d63;
-        }
+                .sidebar a:hover {
+                    background-color: #575d63;
+                }
 
         .content {
             margin-left: 250px;
@@ -67,37 +70,72 @@
             font-size: 22px;
         }
 
+        /* Make the main content area scrollable */
+        .sidebar-content {
+            flex-grow: 1; /* Makes this area flexible and fill available space */
+            overflow-y: auto; /* Allows scrolling if content overflows */
+        }
+
         .sidebar-footer {
-            position: fixed;
-            bottom: 0;
-            width: 250px;
+            margin-top: auto; /* Push footer to the bottom */
             background-color: #212529;
             text-align: center;
             padding: 10px;
             color: white;
         }
 
-        /* Optional: Reduce the width for smaller screens */
-       
+        /* Custom Scrollbar Styles */
+        /* For Webkit browsers like Chrome, Safari */
+        .sidebar-content::-webkit-scrollbar {
+            width: 8px; /* Width of the scrollbar */
+        }
+
+        .sidebar-content::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Background color of the track */
+            border-radius: 10px; /* Round corners of the track */
+        }
+
+        .sidebar-content::-webkit-scrollbar-thumb {
+            background: #888; /* Color of the scrollbar thumb */
+            border-radius: 10px; /* Round corners of the thumb */
+            border: 2px solid #f1f1f1; /* Border around the thumb */
+        }
+
+            .sidebar-content::-webkit-scrollbar-thumb:hover {
+                background: #555; /* Color of the thumb when hovered */
+            }
+
+        /* For Firefox */
+        .sidebar-content {
+            scrollbar-width: thin; /* Thin scrollbar */
+            scrollbar-color: #888 #f1f1f1; /* Thumb color and track color */
+        }
     </style>
+
 </head>
 @{
     var userName = Context.Request.Cookies["auth"];
     var Role = Context.Request.Cookies["role"];
 }
 <body>
-    <!-- Sidebar Start -->
+    
+
     <div class="sidebar">
         <div class="sidebar-header">
             <h3>Quản Lý</h3>
         </div>
-        <a href="/Admin/Home/index">Trang chủ</a>
-        <a href="/Admin/Product/index">Quản Lý Sản Phẩm</a>
-        <a href="/Admin/Brand/index">Quản Lý Danh Mục</a>
-        <a href="/Admin/User/index">Quản Lý Người Dùng</a>
-        <a href="/Admin/Order/index">Quản Lý Đơn Hàng</a>
-        <a href="/Admin/Color/index">Quản Lý Màu</a>
-        <a href="/Admin/Size/index">Quản Lý Size</a>
+        <div class="sidebar-content">
+            <a href="/Admin/Home/index">Trang chủ</a>
+            <a href="/Admin/Product/index">Quản Lý Sản Phẩm</a>
+            <a href="/Admin/Brand/index">Quản Lý Danh Mục</a>
+            <a href="/Admin/User/index">Quản Lý Người Dùng</a>
+            <a href="/Admin/Order/index">Quản Lý Đơn Hàng</a>
+            <a href="/Admin/Color/index">Quản Lý Màu</a>
+            <a href="/Admin/Size/index">Quản Lý Size</a>
+            <a href="/Admin/KhuyenMai/index">Quản Lý Khuyến Mãi</a>
+            <a href="/Admin/ThongKe/index">Thống Kê</a>
+            <a href="/Admin/PhanKhucKhachHang/index">Phân Khúc Khách Hàng</a>
+        </div>
         <div class="sidebar-footer">
             <p>&copy; 2024 Admin Dashboard</p>
         </div>
@@ -135,64 +173,5 @@
         </div>
     </div>
     <!-- Main Content End -->
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
-        <div class="container py-5">
-            <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5);">
-                <div class="row g-4">
-                    <div class="col-lg-3">
-                        <h1 class="text-primary mb-0">Admin Dashboard</h1>
-                        <p class="text-secondary mb-0">Quản lý hệ thống hiệu quả</p>
-                    </div>
-                    <div class="col-lg-6">
-                        <p class="text-light">Trang tổng quan quản trị viên để theo dõi và quản lý dữ liệu của hệ thống.</p>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="d-flex justify-content-end pt-3">
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fas fa-cogs"></i></a>
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fas fa-user-shield"></i></a>
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fas fa-chart-line"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Tổng Quan</h4>
-                        <p class="mb-4">Kiểm tra số liệu thống kê và quản lý các mục quan trọng từ bảng điều khiển.</p>
-                        <a href="#" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Truy Cập Dashboard</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="d-flex flex-column text-start footer-item">
-                        <h4 class="text-light mb-3">Quản Lý Hệ Thống</h4>
-                        <a class="btn-link" href="">Quản Lý Người Dùng</a>
-                        <a class="btn-link" href="">Cài Đặt Hệ Thống</a>
-                        <a class="btn-link" href="">Sao Lưu Dữ Liệu</a>
-                        <a class="btn-link" href="">Báo Cáo Hàng Tháng</a>
-                        <a class="btn-link" href="">Nhật Ký Hoạt Động</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="d-flex flex-column text-start footer-item">
-                        <h4 class="text-light mb-3">Tài Khoản Quản Trị</h4>
-                        <a class="btn-link" href="">Hồ Sơ Của Tôi</a>
-                        <a class="btn-link" href="">Thay Đổi Mật Khẩu</a>
-                        <a class="btn-link" href="">Cài Đặt Bảo Mật</a>
-                        <a class="btn-link" href="">Quản Lý Phiên Làm Việc</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Liên Hệ Hỗ Trợ</h4>
-                        <p>Email: admin-support@example.com</p>
-                        <p>Điện Thoại: +123 456 7890</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
 </body>
 </html>

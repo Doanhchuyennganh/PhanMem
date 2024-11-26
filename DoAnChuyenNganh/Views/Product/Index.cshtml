@@ -5,6 +5,59 @@
 }
 @section css{
     <style>
+        .price-original {
+            color: gray;
+        }
+
+            .price-original .original-price {
+                text-decoration: line-through;
+            }
+
+        .discount-badge {
+            background-color: red;
+            color: white;
+            font-size: 0.8em;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 10px;
+            text-decoration: none; /* Đảm bảo tag không bị gạch */
+        }
+
+        .price-discounted {
+            color: green;
+            font-weight: bold;
+        }
+            .hidden-form {
+            display: none; /* Ẩn form */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            z-index: 1000;
+        }
+
+            .hidden-form.active {
+                display: block; /* Hiển thị form */
+            }
+
+        form h3 {
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        body {
+            background-color: #f8f9fa; /* Tô nền trang */
+        }
+
         .rating {
             font-size: 1.2em; /* Tăng kích thước sao */
             color: gold;
@@ -148,21 +201,91 @@
                                 </div>
                             </div>
                             <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <a class="smart-suggestion-button" href="/User/Register">GỢI Ý THÔNG MINH</a>
 
+
+
+                                <div class="mb-3">
+                                    <a class="smart-suggestion-button" href="javascript:void(0);">GỢI Ý THÔNG MINH</a>
                                 </div>
+
+                                <!-- Form thu thập thông tin -->
+                                <div id="smartSuggestionForm" class="hidden-form">
+                                    <form>
+                                        <h3>Gợi ý thông minh</h3>
+                                        <div class="form-group">
+                                            @Html.Label("Độ Tuổi")
+                                            <input type="number" name="dotuoi" min="1" max="120" value="18" class="form-control" />
+                                        </div>
+                                        <input type="hidden" name="trangthaigoiy" value="true" />
+                                        <!-- Thêm trường cho Sở thích -->
+                                        <div class="form-group">
+                                            @Html.Label("Sở Thích")
+                                            <select name="sothich" class="form-control">
+                                                <option value="Thể thao">Thể thao năng động</option>
+                                                <option value="Công sở, lịch sự">Công sở, lịch sự</option>
+                                                <option value="Đơn giản, thường ngày">Đơn giản, thường ngày</option>
+                                                <option value="Thời trang du lịch">Thời trang du lịch</option>
+                                                <option value="Thời trang hot trend">Thời trang hot trend</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Thêm trường cho Mức chi tiêu -->
+                                        <div class="form-group">
+                                            @Html.Label("Mức Chi Tiêu Trong Năm ")
+                                            <select name="mucchitieu" class="form-control">
+                                                @for (int i = 5000000; i <= 1000000000; i += 5000000)
+                                                {
+                                                    <option value="@i">@i.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))</option>
+                                                }
+                                            </select>
+                                        </div>
+
+
+                                        <!-- Thêm trường cho Giới tính -->
+                                        <div class="form-group">
+                                            @Html.Label("Giới Tính")
+                                            <select name="gioitinh" class="form-control">
+                                                <option value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Gửi</button>
+                                        <button type="button" class="btn btn-secondary" onclick="hideForm()">Hủy</button>
+                                    </form>
+                                </div>
+                                <script>
+                                    // Hiển thị form
+                                    document.querySelector('.smart-suggestion-button').addEventListener('click', function () {
+                                        const form = document.getElementById('smartSuggestionForm');
+                                        form.classList.add('active');
+                                    });
+
+                                    // Ẩn form
+                                    function hideForm() {
+                                        const form = document.getElementById('smartSuggestionForm');
+                                        form.classList.remove('active');
+                                    }
+
+                                </script>
+
+
+
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-9">
                         <div class="row g-4 justify-content-center">
 
+
+
+
+
+
                             @foreach (var a in Model)
                             {
                                 <div class="col-md-6 col-lg-6 col-xl-4">
-                                    <div class="rounded position-relative product-item">
-                                        <div class="product-img">
+                                    <div class="rounded position-relative product-item" style="display: flex; flex-direction: column; height: 100%;">
+                                        <div class="product-img" style="flex-shrink: 0;">
                                             @if (a.SoLuongTonKho > 0 && a.KichHoat == true)
                                             {
                                                 <a href="/product/details/@a.SanPhamID">
@@ -179,18 +302,39 @@
                                                 @a.SanPham.DanhMuc.TenDanhMuc
                                             </p>
                                         </div>
-                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                        <div class="p-4 border border-secondary border-top-0 rounded-bottom" style="flex-grow: 1;">
                                             <a href="/product/details/@a.SanPhamID">
                                                 <h4>@a.SanPham.TenSanPham</h4>
                                             </a>
-                                            <a href="/product/details/@a.SanPhamID">
-                                                <h4>@a.Gia.ToString("N0") VNĐ</h4>
-                                            </a>
+                                            @if (a.GiaDuocGiam == 0)
+                                            {
+                                                <a href="/product/details/@a.SanPhamID">
+                                                    <span class="price-discounted" style="margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif; color: green; font-weight: bold;">
+                                                        @a.Gia.ToString("N0") VNĐ
+                                                    </span>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                           
+                                                    var GiaThucTe = a.Gia - a.GiaDuocGiam;
+                                               
+                                                <a href="/product/details/@a.SanPhamID">
+                                                    <h4 class="price-original" style="color: gray; font-size: 1em; text-decoration: none;">
+                                                        <span class="original-price" style="text-decoration: line-through; margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif;">
+                                                            @a.Gia.ToString("N0") VNĐ
+                                                        </span>
+                                                        <span class="discount-badge" style="background-color: red; color: white; font-size: 1em; font-weight: bold; padding: 2px 6px; border-radius: 4px; font-family: 'Arial', sans-serif;">
+                                                            -@((a.GiaDuocGiam ?? 0).ToString("N0")) VNĐ
+                                                        </span>
+                                                    </h4>
+                                                    <h4 class="price-discounted" style="color: green; font-size: 1em; font-weight: bold; font-family: 'Arial', sans-serif;">
+                                                        @((GiaThucTe ?? 0).ToString("N0")) VNĐ
+                                                    </h4>
+                                                </a>
+                                            }
                                             <!-- Hiển thị số sao -->
                                             <div class="rating">
-                                                @{
-                                                }
-
                                                 @if (a.SanPham.SoSaoTB != 0)
                                                 {
                                                     // Nếu có đánh giá (AverageRating không null), hiển thị sao
@@ -207,12 +351,31 @@
                                             </div>
                                             <!-- Hiển thị số lượt đã bán -->
                                             <p class="text-muted mb-2">Đã bán: @a.SanPham.SoLuongDaBan</p>
-
                                         </div>
                                     </div>
                                 </div>
-
                             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             <div class="pagination d-flex justify-content-center mt-5">
                                 @{
                                     int PrevPage = ViewBag.Page - 1;
@@ -229,23 +392,24 @@
                                     int StartPage = Math.Max(1, ViewBag.Page - 5);
                                     int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 6);
                                 }
-                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=1" class="rounded">Trang đầu</a>
-                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@PrevPage" class="rounded">Trang trước</a>
+                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=1&dotuoi=@ViewBag.dotuoi&gioitinh=@ViewBag.gioitinh&sothich=@ViewBag.sothich&mucchitieu=@ViewBag.mucchitieu&trangthaigoiy=true" class="rounded">Trang đầu</a>
+                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@PrevPage&dotuoi=@ViewBag.dotuoi&gioitinh=@ViewBag.gioitinh&sothich=@ViewBag.sothich&mucchitieu=@ViewBag.mucchitieu&trangthaigoiy=true" class="rounded">Trang trước</a>
 
                                 @for (int i = StartPage; i <= EndPage; i++)
                                 {
                                     if (i == ViewBag.Page)
                                     {
-                                        <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@i" class="active rounded">@i</a>
+                                        <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@i&dotuoi=@ViewBag.dotuoi&gioitinh=@ViewBag.gioitinh&sothich=@ViewBag.sothich&mucchitieu=@ViewBag.mucchitieu&trangthaigoiy=true" class="active rounded">@i</a>
                                     }
                                     else
                                     {
-                                        <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@i" class="rounded">@i</a>
+                                        <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@i&dotuoi=@ViewBag.dotuoi&gioitinh=@ViewBag.gioitinh&sothich=@ViewBag.sothich&mucchitieu=@ViewBag.mucchitieu&trangthaigoiy=true" class="rounded">@i</a>
                                     }
                                 }
 
-                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@NextPage" class="rounded">Tiếp theo</a>
-                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@ViewBag.NoOfPages" class="rounded">Trang cuối</a>
+
+                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@NextPage&dotuoi=@ViewBag.dotuoi&gioitinh=@ViewBag.gioitinh&sothich=@ViewBag.sothich&mucchitieu=@ViewBag.mucchitieu&trangthaigoiy=true" class="rounded">Tiếp theo</a>
+                                <a href="/Product?SortColumn=@ViewBag.SortColumn&IconClass=@ViewBag.IconClass&page=@ViewBag.NoOfPages&dotuoi=@ViewBag.dotuoi&gioitinh=@ViewBag.gioitinh&sothich=@ViewBag.sothich&mucchitieu=@ViewBag.mucchitieu&trangthaigoiy=true" class="rounded">Trang cuối</a>
                             </div>
 
                         </div>
