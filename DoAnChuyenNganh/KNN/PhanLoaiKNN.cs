@@ -112,7 +112,7 @@ namespace DoAnChuyenNganh.KNN
         {
             using (var db = new ShopQuanAoEntities())
             {
-                var danhSachKhachHang = db.NguoiDungs.Where(nd => nd.Train == false).ToList();
+                var danhSachKhachHang = db.NguoiDungs.Where(nd => nd.Train == true).ToList();
                 foreach (var kh in danhSachKhachHang)
                 {
                     double tuoi = kh.DoTuoi ?? 0;
@@ -131,7 +131,7 @@ namespace DoAnChuyenNganh.KNN
             using (var db = new ShopQuanAoEntities())
             {
                 var danhSachKhachHangMau = db.NguoiDungs
-                    .Where(nd => nd.Train == false)
+                    .Where(nd => nd.Train == true)
                     .ToList();
                 foreach (var kh in danhSachKhachHangMau)
                 {

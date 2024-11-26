@@ -11,8 +11,7 @@ namespace DoAnChuyenNganh.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class NguoiDung
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -26,12 +25,9 @@ namespace DoAnChuyenNganh.Models
         }
     
         public int NguoiDungID { get; set; }
-        [Index("IX_TenDangNhap", IsUnique = true)]
         public string TenDangNhap { get; set; }
-        [Index("IX_MatKhau", IsUnique = true)]
         public string MatKhau { get; set; }
         public string HoTen { get; set; }
-        [Index("IX_Email", IsUnique = true)]
         public string Email { get; set; }
         public string SoDienThoai { get; set; }
         public string DiaChi { get; set; }

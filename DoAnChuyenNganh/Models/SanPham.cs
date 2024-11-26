@@ -11,8 +11,7 @@ namespace DoAnChuyenNganh.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class SanPham
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -23,9 +22,7 @@ namespace DoAnChuyenNganh.Models
         }
     
         public int SanPhamID { get; set; }
-        [Index("IX_TenSanPham", IsUnique = true)]
         public string TenSanPham { get; set; }
-        [Index("IX_MoTa", IsUnique = true)]
         public string MoTa { get; set; }
         public Nullable<int> SoLuongDaBan { get; set; }
         public Nullable<int> SoSaoTB { get; set; }

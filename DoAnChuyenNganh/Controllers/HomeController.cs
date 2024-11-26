@@ -19,9 +19,9 @@ namespace DoAnChuyenNganh.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            //PhanLoaiKNN kn = new PhanLoaiKNN();
-            //kn.DocDuLieuHuanLuyen();
-            //kn.DocDuLieuTuCSDL();
+            PhanLoaiKNN kn = new PhanLoaiKNN();
+            kn.DocDuLieuHuanLuyen();
+            kn.DocDuLieuTuCSDL();
             var authCookie = Request.Cookies["auth"];
             string tenDangNhap = authCookie != null ? authCookie.Value : null;
             List<ChiTietSanPham> sanPhams = new List<ChiTietSanPham>();
@@ -44,7 +44,7 @@ namespace DoAnChuyenNganh.Controllers
                         .Where(sp => sp.ChiTietSanPham.Any(ctsp => ctsp.SoLuongTonKho > 0 && ctsp.KichHoat == true)) // Chỉ lấy sản phẩm có chi tiết tồn kho > 0
                         .OrderByDescending(sp => sp.SoLuongDaBan) // Ưu tiên sản phẩm có số lượng đã bán nhiều nhất
                         .ThenByDescending(sp => sp.SoSaoTB) // Ưu tiên sản phẩm có đánh giá 5 sao nhiều nhất
-                        .Take(20) // Lấy 20 sản phẩm đầu tiên
+                        .Take(9) // Lấy 9 sản phẩm đầu tiên
                         .ToList();
             }
             //sanPhams = sanPhams
@@ -62,12 +62,27 @@ namespace DoAnChuyenNganh.Controllers
             // Lấy giá tối thiểu và tối đa dựa trên phân khúc
             int giaMin = LayGiaTuPhanKhuc(phanKhucKH, true);
             int giaMax = LayGiaTuPhanKhuc(phanKhucKH, false);
+
+            // Lấy từ khóa độ tuổi từ phân khúc
+            string tuKhoaDoTuoi = LayTuKhoaDoTuoi(phanKhucKH);
+
             var sanPhamsQuery = db.ChiTietSanPhams
-                .Where(sp => sp.Gia >= giaMin && sp.Gia < giaMax && sp.SoLuongTonKho > 0);
+                .Where(sp =>
+                    sp.Gia >= giaMin &&
+                    sp.Gia < giaMax &&
+                    sp.SoLuongTonKho > 0); // Lọc theo mức chi tiêu và tồn kho
+
+            // Lọc sản phẩm theo từ khóa độ tuổi (phân khúc)
+            if (!string.IsNullOrEmpty(tuKhoaDoTuoi))
+            {
+                sanPhamsQuery = sanPhamsQuery
+                    .Where(sp => sp.SanPham.MoTa.ToLower().Contains(tuKhoaDoTuoi.ToLower()));
+            }
+
+            // Lọc sản phẩm theo giới tính
             if (!string.IsNullOrEmpty(gioiTinh))
             {
                 string gioiTinhLower = gioiTinh.ToLower();
-
                 if (gioiTinhLower == "nam")
                 {
                     sanPhamsQuery = sanPhamsQuery.Where(sp =>
@@ -82,13 +97,16 @@ namespace DoAnChuyenNganh.Controllers
                 }
             }
 
+            // Lọc sản phẩm theo sở thích
             if (!string.IsNullOrEmpty(soThich))
             {
-                var soThichArray = soThich.Split(',').Select(st => st.Trim()).ToArray();
+                var soThichArray = soThich.Split(',').Select(st => st.Trim().ToLower()).ToArray();
                 sanPhamsQuery = sanPhamsQuery
-                    .Where(sp => soThichArray.Any(st => sp.SanPham.DanhMuc.TenDanhMuc.Contains(st)));
+                    .Where(sp => soThichArray.Any(st => sp.SanPham.DanhMuc.TenDanhMuc.ToLower().Contains(st)));
             }
-            return sanPhamsQuery.Distinct().ToList();
+
+            // Trả về danh sách các sản phẩm lọc xong
+            return sanPhamsQuery.Distinct().Take(9).ToList();
         }
 
         // Hàm lấy giá tối thiểu và tối đa dựa trên phân khúc
@@ -109,11 +127,24 @@ namespace DoAnChuyenNganh.Controllers
                 case "Thanh niên từ 0 đến 37 tuổi chi tiêu cao":
                 case "Trung niên từ 38 đến 60 tuổi chi tiêu cao":
                 case "Cao tuổi từ 60 tuổi trở lên chi tiêu cao":
-                    return isMin ? 800000: int.MaxValue;
+                    return isMin ? 800000 : int.MaxValue;
 
                 default:
                     return 0;
             }
         }
+
+        // Hàm lấy từ khóa độ tuổi từ phân khúc khách hàng
+        private string LayTuKhoaDoTuoi(string phanKhucKH)
+        {
+            if (phanKhucKH.Contains("Thanh niên"))
+                return "thanh niên";
+            if (phanKhucKH.Contains("Trung niên"))
+                return "trung niên";
+            if (phanKhucKH.Contains("Cao tuổi"))
+                return "cao tuổi";
+            return string.Empty;
+        }
+
     }
 }

@@ -53,7 +53,7 @@ namespace DoAnChuyenNganh.Controllers
                     VaiTro = "user",
                     NgayTao = DateTime.Now,
                     KichHoat = true,
-                    Train = true
+                    Train = false
                 };
 
                 // Phân loại khách hàng mới
