@@ -17,13 +17,13 @@ namespace DoAnChuyenNganh.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Size()
         {
-            this.ChiTietSanPham = new HashSet<ChiTietSanPham>();
+            this.ChiTietSanPhams = new HashSet<ChiTietSanPham>();
         }
     
         public int SizeID { get; set; }
         public string SizeName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ChiTietSanPham> ChiTietSanPham { get; set; }
+        public virtual ICollection<ChiTietSanPham> ChiTietSanPhams { get; set; }
     }
 }

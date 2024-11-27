@@ -1,0 +1,131 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+<h2 class="text-center text-primary my-4">Thống Kê Doanh Thu và Đơn Hàng</h2>
+
+<div class="row" style="display: flex; align-items: stretch;">
+    <!-- Doanh Thu -->
+    <div class="col-md-6 mb-4" style="display: flex;">
+        <div class="card shadow-sm" style="flex: 1; border-radius: 10px; overflow: hidden;">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Doanh Thu</h4>
+            </div>
+            <div class="card-body">
+                <p class="mb-2"><strong>Hôm nay:</strong> <span class="text-success">@ViewBag.DoanhThuTheoNgay</span></p>
+                <p class="mb-2"><strong>Tuần này:</strong> <span class="text-success">@ViewBag.DoanhThuTheoTuan</span></p>
+                <p class="mb-2"><strong>Tháng này:</strong> <span class="text-success">@ViewBag.DoanhThuTheoThang</span></p>
+                <p><strong>Năm nay:</strong> <span class="text-success">@ViewBag.DoanhThuTheoNam</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Đơn Hàng -->
+    <div class="col-md-6 mb-4" style="display: flex;">
+        <div class="card shadow-sm" style="flex: 1; border-radius: 10px; overflow: hidden;">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Đơn Hàng</h4>
+            </div>
+            <div class="card-body">
+                <p class="mb-2"><strong>Số đơn hàng đã bán:</strong> <span class="text-primary">@ViewBag.SoDonHang</span></p>
+                <p class="mb-2"><strong>Số người mua:</strong> <span class="text-primary">@ViewBag.SoNguoiMua</span></p>
+                <p><strong>Số sản phẩm bán được:</strong> <span class="text-primary">@ViewBag.SoSanPhamBanDuoc</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Biểu Đồ Thống Kê Doanh Thu</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="revenueChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Thêm một chút CSS -->
+<style>
+    h2 {
+        font-weight: bold;
+    }
+
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng */
+    }
+
+    .card-header {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .card-body p {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .text-success {
+        font-weight: bold;
+    }
+
+    .text-primary {
+        font-weight: bold;
+    }
+
+
+    .card:hover {
+        transform: translateY(-10px); /* Nâng thẻ lên khi hover */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Thêm đổ bóng */
+    }
+
+    .equal-height {
+        display: flex;
+        align-items: stretch; /* Căn chỉnh thẻ con */
+    }
+
+        .equal-height .card {
+            flex: 1;
+        }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Dữ liệu từ ViewBag
+    const revenueData = @Html.Raw(Json.Encode(ViewBag.DoanhThuTungNgay));
+
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'],
+            datasets: [{
+                label: 'Doanh Thu',
+                data: revenueData,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+            },
+            animation: {
+                duration: 1500, // Thời gian chạy hiệu ứng
+                easing: 'easeOutBounce' // Kiểu hiệu ứng
+            }
+        }
+    });
+
+</script>
+

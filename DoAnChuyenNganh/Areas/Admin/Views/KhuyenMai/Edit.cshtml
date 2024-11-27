@@ -1,0 +1,100 @@
+﻿@model DoAnChuyenNganh.Models.KhuyenMai
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+<div class="d-flex justify-content-center align-items-center vh-200">
+    <div class="w-50">
+        @using (Html.BeginForm("Edit", "KhuyenMai", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="mb-3">
+                <h2 class="text-center">Sửa Chương Trình Khuyến Mãi</h2>
+            </div>
+
+            <!-- SanPhamID (Hidden Field) -->
+            @Html.HiddenFor(model => model.MaKhuyenMai)
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.TenChuongTrinhKM, "Tên khuyến mãi")
+                @Html.TextBoxFor(model => model.TenChuongTrinhKM, new { @class = "form-control" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.MoTa, "Mô tả khuyến mãi")
+                @Html.TextAreaFor(model => model.MoTa, new { @class = "form-control", rows = 3 })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.MucGiam, "Phần trăm giảm giá (%)")
+                @Html.TextBoxFor(model => model.MucGiam, new { @class = "form-control", type = "number", min = "0", max = "100", step = "1" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.NgayBatDau, "Ngày bắt đầu")
+                @Html.TextBoxFor(model => model.NgayBatDau, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "NgayBatDau" })
+            </div>
+
+            <div class="mb-3">
+                @Html.LabelFor(model => model.NgayKetThuc, "Ngày kết thúc")
+                @Html.TextBoxFor(model => model.NgayKetThuc, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", id = "NgayKetThuc" })
+            </div>
+
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Lưu Khuyến Mãi</button>
+                <a href="/Admin/KhuyenMai" class="btn btn-danger">Hủy</a>
+            </div>
+
+            <div class="mt-4">
+                <h3>Danh sách Sản Phẩm Được Khuyến Mãi</h3>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Mã Sản Phẩm</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th>Mô Tả</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (ViewBag.ChiTietKhuyenMai != null)
+                        {
+                            foreach (var chiTiet in ViewBag.ChiTietKhuyenMai)
+                            {
+                        <tr>
+                            <!-- Mã Sản Phẩm -->
+                            <td>@chiTiet.SanPhamID</td>
+
+                            <!-- Tên Sản Phẩm -->
+                            <td>@chiTiet.SanPham.TenSanPham</td>
+
+
+                            <td>@chiTiet.SanPham.MoTa</td>
+                            
+
+                            <!-- Hành động -->
+                            <td>
+                                <div class="btn-group-vertical" style="width: 100%;">
+                                    <a href="/Admin/KhuyenMai/XoaSanPhamKhoiKhuyenMai?id=@chiTiet.ChiTietKhuyenMaiID&idKhuyenMai=@Model.MaKhuyenMai"
+                                       class="btn btn-sm btn-danger text-white mb-2">Xóa</a>
+                                </div>
+                            </td>
+                        </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">Không có sản phẩm nào trong chương trình khuyến mãi này.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <a href="/Admin/KhuyenMai/AddSPKhuyenMai/@Model.MaKhuyenMai" class="btn btn-primary">Thêm Sản Phẩm Vào Khuyến Mãi</a>
+
+        }
+    </div>
+</div>
+
+

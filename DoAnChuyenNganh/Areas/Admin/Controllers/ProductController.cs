@@ -119,6 +119,7 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
             {
                 ctsp.SanPhamID = id;
                 ctsp.KichHoat = true;
+                ctsp.GiaDuocGiam = 0;
                 db.ChiTietSanPhams.Add(ctsp);
                 db.SaveChanges();
                 return RedirectToAction("Index");

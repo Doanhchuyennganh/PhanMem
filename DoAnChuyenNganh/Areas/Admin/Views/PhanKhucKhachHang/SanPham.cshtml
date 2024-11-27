@@ -1,0 +1,131 @@
+﻿@model List<DoAnChuyenNganh.Models.ChiTietSanPham>
+@{
+    ViewBag.Title = "SanPham";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+<form action="/Admin/PhanKhucKhachHang/SanPham">
+    <div class="input-group w-100 mx-auto d-flex">
+        <input type="search" name="search" class="form-control p-3" placeholder="Tìm Kiếm sản phẩm" aria-describedby="search-icon-1" value="@ViewBag.search"
+               style="border-radius: 20px 0 0 20px;" />
+        <input type="search" name="phankhuc" hidden value="@ViewBag.phankhuc"
+               style="border-radius: 20px 0 0 20px;" />
+        <button type="submit" id="search-icon-1" class="input-group-text p-3"
+                style="background-color: #ccc; border-radius: 0 20px 20px 0; border: none;">
+            <i class="fa fa-search"></i>
+        </button>
+    </div>
+</form>
+<div class="col-lg-9">
+    <div class="row g-4 justify-content-center">
+
+        @foreach (var a in Model)
+        {
+            <div class="col-md-6 col-lg-6 col-xl-4">
+                <div class="rounded position-relative product-item" style="display: flex; flex-direction: column; height: 100%;">
+                    <div class="product-img" style="flex-shrink: 0;">
+                        @if (a.SoLuongTonKho > 0 && a.KichHoat == true)
+                        {
+                            <a href="/Admin/PhanKhucKhachHang/Details/@a.SanPhamID">
+                                <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed" alt="">
+                            </a>
+                        }
+                        else
+                        {
+                            <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed grayscale" alt="Hết hàng">
+                        }
+                    </div>
+                    <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
+                        <p>
+                            @a.SanPham.DanhMuc.TenDanhMuc
+                        </p>
+                    </div>
+                    <div class="p-4 border border-secondary border-top-0 rounded-bottom" style="flex-grow: 1;">
+                        <a href="/Admin/PhanKhucKhachHang/Details/@a.SanPhamID">
+                            <h4>@a.SanPham.TenSanPham</h4>
+                        </a>
+                        @if (a.GiaDuocGiam == 0)
+                        {
+                            <a href="/Admin/PhanKhucKhachHang/Details/@a.SanPhamID">
+                                <span class="price-discounted" style="margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif; color: green; font-weight: bold;">
+                                    @a.Gia.ToString("N0") VNĐ
+                                </span>
+                            </a>
+                        }
+                        else
+                        {
+
+                            var GiaThucTe = a.Gia - a.GiaDuocGiam;
+
+                            <a href="/Admin/PhanKhucKhachHang/Details/@a.SanPhamID">
+                                <h4 class="price-original" style="color: gray; font-size: 1em; text-decoration: none;">
+                                    <span class="original-price" style="text-decoration: line-through; margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif;">
+                                        @a.Gia.ToString("N0") VNĐ
+                                    </span>
+                                    <span class="discount-badge" style="background-color: red; color: white; font-size: 1em; font-weight: bold; padding: 2px 6px; border-radius: 4px; font-family: 'Arial', sans-serif;">
+                                        -@((a.GiaDuocGiam ?? 0).ToString("N0")) VNĐ
+                                    </span>
+                                </h4>
+                                <h4 class="price-discounted" style="color: green; font-size: 1em; font-weight: bold; font-family: 'Arial', sans-serif;">
+                                    @((GiaThucTe ?? 0).ToString("N0")) VNĐ
+                                </h4>
+                            </a>
+                        }
+                        <!-- Hiển thị số sao -->
+                        <div class="rating">
+                            @if (a.SanPham.SoSaoTB != 0)
+                            {
+                                // Nếu có đánh giá (AverageRating không null), hiển thị sao
+                                for (int i = 1; i <= 5; i++)
+                                {
+                                    <i class="fa fa-star" style="color:@(i <= a.SanPham.SoSaoTB ? "gold" : "gray")"></i>
+                                }
+                            }
+                            else
+                            {
+                                // Nếu không có đánh giá, không hiển thị sao
+                                <span>Chưa có đánh giá</span>
+                            }
+                        </div>
+                        <!-- Hiển thị số lượt đã bán -->
+                        <p class="text-muted mb-2">Đã bán: @a.SanPham.SoLuongDaBan</p>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="pagination d-flex justify-content-center mt-5">
+            @{
+                int PrevPage = ViewBag.Page - 1;
+                if (PrevPage <= 0)
+                {
+                    PrevPage = 1;
+                }
+                int NextPage = ViewBag.Page + 1;
+                if (NextPage > ViewBag.NoOfPages)
+                {
+                    NextPage = ViewBag.NoOfPages;
+                }
+
+                int StartPage = Math.Max(1, ViewBag.Page - 5);
+                int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 6);
+            }
+            <a href="/Admin/PhanKhucKhachHang/SanPham?phankhuc=@ViewBag.phankhuc&page=1&search=@ViewBag.search" class="rounded">Trang đầu</a>
+            <a href="/Admin/PhanKhucKhachHang/SanPham?phankhuc=@ViewBag.phankhuc&page=@PrevPage&search=@ViewBag.search" class="rounded">Trang trước</a>
+
+            @for (int i = StartPage; i <= EndPage; i++)
+            {
+                if (i == ViewBag.Page)
+                {
+                    <a href="/Admin/PhanKhucKhachHang/SanPham?phankhuc=@ViewBag.phankhuc&page=@i&search=@ViewBag.search" class="active rounded">@i</a>
+                }
+                else
+                {
+                    <a href="/Admin/PhanKhucKhachHang/SanPham?phankhuc=@ViewBag.phankhuc&page=@i&search=@ViewBag.search">@i</a>
+                }
+            }
+
+            <a href="/Admin/PhanKhucKhachHang/SanPham?phankhuc=@ViewBag.phankhuc&page=@NextPage&search=@ViewBag.search">Tiếp theo</a>
+            <a href="/Admin/PhanKhucKhachHang/SanPham?phankhuc=@ViewBag.phankhuc&page=@ViewBag.NoOfPages&search=@ViewBag.search">Trang cuối</a>
+        </div>
+
+    </div>
+</div>

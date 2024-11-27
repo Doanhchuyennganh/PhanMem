@@ -1,0 +1,172 @@
+﻿@model DoAnChuyenNganh.Models.NguoiDung
+
+@{
+    ViewBag.Title = "Thông Tin Cá Nhân";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@section css{
+    <style>
+        /* Tối ưu layout, căn chỉnh tốt hơn */
+        .container {
+            max-width: 800px;
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* Tạo ra các thẻ input đẹp hơn */
+        .form-control {
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Thêm hiệu ứng hover cho các button */
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+
+        /* Tạo margin giữa các thẻ tr */
+        .table td, .table th {
+            vertical-align: middle;
+            padding: 12px 15px;
+        }
+
+        /* Thêm màu sắc cho các header */
+        .table th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: bold;
+        }
+
+        /* Tạo form đẹp mắt với margin và padding hợp lý */
+        .table-bordered {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+        }
+    </style>}
+<div style="height:180px"></div>
+<div class="container">
+    <h2 class="text-center">Thông Tin Cá Nhân</h2>
+
+    @using (Html.BeginForm("ThongTinCaNhan", "User", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+    {
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <table class="table table-bordered">
+                    <!-- Input ẩn -->
+                    @Html.HiddenFor(model => model.NguoiDungID)
+
+                    <tr>
+                        <th>Tên Đăng Nhập</th>
+                        <td>
+                            @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Mật khẩu</th>
+                        <td style="text-align: left;">
+                            <p style="display: inline-block; margin-right: 10px;">**********</p>
+                            <a href="@Url.Action("XacThuc", "User")" class="btn btn-primary btn-sm" style="float: right;">Đổi mật khẩu</a>
+                        </td>
+                    </tr>
+
+
+
+
+
+                    <tr>
+                        <th>Email</th>
+                        <td>
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @readonly = "readonly" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Họ Tên</th>
+                        <td>
+                            @Html.TextBoxFor(model => model.HoTen, new { @class = "form-control" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Số Điện Thoại</th>
+                        <td>
+                            @Html.TextBoxFor(model => model.SoDienThoai, new { @class = "form-control" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Địa Chỉ</th>
+                        <td>
+                            @Html.TextBoxFor(model => model.DiaChi, new { @class = "form-control" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Sở thích</th>
+                        <td>
+                            @Html.DropDownListFor(
+                                model => model.SoThich,
+                                new SelectList(new[] {
+                                    new { Value = "Thể thao", Text = "Thể thao năng động" },
+                                    new { Value = "Công sở, lịch sự", Text = "Công sở, lịch sự" },
+                                    new { Value = "Đơn giản, thường ngày", Text = "Đơn giản, thường ngày" },
+                                    new { Value = "Thời trang du lịch", Text = "Thời trang du lịch" },
+                                    new { Value = "Thời trang hot trend", Text = "Thời trang hot trend" }
+                                }, "Value", "Text"),
+                                new { @class = "form-control" }
+                            )
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Giới Tính</th>
+                        <td>
+                            @Html.DropDownListFor(model => model.GioiTinh, new List<SelectListItem>
+                            {
+                                new SelectListItem { Text = "Nam", Value = "Nam" },
+                                new SelectListItem { Text = "Nữ", Value = "Nữ" },
+                                new SelectListItem { Text = "Khác", Value = "Khác" }
+                            }, "Chọn giới tính", new { @class = "form-control" })
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Mức Chi Tiêu</th>
+                        <td>
+                            <select name="MucChiTieu" class="form-control">
+                                @for (int i = 5000000; i <= 1000000000; i += 5000000)
+                                {
+                                    <option value="@i" @(Model.MucChiTieu == i ? "selected" : "")>
+                                        @i.ToString("N0", System.Globalization.CultureInfo.GetCultureInfo("vi-VN"))
+                                    </option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Độ Tuổi</th>
+                        <td>
+                            @Html.TextBoxFor(model => model.DoTuoi, new { @class = "form-control" })
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Cập Nhật</button>
+                </div>
+            </div>
+        </div>
+}

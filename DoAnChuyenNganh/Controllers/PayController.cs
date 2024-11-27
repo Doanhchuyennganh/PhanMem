@@ -43,8 +43,25 @@ namespace DoAnChuyenNganh.Controllers
             {
                 foreach (var item in cart)
                 {
-                    totalPrice += item.ChiTietSanPham.Gia * item.SoLuong;
-                    totalQuantity += item.SoLuong;
+                    if (item.SoLuong <= item.ChiTietSanPham.SoLuongTonKho)
+                    {
+                        totalPrice += item.ChiTietSanPham.Gia * item.SoLuong;
+                        totalQuantity += item.SoLuong;
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Số lượng sản phẩm không hợp lệ, sản phẩm: "
+                        + item.ChiTietSanPham.SanPham.TenSanPham.ToString()
+                        + " Size: " + item.ChiTietSanPham.Size.SizeName
+                        + " Màu: " + item.ChiTietSanPham.Mau.MauName
+                        + " Chỉ còn: " + item.ChiTietSanPham.SoLuongTonKho.ToString()
+                        + " sản phẩm !!!";
+
+
+                        return RedirectToAction("Index", "Cart");
+
+                    }
+
                 }
             }
             ViewBag.SLSP = totalQuantity;
@@ -74,7 +91,7 @@ namespace DoAnChuyenNganh.Controllers
                     return RedirectToAction("Index");
                 }
                 // Tính tổng giá trị đơn hàng
-                decimal totalPrice = cart.Sum(item => item.ChiTietSanPham.Gia * item.SoLuong);
+                decimal totalPrice = cart.Sum(item => (item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)) * item.SoLuong);
                 TempData["PaymentMethod"] = paymentMethod; // Lưu giá trị paymentMethod vào TempData
                 int amountToSend = Convert.ToInt32(totalPrice);
 
@@ -132,7 +149,7 @@ namespace DoAnChuyenNganh.Controllers
             }
 
             // Tính tổng giá trị đơn hàng
-            decimal totalPrice = cart.Sum(item => item.ChiTietSanPham.Gia * item.SoLuong);
+            decimal totalPrice = cart.Sum(item => (item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)) * item.SoLuong);
             // Tạo đơn hàng mới
             var newOrder = new DonHang
             {
@@ -157,7 +174,7 @@ namespace DoAnChuyenNganh.Controllers
                     DonHangID = newOrder.DonHangID,
                     SanPhamID = item.SanPhamID,
                     SoLuong = item.SoLuong,
-                    DonGia = item.ChiTietSanPham.Gia
+                    DonGia = item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)
                 };
                 db.ChiTietDonHangs.Add(orderDetail);
 
@@ -189,8 +206,8 @@ namespace DoAnChuyenNganh.Controllers
                     orderDetails += $"  Size: {item.ChiTietSanPham.Size.SizeName}\n";
                     orderDetails += $"  Màu: {item.ChiTietSanPham.Mau.MauName}\n";
                     orderDetails += $"  Số lượng: {item.SoLuong}\n";
-                    orderDetails += $"  Đơn giá: {item.ChiTietSanPham.Gia:C}\n"; // Lấy giá từ ChiTietSanPham
-                    orderDetails += $"  Thành tiền: {(item.ChiTietSanPham.Gia * item.SoLuong):C}\n\n"; // Tính thành tiền
+                    orderDetails += $"  Đơn giá: {item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0):C}\n"; // Lấy giá từ ChiTietSanPham
+                    orderDetails += $"  Thành tiền: {(item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)) * item.SoLuong:C}\n\n"; // Tính thành tiền
                 }
 
 

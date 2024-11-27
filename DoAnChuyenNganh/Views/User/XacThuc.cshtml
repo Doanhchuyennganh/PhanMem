@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "XacThuc";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div style="height:50px"></div>
+
+@section css{
+    <style>
+        .form-group {
+            margin-bottom: 10px; /* Tạo khoảng cách 10px giữa textbox và các phần tử bên dưới */
+        }
+
+        .d-flex {
+            gap: 10px; /* Khoảng cách giữa 2 nút */
+        }
+
+        .w-48 {
+            width: 48%;
+        }
+
+        .disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .countdown {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger text-center">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-6 col-lg-4">
+            <div class="card p-4 shadow-sm">
+                <h3 class="text-center mb-4">Vui lòng kiểm tra email của bạn và nhập mã xác thực dưới đây:</h3>
+                <form method="post" action="@Url.Action("XacThuc", "User")" id="verificationForm">
+                    <div class="form-group mb-3">
+                        <label for="maXacThuc">Mã xác thực</label>
+                        <input type="text" id="maXacThuc" name="maXacThuc" class="form-control" />
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <button type="submit" class="btn btn-primary w-48" id="submitBtn">Xác thực</button>
+                        <a href="@Url.Action("ThongTinCaNhan", "User")" class="btn btn-secondary w-48">Quay về</a>
+                    </div>
+                </form>
+
+                <!-- Nút gửi lại mã xác thực -->
+                <div class="text-center">
+                    <a href="@Url.Action("GuiLaiMaXacThuc", "User")" class="btn btn-secondary w-48">Gửi lại mã xác thực</a>
+                </div>
+
+                <!-- Hiển thị thời gian đếm ngược -->
+                <div class="text-center countdown">
+                    <div id="countdownTimer" style="color: red; font-size: 16px;">30 giây còn lại để nhập mã.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Hàm đếm ngược
+    let countdown = 30;
+    const countdownElement = document.getElementById('countdownTimer');
+    const resendButton = document.getElementById('resendButton');
+    let countdownInterval;
+
+    // Hiển thị thời gian đếm ngược
+    function startCountdown() {
+        countdownInterval = setInterval(function () {
+            countdown--; // Giảm giá trị của countdown
+
+            // Cập nhật thời gian đếm ngược
+            countdownElement.textContent = countdown + ' giây còn lại để nhập mã.';
+
+            // Kiểm tra khi countdown <= 0
+            if (countdown <= 0) {
+                clearInterval(countdownInterval); // Dừng đếm ngược
+                resendButton.classList.remove('disabled'); // Bỏ disabled khỏi nút gửi lại
+                resendButton.disabled = false; // Bật lại nút gửi lại
+                countdownElement.textContent = 'Hết thời gian!'; // Cập nhật thông báo hết thời gian
+            }
+        }, 1000); // Đếm ngược mỗi giây
+    }
+
+    // Gọi hàm startCountdown để bắt đầu đếm ngược
+    startCountdown();
+
+    // Kiểm tra nếu người dùng đã nhập sai mã hoặc thời gian đã hết
+    document.getElementById('verificationForm').onsubmit = function (event) {
+        const maXacThucInput = document.getElementById('maXacThuc').value;
+
+        // Kiểm tra nếu người dùng chưa nhập mã
+        if (maXacThucInput === "") {
+            event.preventDefault();
+            alert("Mã xác thực không được để trống!");
+        } else {
+            // Nếu mã xác thực sai, hiển thị thông báo
+            const validCode = "@Session["MaXacThuc"]"; // Mã xác thực từ Session
+            if (maXacThucInput !== validCode) {
+                event.preventDefault(); // Ngừng gửi form
+                alert("Mã xác thực không đúng!");
+            }
+        }
+
+        // Kiểm tra nếu thời gian đếm ngược đã hết
+        if (countdown <= 0) {
+            event.preventDefault(); // Ngừng gửi form
+            alert("Mã xác thực đã hết hạn! Vui lòng yêu cầu mã mới.");
+        }
+    };
+</script>

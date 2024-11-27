@@ -41,7 +41,6 @@ namespace DoAnChuyenNganh.Controllers
         public ActionResult Index()
         {
             CheckUserLoggedIn();
-
             int userId = GetCurrentUserId();
             List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == userId && g.ChiTietSanPham.SoLuongTonKho > 0).ToList();
             decimal totalPrice = 0;
@@ -54,7 +53,7 @@ namespace DoAnChuyenNganh.Controllers
             {
                 foreach (var item in cart)
                 {
-                    totalPrice += item.ChiTietSanPham.Gia * item.SoLuong;
+                    totalPrice += (item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)) * item.SoLuong;
                     totalQuantity += item.SoLuong;
                 }
             }
@@ -64,17 +63,19 @@ namespace DoAnChuyenNganh.Controllers
             }
             ViewBag.SLSP = totalQuantity;
             ViewBag.TotalPrice = totalPrice;
+            if (TempData["ErrorMessage"] != null)
+            {
+                // Lấy thông báo lỗi và gán vào ViewBag để hiển thị trên view
+                ViewBag.ErrorMessage = TempData["ErrorMessage"].ToString();
+            }
             return View(cart);
         }
 
         // Thêm sản phẩm vào giỏ hàng
         public ActionResult Add(int? id, int? sizeID, int? colorID, string returnUrl)
         {
-            var checkLoginResult = CheckUserLoggedIn();
-            if (checkLoginResult != null)
-            {
-                return checkLoginResult;
-            }
+            CheckUserLoggedIn();
+            int userId = GetCurrentUserId();
 
             if (id.HasValue && sizeID.HasValue && colorID.HasValue)
             {
@@ -88,7 +89,7 @@ namespace DoAnChuyenNganh.Controllers
                     return RedirectToAction("Index", "Product");
                 }
 
-                int userId = GetCurrentUserId();
+
 
                 // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
                 var cartItem = db.GioHangs.FirstOrDefault(row =>
@@ -131,10 +132,9 @@ namespace DoAnChuyenNganh.Controllers
         public ActionResult UpdateQuantity(int quan, int proid)
         {
             CheckUserLoggedIn();
-
+            int userId = GetCurrentUserId();
             if (quan > 0)
             {
-                int userId = GetCurrentUserId();
 
                 // Find the cart item for the user and product
                 GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
@@ -168,8 +168,8 @@ namespace DoAnChuyenNganh.Controllers
         public ActionResult DeleteQuantity(int proid)
         {
             CheckUserLoggedIn();
-
             int userId = GetCurrentUserId();
+
             GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
 
             if (cartItem != null)

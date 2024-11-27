@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Danh sách thành viên";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@{
+    ViewBag.Title = "Danh sách thành viên";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div style="height:200px"></div>
+<h2 class="text-center mt-4">Danh sách thành viên nhóm phát triển</h2>
+
+<div class="container mt-5">
+    <div class="row g-4">
+        <!-- Thành viên 1 - Nhóm Trưởng -->
+        <div class="col-md-4">
+            <div class="card border-primary shadow h-100">
+                <div class="card-body text-center">
+                    <h3 class="card-title text-primary">Bùi Huy Thắng</h3>
+                    <h5 class="badge bg-success mb-3">Nhóm Trưởng</h5>
+                    <p><strong>MSSV:</strong> 2001210172</p>
+                    <p><strong>Lớp:</strong> 12DHTH02</p>
+                    <p><strong>Trường:</strong> Trường Đại học Công Thương</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thành viên 2 -->
+        <div class="col-md-4">
+            <div class="card border-secondary shadow h-100">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Trần Thế Ngọc Mai</h3>
+                    <p><strong>MSSV:</strong> 2005217964</p>
+                    <p><strong>Lớp:</strong> 12DHTH03</p>
+                    <p><strong>Trường:</strong> Trường Đại học Công Thương</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thành viên 3 -->
+        <div class="col-md-4">
+            <div class="card border-secondary shadow h-100">
+                <div class="card-body text-center">
+                    <h3 class="card-title">Phạm Đình Hùng</h3>
+                    <p><strong>MSSV:</strong> 2001215803</p>
+                    <p><strong>Lớp:</strong> 12DHTH17</p>
+                    <p><strong>Trường:</strong> Trường Đại học Công Thương</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    h2 {
+        font-family: 'Arial', sans-serif;
+        color: #333;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .card {
+        border-radius: 15px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+    .card-title {
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .badge {
+        font-size: 1rem;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+</style>
+
