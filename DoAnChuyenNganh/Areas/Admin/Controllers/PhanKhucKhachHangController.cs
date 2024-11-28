@@ -84,8 +84,23 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
             // Lấy giá tối thiểu và tối đa dựa trên phân khúc
             int giaMin = LayGiaTuPhanKhuc(phanKhucKH, true);
             int giaMax = LayGiaTuPhanKhuc(phanKhucKH, false);
+
+            // Lấy từ khóa độ tuổi từ phân khúc
+            string tuKhoaDoTuoi = LayTuKhoaDoTuoi(phanKhucKH);
+
             var sanPhamsQuery = db.ChiTietSanPhams
-                .Where(sp => sp.Gia >= giaMin && sp.Gia < giaMax && sp.SoLuongTonKho > 0);
+                .Where(sp =>
+                    sp.Gia >= giaMin &&
+                    sp.Gia < giaMax &&
+                    sp.SoLuongTonKho > 0); // Lọc theo mức chi tiêu và tồn kho
+
+            // Lọc sản phẩm theo từ khóa độ tuổi (phân khúc)
+            if (!string.IsNullOrEmpty(tuKhoaDoTuoi))
+            {
+                sanPhamsQuery = sanPhamsQuery
+                    .Where(sp => sp.SanPham.MoTa.ToLower().Contains(tuKhoaDoTuoi.ToLower()));
+            }
+            // Trả về danh sách các sản phẩm lọc xong
             return sanPhamsQuery.Distinct().ToList();
         }
 
@@ -112,6 +127,16 @@ namespace DoAnChuyenNganh.Areas.Admin.Controllers
                 default:
                     return 0;
             }
+        }
+        private string LayTuKhoaDoTuoi(string phanKhucKH)
+        {
+            if (phanKhucKH.Contains("Thanh niên"))
+                return "thanh niên";
+            if (phanKhucKH.Contains("Trung niên"))
+                return "trung niên";
+            if (phanKhucKH.Contains("Cao tuổi"))
+                return "cao tuổi";
+            return string.Empty;
         }
     }
 }

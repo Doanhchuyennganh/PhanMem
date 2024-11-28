@@ -17,11 +17,11 @@ namespace DoAnChuyenNganh.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public NguoiDung()
         {
-            this.DonHang = new HashSet<DonHang>();
-            this.DonHang1 = new HashSet<DonHang>();
-            this.GioHang = new HashSet<GioHang>();
-            this.PhanHoi = new HashSet<PhanHoi>();
-            this.ThongTinGiaoHang = new HashSet<ThongTinGiaoHang>();
+            this.DonHangs = new HashSet<DonHang>();
+            this.DonHangs1 = new HashSet<DonHang>();
+            this.GioHangs = new HashSet<GioHang>();
+            this.PhanHois = new HashSet<PhanHoi>();
+            this.ThongTinGiaoHangs = new HashSet<ThongTinGiaoHang>();
         }
     
         public int NguoiDungID { get; set; }
@@ -42,14 +42,14 @@ namespace DoAnChuyenNganh.Models
         public Nullable<bool> KichHoat { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DonHang> DonHang { get; set; }
+        public virtual ICollection<DonHang> DonHangs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DonHang> DonHang1 { get; set; }
+        public virtual ICollection<DonHang> DonHangs1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GioHang> GioHang { get; set; }
+        public virtual ICollection<GioHang> GioHangs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PhanHoi> PhanHoi { get; set; }
+        public virtual ICollection<PhanHoi> PhanHois { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ThongTinGiaoHang> ThongTinGiaoHang { get; set; }
+        public virtual ICollection<ThongTinGiaoHang> ThongTinGiaoHangs { get; set; }
     }
 }

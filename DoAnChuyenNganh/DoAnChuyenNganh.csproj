@@ -161,11 +161,14 @@
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.2.2\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.2.2\lib\net45\Microsoft.Owin.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=4.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.4.2.2\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
@@ -252,6 +255,7 @@
     <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -388,31 +392,27 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\style.css" />
     <Content Include="Global.asax" />
-    <Content Include="img\aothoitrang.jpg" />
     <Content Include="img\hinh1.jpg" />
-    <Content Include="img\hinh10.jpg" />
     <Content Include="img\hinh100.jpg" />
     <Content Include="img\hinh101.jpg" />
     <Content Include="img\hinh102.jpg" />
     <Content Include="img\hinh103.jpg" />
+    <Content Include="img\hinh1033.jpg" />
     <Content Include="img\hinh104.jpg" />
     <Content Include="img\hinh105.jpg" />
     <Content Include="img\hinh106.jpg" />
     <Content Include="img\hinh107.jpg" />
     <Content Include="img\hinh108.jpg" />
     <Content Include="img\hinh109.jpg" />
-    <Content Include="img\hinh11.jpg" />
     <Content Include="img\hinh110.jpg" />
     <Content Include="img\hinh111.jpg" />
     <Content Include="img\hinh112.jpg" />
     <Content Include="img\hinh113.jpg" />
     <Content Include="img\hinh114.jpg" />
     <Content Include="img\hinh115.jpg" />
-    <Content Include="img\hinh116.jpg" />
     <Content Include="img\hinh117.jpg" />
     <Content Include="img\hinh118.jpg" />
     <Content Include="img\hinh119.jpg" />
-    <Content Include="img\hinh12.jpg" />
     <Content Include="img\hinh120.jpg" />
     <Content Include="img\hinh121.jpg" />
     <Content Include="img\hinh122.jpg" />
@@ -423,7 +423,6 @@
     <Content Include="img\hinh127.jpg" />
     <Content Include="img\hinh128.jpg" />
     <Content Include="img\hinh129.jpg" />
-    <Content Include="img\hinh13.jpg" />
     <Content Include="img\hinh130.jpg" />
     <Content Include="img\hinh131.jpg" />
     <Content Include="img\hinh132.jpg" />
@@ -434,7 +433,6 @@
     <Content Include="img\hinh137.jpg" />
     <Content Include="img\hinh138.jpg" />
     <Content Include="img\hinh139.jpg" />
-    <Content Include="img\hinh14.jpg" />
     <Content Include="img\hinh140.jpg" />
     <Content Include="img\hinh141.jpg" />
     <Content Include="img\hinh142.jpg" />
@@ -445,7 +443,6 @@
     <Content Include="img\hinh147.jpg" />
     <Content Include="img\hinh148.jpg" />
     <Content Include="img\hinh149.jpg" />
-    <Content Include="img\hinh15.jpg" />
     <Content Include="img\hinh150.jpg" />
     <Content Include="img\hinh151.jpg" />
     <Content Include="img\hinh152.jpg" />
@@ -456,7 +453,6 @@
     <Content Include="img\hinh157.jpg" />
     <Content Include="img\hinh158.jpg" />
     <Content Include="img\hinh159.jpg" />
-    <Content Include="img\hinh16.jpg" />
     <Content Include="img\hinh160.jpg" />
     <Content Include="img\hinh161.jpg" />
     <Content Include="img\hinh162.jpg" />
@@ -467,7 +463,6 @@
     <Content Include="img\hinh167.jpg" />
     <Content Include="img\hinh168.jpg" />
     <Content Include="img\hinh169.jpg" />
-    <Content Include="img\hinh17.jpg" />
     <Content Include="img\hinh170.jpg" />
     <Content Include="img\hinh171.jpg" />
     <Content Include="img\hinh172.jpg" />
@@ -478,7 +473,6 @@
     <Content Include="img\hinh177.jpg" />
     <Content Include="img\hinh178.jpg" />
     <Content Include="img\hinh179.jpg" />
-    <Content Include="img\hinh18.jpg" />
     <Content Include="img\hinh180.jpg" />
     <Content Include="img\hinh181.jpg" />
     <Content Include="img\hinh182.jpg" />
@@ -489,7 +483,6 @@
     <Content Include="img\hinh187.jpg" />
     <Content Include="img\hinh188.jpg" />
     <Content Include="img\hinh189.jpg" />
-    <Content Include="img\hinh19.jpg" />
     <Content Include="img\hinh190.jpg" />
     <Content Include="img\hinh191.jpg" />
     <Content Include="img\hinh192.jpg" />
@@ -500,8 +493,6 @@
     <Content Include="img\hinh197.jpg" />
     <Content Include="img\hinh198.jpg" />
     <Content Include="img\hinh199.jpg" />
-    <Content Include="img\hinh2.jpg" />
-    <Content Include="img\hinh20.jpg" />
     <Content Include="img\hinh200.jpg" />
     <Content Include="img\hinh201.jpg" />
     <Content Include="img\hinh202.jpg" />
@@ -512,7 +503,6 @@
     <Content Include="img\hinh207.jpg" />
     <Content Include="img\hinh208.jpg" />
     <Content Include="img\hinh209.jpg" />
-    <Content Include="img\hinh21.jpg" />
     <Content Include="img\hinh210.jpg" />
     <Content Include="img\hinh211.jpg" />
     <Content Include="img\hinh212.jpg" />
@@ -523,7 +513,6 @@
     <Content Include="img\hinh217.jpg" />
     <Content Include="img\hinh218.jpg" />
     <Content Include="img\hinh219.jpg" />
-    <Content Include="img\hinh22.jpg" />
     <Content Include="img\hinh220.jpg" />
     <Content Include="img\hinh221.jpg" />
     <Content Include="img\hinh222.jpg" />
@@ -534,7 +523,6 @@
     <Content Include="img\hinh227.jpg" />
     <Content Include="img\hinh228.jpg" />
     <Content Include="img\hinh229.jpg" />
-    <Content Include="img\hinh23.jpg" />
     <Content Include="img\hinh230.jpg" />
     <Content Include="img\hinh231.jpg" />
     <Content Include="img\hinh232.jpg" />
@@ -545,7 +533,6 @@
     <Content Include="img\hinh237.jpg" />
     <Content Include="img\hinh238.jpg" />
     <Content Include="img\hinh239.jpg" />
-    <Content Include="img\hinh24.jpg" />
     <Content Include="img\hinh240.jpg" />
     <Content Include="img\hinh241.jpg" />
     <Content Include="img\hinh242.jpg" />
@@ -556,7 +543,6 @@
     <Content Include="img\hinh247.jpg" />
     <Content Include="img\hinh248.jpg" />
     <Content Include="img\hinh249.jpg" />
-    <Content Include="img\hinh25.jpg" />
     <Content Include="img\hinh250.jpg" />
     <Content Include="img\hinh251.jpg" />
     <Content Include="img\hinh252.jpg" />
@@ -567,7 +553,6 @@
     <Content Include="img\hinh257.jpg" />
     <Content Include="img\hinh258.jpg" />
     <Content Include="img\hinh259.jpg" />
-    <Content Include="img\hinh26.jpg" />
     <Content Include="img\hinh260.jpg" />
     <Content Include="img\hinh261.jpg" />
     <Content Include="img\hinh262.jpg" />
@@ -578,7 +563,6 @@
     <Content Include="img\hinh267.jpg" />
     <Content Include="img\hinh268.jpg" />
     <Content Include="img\hinh269.jpg" />
-    <Content Include="img\hinh27.jpg" />
     <Content Include="img\hinh270.jpg" />
     <Content Include="img\hinh271.jpg" />
     <Content Include="img\hinh272.jpg" />
@@ -589,7 +573,6 @@
     <Content Include="img\hinh277.jpg" />
     <Content Include="img\hinh278.jpg" />
     <Content Include="img\hinh279.jpg" />
-    <Content Include="img\hinh28.jpg" />
     <Content Include="img\hinh280.jpg" />
     <Content Include="img\hinh281.jpg" />
     <Content Include="img\hinh282.jpg" />
@@ -600,7 +583,6 @@
     <Content Include="img\hinh287.jpg" />
     <Content Include="img\hinh288.jpg" />
     <Content Include="img\hinh289.jpg" />
-    <Content Include="img\hinh29.jpg" />
     <Content Include="img\hinh290.jpg" />
     <Content Include="img\hinh291.jpg" />
     <Content Include="img\hinh292.jpg" />
@@ -611,8 +593,6 @@
     <Content Include="img\hinh297.jpg" />
     <Content Include="img\hinh298.jpg" />
     <Content Include="img\hinh299.jpg" />
-    <Content Include="img\hinh3.jpg" />
-    <Content Include="img\hinh30.jpg" />
     <Content Include="img\hinh300.jpg" />
     <Content Include="img\hinh301.jpg" />
     <Content Include="img\hinh302.jpg" />
@@ -623,7 +603,6 @@
     <Content Include="img\hinh307.jpg" />
     <Content Include="img\hinh308.jpg" />
     <Content Include="img\hinh309.jpg" />
-    <Content Include="img\hinh31.jpg" />
     <Content Include="img\hinh310.jpg" />
     <Content Include="img\hinh311.jpg" />
     <Content Include="img\hinh312.jpg" />
@@ -634,7 +613,6 @@
     <Content Include="img\hinh317.jpg" />
     <Content Include="img\hinh318.jpg" />
     <Content Include="img\hinh319.jpg" />
-    <Content Include="img\hinh32.jpg" />
     <Content Include="img\hinh320.jpg" />
     <Content Include="img\hinh321.jpg" />
     <Content Include="img\hinh322.jpg" />
@@ -643,20 +621,9 @@
     <Content Include="img\hinh325.jpg" />
     <Content Include="img\hinh326.jpg" />
     <Content Include="img\hinh327.jpg" />
-    <Content Include="img\hinh328.jpg" />
-    <Content Include="img\hinh329.jpg" />
-    <Content Include="img\hinh33.jpg" />
-    <Content Include="img\hinh330.jpg" />
-    <Content Include="img\hinh331.jpg" />
-    <Content Include="img\hinh332.jpg" />
-    <Content Include="img\hinh333.jpg" />
-    <Content Include="img\hinh334.jpg" />
-    <Content Include="img\hinh335.jpg" />
-    <Content Include="img\hinh336.jpg" />
     <Content Include="img\hinh337.jpg" />
     <Content Include="img\hinh338.jpg" />
     <Content Include="img\hinh339.jpg" />
-    <Content Include="img\hinh34.jpg" />
     <Content Include="img\hinh340.jpg" />
     <Content Include="img\hinh341.jpg" />
     <Content Include="img\hinh342.jpg" />
@@ -667,19 +634,15 @@
     <Content Include="img\hinh347.jpg" />
     <Content Include="img\hinh348.jpg" />
     <Content Include="img\hinh349.jpg" />
-    <Content Include="img\hinh35.jpg" />
     <Content Include="img\hinh350.jpg" />
     <Content Include="img\hinh351.jpg" />
     <Content Include="img\hinh352.jpg" />
     <Content Include="img\hinh353.jpg" />
-    <Content Include="img\hinh354.jpg" />
     <Content Include="img\hinh355.jpg" />
     <Content Include="img\hinh356.jpg" />
     <Content Include="img\hinh357.jpg" />
     <Content Include="img\hinh358.jpg" />
     <Content Include="img\hinh359.jpg" />
-    <Content Include="img\hinh36.jpg" />
-    <Content Include="img\hinh360.jpg" />
     <Content Include="img\hinh361.jpg" />
     <Content Include="img\hinh362.jpg" />
     <Content Include="img\hinh363.jpg" />
@@ -689,7 +652,6 @@
     <Content Include="img\hinh367.jpg" />
     <Content Include="img\hinh368.jpg" />
     <Content Include="img\hinh369.jpg" />
-    <Content Include="img\hinh37.jpg" />
     <Content Include="img\hinh370.jpg" />
     <Content Include="img\hinh371.jpg" />
     <Content Include="img\hinh372.jpg" />
@@ -697,10 +659,7 @@
     <Content Include="img\hinh374.jpg" />
     <Content Include="img\hinh375.jpg" />
     <Content Include="img\hinh376.jpg" />
-    <Content Include="img\hinh377.jpg" />
-    <Content Include="img\hinh378.jpg" />
     <Content Include="img\hinh379.jpg" />
-    <Content Include="img\hinh38.jpg" />
     <Content Include="img\hinh380.jpg" />
     <Content Include="img\hinh381.jpg" />
     <Content Include="img\hinh382.jpg" />
@@ -709,9 +668,6 @@
     <Content Include="img\hinh385.jpg" />
     <Content Include="img\hinh386.jpg" />
     <Content Include="img\hinh387.jpg" />
-    <Content Include="img\hinh388.jpg" />
-    <Content Include="img\hinh389.jpg" />
-    <Content Include="img\hinh39.jpg" />
     <Content Include="img\hinh390.jpg" />
     <Content Include="img\hinh391.jpg" />
     <Content Include="img\hinh392.jpg" />
@@ -722,9 +678,6 @@
     <Content Include="img\hinh397.jpg" />
     <Content Include="img\hinh398.jpg" />
     <Content Include="img\hinh399.jpg" />
-    <Content Include="img\hinh4.jpg" />
-    <Content Include="img\hinh40.jpg" />
-    <Content Include="img\hinh400.jpg" />
     <Content Include="img\hinh401.jpg" />
     <Content Include="img\hinh402.jpg" />
     <Content Include="img\hinh403.jpg" />
@@ -732,11 +685,6 @@
     <Content Include="img\hinh405.jpg" />
     <Content Include="img\hinh406.jpg" />
     <Content Include="img\hinh407.jpg" />
-    <Content Include="img\hinh408.jpg" />
-    <Content Include="img\hinh409.jpg" />
-    <Content Include="img\hinh41.jpg" />
-    <Content Include="img\hinh410.jpg" />
-    <Content Include="img\hinh411.jpg" />
     <Content Include="img\hinh412.jpg" />
     <Content Include="img\hinh413.jpg" />
     <Content Include="img\hinh414.jpg" />
@@ -745,7 +693,6 @@
     <Content Include="img\hinh417.jpg" />
     <Content Include="img\hinh418.jpg" />
     <Content Include="img\hinh419.jpg" />
-    <Content Include="img\hinh42.jpg" />
     <Content Include="img\hinh420.jpg" />
     <Content Include="img\hinh421.jpg" />
     <Content Include="img\hinh422.jpg" />
@@ -756,18 +703,15 @@
     <Content Include="img\hinh427.jpg" />
     <Content Include="img\hinh428.jpg" />
     <Content Include="img\hinh429.jpg" />
-    <Content Include="img\hinh43.jpg" />
     <Content Include="img\hinh430.jpg" />
     <Content Include="img\hinh431.jpg" />
     <Content Include="img\hinh432.jpg" />
-    <Content Include="img\hinh433.jpg" />
     <Content Include="img\hinh434.jpg" />
     <Content Include="img\hinh435.jpg" />
     <Content Include="img\hinh436.jpg" />
     <Content Include="img\hinh437.jpg" />
     <Content Include="img\hinh438.jpg" />
     <Content Include="img\hinh439.jpg" />
-    <Content Include="img\hinh44.jpg" />
     <Content Include="img\hinh440.jpg" />
     <Content Include="img\hinh441.jpg" />
     <Content Include="img\hinh442.jpg" />
@@ -778,46 +722,103 @@
     <Content Include="img\hinh447.jpg" />
     <Content Include="img\hinh448.jpg" />
     <Content Include="img\hinh449.jpg" />
-    <Content Include="img\hinh45.jpg" />
     <Content Include="img\hinh450.jpg" />
-    <Content Include="img\hinh46.jpg" />
-    <Content Include="img\hinh47.jpg" />
-    <Content Include="img\hinh48.jpg" />
-    <Content Include="img\hinh49.jpg" />
-    <Content Include="img\hinh5.jpg" />
-    <Content Include="img\hinh50.jpg" />
-    <Content Include="img\hinh51.jpg" />
-    <Content Include="img\hinh52.jpg" />
-    <Content Include="img\hinh53.jpg" />
-    <Content Include="img\hinh54.jpg" />
-    <Content Include="img\hinh55.jpg" />
-    <Content Include="img\hinh56.jpg" />
-    <Content Include="img\hinh57.jpg" />
-    <Content Include="img\hinh58.jpg" />
-    <Content Include="img\hinh59.jpg" />
-    <Content Include="img\hinh6.jpg" />
-    <Content Include="img\hinh60.jpg" />
-    <Content Include="img\hinh61.jpg" />
-    <Content Include="img\hinh62.jpg" />
-    <Content Include="img\hinh63.jpg" />
-    <Content Include="img\hinh64.jpg" />
-    <Content Include="img\hinh65.jpg" />
-    <Content Include="img\hinh66.jpg" />
-    <Content Include="img\hinh67.jpg" />
-    <Content Include="img\hinh68.jpg" />
-    <Content Include="img\hinh69.jpg" />
-    <Content Include="img\hinh7.jpg" />
-    <Content Include="img\hinh70.jpg" />
-    <Content Include="img\hinh71.jpg" />
-    <Content Include="img\hinh72.jpg" />
-    <Content Include="img\hinh73.jpg" />
-    <Content Include="img\hinh74.jpg" />
-    <Content Include="img\hinh75.jpg" />
+    <Content Include="img\hinh451.jpg" />
+    <Content Include="img\hinh452.jpg" />
+    <Content Include="img\hinh453.jpg" />
+    <Content Include="img\hinh454.jpg" />
+    <Content Include="img\hinh455.jpg" />
+    <Content Include="img\hinh456.jpg" />
+    <Content Include="img\hinh457.jpg" />
+    <Content Include="img\hinh458.jpg" />
+    <Content Include="img\hinh459.jpg" />
+    <Content Include="img\hinh460.jpg" />
+    <Content Include="img\hinh461.jpg" />
+    <Content Include="img\hinh462.jpg" />
+    <Content Include="img\hinh463.jpg" />
+    <Content Include="img\hinh464.jpg" />
+    <Content Include="img\hinh465.jpg" />
+    <Content Include="img\hinh467.jpg" />
+    <Content Include="img\hinh468.jpg" />
+    <Content Include="img\hinh469.jpg" />
+    <Content Include="img\hinh470.jpg" />
+    <Content Include="img\hinh471.jpg" />
+    <Content Include="img\hinh472.jpg" />
+    <Content Include="img\hinh473.jpg" />
+    <Content Include="img\hinh474.jpg" />
+    <Content Include="img\hinh475.jpg" />
+    <Content Include="img\hinh476.jpg" />
+    <Content Include="img\hinh477.jpg" />
+    <Content Include="img\hinh478.jpg" />
+    <Content Include="img\hinh479.jpg" />
+    <Content Include="img\hinh480.jpg" />
+    <Content Include="img\hinh481.jpg" />
+    <Content Include="img\hinh482.jpg" />
+    <Content Include="img\hinh483.jpg" />
+    <Content Include="img\hinh484.jpg" />
+    <Content Include="img\hinh485.jpg" />
+    <Content Include="img\hinh486.jpg" />
+    <Content Include="img\hinh487.jpg" />
+    <Content Include="img\hinh488.jpg" />
+    <Content Include="img\hinh489.jpg" />
+    <Content Include="img\hinh491.jpg" />
+    <Content Include="img\hinh492.jpg" />
+    <Content Include="img\hinh493.jpg" />
+    <Content Include="img\hinh494.jpg" />
+    <Content Include="img\hinh495.jpg" />
+    <Content Include="img\hinh496.jpg" />
+    <Content Include="img\hinh497.jpg" />
+    <Content Include="img\hinh498.jpg" />
+    <Content Include="img\hinh499.jpg" />
+    <Content Include="img\hinh500.jpg" />
+    <Content Include="img\hinh501.jpg" />
+    <Content Include="img\hinh502.jpg" />
+    <Content Include="img\hinh503.jpg" />
+    <Content Include="img\hinh504.jpg" />
+    <Content Include="img\hinh505.jpg" />
+    <Content Include="img\hinh506.jpg" />
+    <Content Include="img\hinh507.jpg" />
+    <Content Include="img\hinh508.jpg" />
+    <Content Include="img\hinh509.jpg" />
+    <Content Include="img\hinh510.jpg" />
+    <Content Include="img\hinh511.jpg" />
+    <Content Include="img\hinh512.jpg" />
+    <Content Include="img\hinh522.jpg" />
+    <Content Include="img\hinh523.jpg" />
+    <Content Include="img\hinh524.jpg" />
+    <Content Include="img\hinh525.jpg" />
+    <Content Include="img\hinh526.jpg" />
+    <Content Include="img\hinh527.jpg" />
+    <Content Include="img\hinh528.jpg" />
+    <Content Include="img\hinh529.jpg" />
+    <Content Include="img\hinh530.jpg" />
+    <Content Include="img\hinh531.jpg" />
+    <Content Include="img\hinh532.jpg" />
+    <Content Include="img\hinh533.jpg" />
+    <Content Include="img\hinh534.jpg" />
+    <Content Include="img\hinh535.jpg" />
+    <Content Include="img\hinh536.jpg" />
+    <Content Include="img\hinh537.jpg" />
+    <Content Include="img\hinh538.jpg" />
+    <Content Include="img\hinh539.jpg" />
+    <Content Include="img\hinh540.jpg" />
+    <Content Include="img\hinh541.jpg" />
+    <Content Include="img\hinh542.jpg" />
+    <Content Include="img\hinh543.jpg" />
+    <Content Include="img\hinh544.jpg" />
+    <Content Include="img\hinh545.jpg" />
+    <Content Include="img\hinh546.jpg" />
+    <Content Include="img\hinh547.jpg" />
+    <Content Include="img\hinh548.jpg" />
+    <Content Include="img\hinh549.jpg" />
+    <Content Include="img\hinh550.jpg" />
+    <Content Include="img\hinh551.jpg" />
+    <Content Include="img\hinh552.jpg" />
+    <Content Include="img\hinh553.jpg" />
     <Content Include="img\hinh76.jpg" />
     <Content Include="img\hinh77.jpg" />
     <Content Include="img\hinh78.jpg" />
     <Content Include="img\hinh79.jpg" />
-    <Content Include="img\hinh8.jpg" />
     <Content Include="img\hinh80.jpg" />
     <Content Include="img\hinh81.jpg" />
     <Content Include="img\hinh82.jpg" />
@@ -827,8 +828,6 @@
     <Content Include="img\hinh86.jpg" />
     <Content Include="img\hinh87.jpg" />
     <Content Include="img\hinh88.jpg" />
-    <Content Include="img\hinh89.jpg" />
-    <Content Include="img\hinh9.jpg" />
     <Content Include="img\hinh90.jpg" />
     <Content Include="img\hinh91.jpg" />
     <Content Include="img\hinh92.jpg" />
@@ -839,9 +838,6 @@
     <Content Include="img\hinh97.jpg" />
     <Content Include="img\hinh98.jpg" />
     <Content Include="img\hinh99.jpg" />
-    <Content Include="img\tienmat.jpg" />
-    <Content Include="img\tienmat.png" />
-    <Content Include="img\vnpay.png" />
     <Content Include="js\main.js" />
     <Content Include="KNN\train_data.txt" />
     <Content Include="lib\easing\easing.js" />
@@ -874,28 +870,36 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Content Include="Scripts\chart.js" />
+    <Content Include="Scripts\chart.min.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BackupRestoreController.cs" />
     <Compile Include="Areas\Admin\Controllers\ColorController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KhuyenMaiController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PhanKhucKhachHangController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductController.cs" />
     <Compile Include="Areas\Admin\Controllers\SizeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ThongKeController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
     <Compile Include="Controllers\AddressController.cs" />
     <Compile Include="Areas\Admin\Controllers\BrandController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LienHeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\PayController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\RateController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Filters\AdminAuthorization.cs" />
+    <Compile Include="Filters\XacThucFilter.cs" />
     <Compile Include="Filters\MyAuthenFilter.cs" />
     <Compile Include="Filters\UserAuthorization.cs" />
     <Compile Include="Global.asax.cs">
@@ -904,6 +908,9 @@
     <Compile Include="Helper\VnPayLibrary.cs" />
     <Compile Include="KNN\PhanLoaiKNN.cs" />
     <Compile Include="Models\ChiTietDonHang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ChiTietKhuyenMai.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ChiTietSanPham.cs">
@@ -916,6 +923,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GioHang.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KhuyenMai.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Mau.cs">
@@ -946,6 +956,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Size.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ThongTinGiaoHang.cs">
@@ -993,6 +1006,16 @@
     <Content Include="Areas\Admin\Views\Size\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Size\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Size\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\PhanKhucKhachHang\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PhanKhucKhachHang\SanPham.cshtml" />
+    <Content Include="Areas\Admin\Views\PhanKhucKhachHang\details.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMai\AddSPKhuyenMai.cshtml" />
+    <Content Include="Areas\Admin\Views\ThongKe\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BackupRestore\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BackupRestore\RestoreDatabase.cshtml" />
     <EntityDeploy Include="Models\Model1.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model1.Designer.cs</LastGenOutput>
@@ -1088,7 +1111,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Product\Index.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
-    <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\Product\Details.cshtml" />
@@ -1106,6 +1128,12 @@
     <Content Include="Areas\Admin\Views\Brand\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Brand\Update.cshtml" />
+    <Content Include="Views\User\ThongTinCaNhan.cshtml" />
+    <Content Include="Views\User\XacThuc.cshtml" />
+    <Content Include="Views\User\DoiMatKhau.cshtml" />
+    <Content Include="Views\User\DoiMatKhauThanhCong.cshtml" />
+    <Content Include="Views\LienHe\Index.cshtml" />
+    <Content Include="Views\User\Quenmatkhau.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

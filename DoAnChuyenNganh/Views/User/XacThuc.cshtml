@@ -49,7 +49,7 @@
                         <input type="text" id="maXacThuc" name="maXacThuc" class="form-control" />
                     </div>
                     <div class="d-flex justify-content-between mb-3">
-                        <button type="submit" class="btn btn-primary w-48">Xác thực</button>
+                        <button type="submit" class="btn btn-primary w-48" id="submitBtn">Xác thực</button>
                         <a href="@Url.Action("ThongTinCaNhan", "User")" class="btn btn-secondary w-48">Quay về</a>
                     </div>
                 </form>
@@ -68,56 +68,55 @@
     </div>
 </div>
 
+<script>
+    // Hàm đếm ngược
+    let countdown = 30;
+    const countdownElement = document.getElementById('countdownTimer');
+    const resendButton = document.getElementById('resendButton');
+    let countdownInterval;
 
-    <script>
-        // Hàm đếm ngược
-        let countdown = 30;
-        const countdownElement = document.getElementById('countdownTimer');
-        const resendButton = document.getElementById('resendButton');
-        let countdownInterval;
+    // Hiển thị thời gian đếm ngược
+    function startCountdown() {
+        countdownInterval = setInterval(function () {
+            countdown--; // Giảm giá trị của countdown
 
-        // Hiển thị thời gian đếm ngược
-        function startCountdown() {
-            countdownInterval = setInterval(function () {
-                countdown--; // Giảm giá trị của countdown
+            // Cập nhật thời gian đếm ngược
+            countdownElement.textContent = countdown + ' giây còn lại để nhập mã.';
 
-                // Cập nhật thời gian đếm ngược
-                countdownElement.textContent = countdown + ' giây còn lại để nhập mã.';
+            // Kiểm tra khi countdown <= 0
+            if (countdown <= 0) {
+                clearInterval(countdownInterval); // Dừng đếm ngược
+                resendButton.classList.remove('disabled'); // Bỏ disabled khỏi nút gửi lại
+                resendButton.disabled = false; // Bật lại nút gửi lại
+                countdownElement.textContent = 'Hết thời gian!'; // Cập nhật thông báo hết thời gian
+            }
+        }, 1000); // Đếm ngược mỗi giây
+    }
 
-                // Kiểm tra khi countdown <= 0
-                if (countdown <= 0) {
-                    clearInterval(countdownInterval); // Dừng đếm ngược
-                    resendButton.classList.remove('disabled'); // Bỏ disabled khỏi nút gửi lại
-                    resendButton.disabled = false; // Bật lại nút gửi lại
-                    countdownElement.textContent = 'Hết thời gian!'; // Cập nhật thông báo hết thời gian
-                }
-            }, 1000); // Đếm ngược mỗi giây
+    // Gọi hàm startCountdown để bắt đầu đếm ngược
+    startCountdown();
+
+    // Kiểm tra nếu người dùng đã nhập sai mã hoặc thời gian đã hết
+    document.getElementById('verificationForm').onsubmit = function (event) {
+        const maXacThucInput = document.getElementById('maXacThuc').value;
+
+        // Kiểm tra nếu người dùng chưa nhập mã
+        if (maXacThucInput === "") {
+            event.preventDefault();
+            alert("Mã xác thực không được để trống!");
+        } else {
+            // Nếu mã xác thực sai, hiển thị thông báo
+            const validCode = "@Session["MaXacThuc"]"; // Mã xác thực từ Session
+            if (maXacThucInput !== validCode) {
+                event.preventDefault(); // Ngừng gửi form
+                alert("Mã xác thực không đúng!");
+            }
         }
 
-        // Gọi hàm startCountdown để bắt đầu đếm ngược
-        startCountdown();
-
-
-
-
-        // Kiểm tra nếu người dùng đã nhập sai mã
-        document.getElementById('verificationForm').onsubmit = function (event) {
-            const maXacThucInput = document.getElementById('maXacThuc').value;
-
-            if (maXacThucInput === "") {
-                event.preventDefault();
-                alert("Mã xác thực không được để trống!");
-            } else {
-                // Nếu mã xác thực sai, hiển thị thông báo
-                const validCode = "@Session["MaXacThuc"]"; // Mã xác thực từ Session
-                if (maXacThucInput !== validCode) {
-                    event.preventDefault(); // Ngừng gửi form
-                    alert("Mã xác thực không đúng!");
-                }
-            }
-        };
-
-
- 
-    </script>
-
+        // Kiểm tra nếu thời gian đếm ngược đã hết
+        if (countdown <= 0) {
+            event.preventDefault(); // Ngừng gửi form
+            alert("Mã xác thực đã hết hạn! Vui lòng yêu cầu mã mới.");
+        }
+    };
+</script>

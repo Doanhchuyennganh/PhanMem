@@ -2,7 +2,6 @@
 using DoAnChuyenNganh.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -41,82 +40,61 @@ namespace DoAnChuyenNganh.Controllers
         // GET: Giỏ hàng
         public ActionResult Index()
         {
-            CheckUserLoggedIn(); // Ensure the user is logged in
-
+            CheckUserLoggedIn();
             int userId = GetCurrentUserId();
-            var cart = db.GioHangs
-                .Where(g => g.NguoiDungID == userId)
-                .Include(g => g.ChiTietSanPham)
-                .ToList();
-
+            List<GioHang> cart = db.GioHangs.Where(g => g.NguoiDungID == userId && g.ChiTietSanPham.SoLuongTonKho > 0).ToList();
             decimal totalPrice = 0;
             int totalQuantity = 0;
-            bool hasOutOfStock = false;
-
-            // Check if the cart is empty
             if (cart == null || !cart.Any())
             {
-                ModelState.AddModelError("", "Vui lòng chọn đơn hàng muốn thanh toán.");
-                ViewBag.HasOutOfStock = true;
-                ViewBag.IsValid = false;
                 ViewBag.SLSP = 0;
-                ViewBag.TotalPrice = 0;
-                return View(cart); // Don't redirect to avoid losing state
             }
-
-            // Check for out-of-stock products
-            foreach (var item in cart)
+            if (cart.Any())
             {
-                var product = db.ChiTietSanPhams.Find(item.SanPhamID);
-
-                if (product == null || product.KichHoat == null || product.SoLuongTonKho <= 0)
+                foreach (var item in cart)
                 {
-                    // Mark out-of-stock products
-                    hasOutOfStock = true;
-                    db.Entry(item).State = EntityState.Modified;
-                }
-                else
-                {
-                    // Calculate total price and quantity for products that are in stock
-                    totalPrice += product.Gia * item.SoLuong;
+                    totalPrice += (item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)) * item.SoLuong;
                     totalQuantity += item.SoLuong;
                 }
             }
-
-            // Save changes to the cart
-            db.SaveChanges();
-
-            // Set ViewBag values for the view
+            else
+            {
+                ViewBag.Message = "Giỏ hàng của bạn trống hoặc sản phẩm trong giỏ đã hết hàng.";
+            }
             ViewBag.SLSP = totalQuantity;
             ViewBag.TotalPrice = totalPrice;
-            ViewBag.HasOutOfStock = hasOutOfStock;
-            ViewBag.IsValid = !hasOutOfStock; // If there are out-of-stock products, it's invalid for checkout
-
+            if (TempData["ErrorMessage"] != null)
+            {
+                // Lấy thông báo lỗi và gán vào ViewBag để hiển thị trên view
+                ViewBag.ErrorMessage = TempData["ErrorMessage"].ToString();
+            }
             return View(cart);
         }
-
-
-
 
         // Thêm sản phẩm vào giỏ hàng
         public ActionResult Add(int? id, int? sizeID, int? colorID, string returnUrl)
         {
             CheckUserLoggedIn();
             int userId = GetCurrentUserId();
-            // Tìm sản phẩm trong bảng ChiTietSanPham với SanPhamID, SizeID và MauID
-            var productDetail = db.ChiTietSanPhams
-                .FirstOrDefault(p => p.SanPhamID == id && p.SizeID == sizeID && p.MauID == colorID);
-            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-            var cartItem = db.GioHangs.FirstOrDefault(row =>
-                row.ChiTietSanPham.ChiTietSanPhamID == productDetail.ChiTietSanPhamID &&
-                row.NguoiDungID == userId);
+
             if (id.HasValue && sizeID.HasValue && colorID.HasValue)
             {
+                // Tìm sản phẩm trong bảng ChiTietSanPham với SanPhamID, SizeID và MauID
+                var productDetail = db.ChiTietSanPhams
+                    .FirstOrDefault(p => p.SanPhamID == id && p.SizeID == sizeID && p.MauID == colorID);
+
                 if (productDetail == null)
                 {
                     ModelState.AddModelError("", "Sản phẩm với kích thước và màu sắc này không tồn tại.");
                     return RedirectToAction("Index", "Product");
                 }
+
+
+
+                // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+                var cartItem = db.GioHangs.FirstOrDefault(row =>
+                    row.ChiTietSanPham.ChiTietSanPhamID == productDetail.ChiTietSanPhamID &&
+                    row.NguoiDungID == userId);
 
                 if (cartItem != null)
                 {
@@ -155,11 +133,11 @@ namespace DoAnChuyenNganh.Controllers
         {
             CheckUserLoggedIn();
             int userId = GetCurrentUserId();
-
-            // Find the cart item for the user and product
-            GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
             if (quan > 0)
             {
+
+                // Find the cart item for the user and product
+                GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
 
                 if (cartItem != null)
                 {
@@ -190,8 +168,8 @@ namespace DoAnChuyenNganh.Controllers
         public ActionResult DeleteQuantity(int proid)
         {
             CheckUserLoggedIn();
-
             int userId = GetCurrentUserId();
+
             GioHang cartItem = db.GioHangs.FirstOrDefault(row => row.GioHangID == proid && row.NguoiDungID == userId);
 
             if (cartItem != null)
@@ -201,21 +179,5 @@ namespace DoAnChuyenNganh.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        // Xóa nhiều sản phẩm 
-        [HttpPost]
-        public JsonResult DeleteSelected(List<int> selectedItems)
-        {
-            if (selectedItems != null && selectedItems.Any())
-            {
-                var itemsToDelete = db.GioHangs.Where(g => selectedItems.Contains(g.GioHangID)).ToList();
-                db.GioHangs.RemoveRange(itemsToDelete);
-                db.SaveChanges();
-                return Json(new { success = true });
-            }
-            return Json(new { success = false });
-        }
-
-
     }
 }

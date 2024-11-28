@@ -19,10 +19,10 @@
             {
                 <tr>
                     <td>
-                        @Html.TextBox("brands[" + i + "].DanhMucID", Model[i].MauID, new { @readonly = "readonly", @class = "form-control" })
+                        @Html.TextBox("maus[" + i + "].MauID", Model[i].MauID, new { @readonly = "readonly", @class = "form-control" })
                     </td>
                     <td>
-                        @Html.TextBox("brands[" + i + "].TenDanhMuc", Model[i].MauName, new { @class = "form-control" })
+                        @Html.TextBox("maus[" + i + "].MauName", Model[i].MauName, new { @class = "form-control" })
                     </td>
                 </tr>
             }

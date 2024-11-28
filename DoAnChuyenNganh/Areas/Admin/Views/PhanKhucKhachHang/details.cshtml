@@ -4,7 +4,6 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
 }
 
-
 <style>
     /* Cố định kích thước hình ảnh chính */
     #main_product_image {
@@ -71,12 +70,37 @@
         .out-of-stock:hover, .stopped-selling:hover {
             cursor: not-allowed;
         }
+
+    .price-original {
+        color: gray;
+    }
+
+        .price-original .original-price {
+            text-decoration: line-through;
+        }
+
+    .discount-badge {
+        background-color: red;
+        color: white;
+        font-size: 0.8em;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-left: 10px;
+        text-decoration: none; /* Đảm bảo tag không bị gạch */
+    }
+
+    .price-discounted {
+        color: green;
+        font-weight: bold;
+    }
 </style>
 
 @{
     decimal gia = ViewBag.sanpham.Gia;
 }
 <div class="container mt-5">
+
 
     <div class="card">
         <div class="row g-0">
@@ -148,8 +172,33 @@
                     <div class="mt-2 content">
                         <p>Mô Tả: @ViewBag.sanpham.SanPham.MoTa)</p>
                     </div>
-                    <h3 class="mt-3">Giá: <span id="giaSanPham">@gia.ToString("N0") VNĐ</span></h3>
+                    @if (ViewBag.sanpham.GiaDuocGiam == 0)
+                    {
+                        <span class="price-discounted" style="margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif; color: green; font-weight: bold;">
+                            @ViewBag.sanpham.Gia.ToString("N0") VNĐ
+                        </span>
+                    }
+                    else
+                    {
 
+                        var GiaThucTe = ViewBag.sanpham.Gia - ViewBag.sanpham.GiaDuocGiam;
+
+
+
+                        <h4 class="price-original" style="color: gray; font-size: 1em; text-decoration: none;">
+                            <span class="original-price" style="text-decoration: line-through; margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif;">
+                                @ViewBag.sanpham.Gia.ToString("N0") VNĐ
+                            </span>
+                            <span class="discount-badge" style="background-color: red; color: white; font-size: 1em; font-weight: bold; padding: 2px 6px; border-radius: 4px; font-family: 'Arial', sans-serif;">
+                                -@((ViewBag.sanpham.GiaDuocGiam ?? 0).ToString("N0")) VNĐ
+                            </span>
+
+                        </h4>
+                        <h4 class="price-discounted" style="color: green; font-size: 1em; font-weight: bold; font-family: 'Arial', sans-serif;">
+                            @((GiaThucTe ?? 0).ToString("N0")) VNĐ
+                        </h4>
+
+                    }
 
                     <div class="form-group mt-3">
                         <label>Size:</label>
@@ -266,13 +315,58 @@
                                 }
                             };
                         </script>
+
                     </div>
                 </div>
             </div>
         </div>
+
+
+
     </div>
 
     <script>
+
+    function changeImage(element) {
+                var mainImage = document.getElementById("main_product_image");
+                mainImage.src = element.src; // Cập nhật hình ảnh chính
+            }
+            function updatePrice() {
+                var sizeValue = document.getElementById('sizeSelect').value;
+                var colorValue = document.getElementById('colorSelect').value;
+                var productID = @Model[0].SanPhamID;
+
+                if (!sizeValue || !colorValue) {
+                    return; // Nếu chưa chọn size hoặc màu, không cập nhật giá
+                }
+
+    // Gửi yêu cầu Ajax để lấy giá dựa trên SizeID, MauID và ChiTietSanPhamID
+    $.ajax({
+                url: '/Product/GetPrice',
+        type: 'GET',
+        data: { sizeID: sizeValue, colorID: colorValue, productID: productID },
+        success: function(response) {
+            // Cập nhật giá hiển thị
+            if (response && response.gia !== undefined) {
+                // Định dạng giá trị thành dạng VNĐ
+                var formattedPrice = parseFloat(response.gia)
+                    .toLocaleString('vi-VN')
+                    .concat(' VNĐ');
+
+                // Cập nhật giá hiển thị
+                $('#giaSanPham').text(formattedPrice);
+            } else {
+                alert('Dữ liệu giá trả về không hợp lệ.');
+            }
+                    },
+        error: function() {
+                        alert('Có lỗi xảy ra khi lấy giá.');
+                    }
+                });
+            }
+
+
+
             function filterColors() {
                 var selectedSize = document.getElementById('sizeSelect').value;
                 var colorOptions = document.getElementById('colorSelect').options;
@@ -297,5 +391,4 @@
             }
 
     </script>
-
 

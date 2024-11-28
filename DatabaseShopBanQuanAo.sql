@@ -41,10 +41,12 @@ CREATE TABLE SanPham (
     KichHoat BIT DEFAULT 1,
     FOREIGN KEY (DanhMucID) REFERENCES DanhMuc(DanhMucID)
 );
+-- Tạo bảng Size
 CREATE TABLE Size (
     SizeID INT PRIMARY KEY IDENTITY(1,1),
     SizeName NVARCHAR(10) NOT NULL
 );
+-- Tạo bảng Mau
 CREATE TABLE Mau (
     MauID INT PRIMARY KEY IDENTITY(1,1),
     MauName NVARCHAR(20) NOT NULL
@@ -55,6 +57,7 @@ CREATE TABLE ChiTietSanPham (
     SizeID INT,
     MauID INT,
 	Gia DECIMAL(18, 2) NOT NULL,
+	GiaDuocGiam DECIMAL(18, 2) DEFAULT 0,
     SoLuongTonKho INT NOT NULL,
 	HinhAnhUrl NVARCHAR(255),
 	KichHoat BIT DEFAULT 1,
@@ -62,6 +65,8 @@ CREATE TABLE ChiTietSanPham (
     FOREIGN KEY (SizeID) REFERENCES Size(SizeID),
     FOREIGN KEY (MauID) REFERENCES Mau(MauID)
 );
+
+
 CREATE TABLE DonHang (
     DonHangID INT PRIMARY KEY IDENTITY(1,1),
     NguoiDungID INT NOT NULL,
@@ -95,6 +100,7 @@ CREATE TABLE GioHang (
     FOREIGN KEY (NguoiDungID) REFERENCES NguoiDung(NguoiDungID),
     FOREIGN KEY (SanPhamID) REFERENCES ChiTietSanPham(ChiTietSanPhamID)
 );
+
 CREATE TABLE PhanHoi (
     PhanHoiID INT PRIMARY KEY IDENTITY(1,1),
     SanPhamID INT NOT NULL,
@@ -105,6 +111,27 @@ CREATE TABLE PhanHoi (
     FOREIGN KEY (SanPhamID) REFERENCES SanPham(SanPhamID),
     FOREIGN KEY (NguoiDungID) REFERENCES NguoiDung(NguoiDungID)
 );
+CREATE TABLE KhuyenMai (
+    MaKhuyenMai INT PRIMARY KEY IDENTITY(1,1), 
+    TenChuongTrinhKM NVARCHAR(100),
+	MucGiam INT,--%
+    MoTa NVARCHAR(255),
+    NgayBatDau DATE,
+    NgayKetThuc DATE
+);
+CREATE TABLE ChiTietKhuyenMai (
+	ChiTietKhuyenMaiID INT PRIMARY KEY IDENTITY(1,1), 
+    SanPhamID INT,
+    KhuyenMaiID INT,
+	DaHetHan bit Default 0,
+    FOREIGN KEY (SanPhamID) REFERENCES SanPham(SanPhamID),
+    FOREIGN KEY (KhuyenMaiID) REFERENCES KhuyenMai(MaKhuyenMai)
+);
+
+
+
+
+
 
 INSERT INTO DanhMuc (TenDanhMuc) VALUES (N'Thể thao');
 INSERT INTO DanhMuc (TenDanhMuc) VALUES (N'Công sở, lịch sự');
@@ -1967,51 +1994,4 @@ INSERT INTO NguoiDung (TenDangNhap, MatKhau, DoTuoi, MucChiTieu, SoThich, Train)
 ('user99', 'password99', 55, 93000000, N'Thời trang du lịch', 0),
 ('user100', 'password100', 43, 14000000, N'Thời trang hot trend', 0);
 
-SELECT * FROM DanhMuc;
 
-SELECT * FROM Size;
-
-SELECT * FROM Mau;
-
-SELECT * FROM SanPham;
-
-SELECT * FROM ChiTietSanPham;
-
-SELECT * FROM NguoiDung;
-
-SELECT * FROM DonHang;
-
-SELECT * FROM ChiTietDonHang;
-
-SELECT * FROM GioHang;
-
-SELECT * FROM PhanHoi;
-SELECT * FROM ThongTinGiaoHang;
-
-
--- Backup toàn bộ database
-BACKUP DATABASE [TenDatabase]
-TO DISK = 'D:\Backup\TenDatabase.bak'
-WITH FORMAT, INIT, 
-     NAME = 'TenDatabase-Full Backup',
-     SKIP, NOREWIND, NOUNLOAD, STATS = 10;
--- Restore từ file backup vào database mới
-RESTORE DATABASE [TenDatabaseMoi]
-FROM DISK = 'D:\Backup\TenDatabase.bak'
-WITH MOVE 'TenDatabase' TO 'D:\Data\TenDatabaseMoi.mdf',
-     MOVE 'TenDatabase_log' TO 'D:\Data\TenDatabaseMoi_log.ldf',
-     REPLACE,
-     STATS = 10;
--- Restore đè lên database hiện tại
-RESTORE DATABASE [TenDatabase]
-FROM DISK = 'D:\Backup\TenDatabase.bak'
-WITH REPLACE,
-     STATS = 10;
---3. Ghi chú
---Phân quyền: Người dùng phải có quyền sysadmin hoặc db_owner để thực hiện backup/restore.
---Kiểm tra trước khi restore: Nếu database đang được sử dụng, bạn cần đặt nó ở chế độ SINGLE_USER:
-ALTER DATABASE [TenDatabase]
-SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
---Sau khi restore xong, đưa lại về chế độ MULTI_USER:
-ALTER DATABASE [TenDatabase]
-SET MULTI_USER;

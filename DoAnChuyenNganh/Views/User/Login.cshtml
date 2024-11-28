@@ -65,29 +65,79 @@
         }
     </style>
 }
-<div class="form-login">
+<div style="width: 100%; max-width: 400px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
     <h2>Đăng Nhập Tài Khoản</h2>
     @using (Html.BeginForm("Login", "User", FormMethod.Post))
     {
-        <div class="form-group">
+        <div style="margin-bottom: 15px;">
             @Html.TextBoxFor(model => model.TenDangNhap, new { @class = "form-control", placeholder = "Nhập tên đăng nhập" })
             @Html.ValidationMessageFor(model => model.TenDangNhap, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
-            @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", type = "password", placeholder = "Nhập mật khẩu" })
+        <div style="margin-bottom: 15px;">
+            <div style="position: relative;">
+                @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", type = "password", placeholder = "Nhập mật khẩu", style = "width: 100%; padding-right: 40px; padding-left: 10px; font-size: 16px; line-height: 1.5;" })
+                <span id="togglePassword" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 20px; color: #888; cursor: pointer; z-index: 1;">
+                    <i class="fa fa-eye"></i>
+                </span>
+            </div>
             @Html.ValidationMessageFor(model => model.MatKhau, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group text-center">
-            <button type="submit" class="btn btn-primary">Đăng Nhập</button>
+        <div style="text-align: center;">
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; font-size: 16px; border-radius: 5px;">
+                Đăng Nhập
+            </button>
         </div>
 
-        <div class="text-muted">
-            <p>Bạn chưa có tài khoản? <a href="@Url.Action("Register", "User")">Đăng Ký</a></p>
+        <div style="text-align: center; margin-top: 10px;">
+            <p style="color: #6c757d;">Bạn chưa có tài khoản? <a href="@Url.Action("Register", "User")" style="color: #007bff;">Đăng Ký</a></p>
         </div>
+
+        <div style="text-align: center; margin-top: 10px;">
+            <p style="color: #6c757d;"> <a href="@Url.Action("Quenmatkhau", "User")" style="color: #007bff;">Quên mật khẩu</a></p>
+        </div>
+        <!-- Nút đăng nhập với Google -->
+        @*<div style="text-align: center;">
+                <a href="@Url.Action("ExternalLogin", "User", new { provider = "Google" })" style="display: block; padding: 10px; background-color: #db4437; color: white; border-radius: 5px; text-align: center; text-decoration: none;">
+                    <i class="fab fa-google"></i> Đăng Nhập với Google
+                </a>
+            </div>*@
     }
 </div>
+
+<script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').onclick = function () {
+        var passwordField = document.querySelector('input[type="password"]');
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+    };
+</script>
+
+<!-- FontAwesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+<script>
+    // Toggle password visibility
+    document.getElementById('togglePassword').onclick = function () {
+        var passwordField = document.querySelector('input[name="MatKhau"]');
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+    };
+</script>
+
+
+
+
+
 
 
 <script>

@@ -15,13 +15,33 @@ namespace DoAnChuyenNganh.Controllers
     public class HomeController : Controller
     {
         ShopQuanAoEntities db = new ShopQuanAoEntities();
-
+        public void LoadKM()
+        {
+            List<ChiTietKhuyenMai> lstctkm = db.ChiTietKhuyenMais.ToList();
+            List<ChiTietSanPham> lstsp = db.ChiTietSanPhams.ToList();
+            foreach (var a in lstctkm)
+            {
+                if (a.KhuyenMai.NgayKetThuc <= DateTime.Now && a.DaHetHan != true)
+                {
+                    a.DaHetHan = true;
+                    foreach (var sp in lstsp)
+                    {
+                        if (a.SanPhamID == sp.SanPhamID)
+                        {
+                            sp.GiaDuocGiam -= (a.KhuyenMai.MucGiam * (decimal)0.01 * sp.Gia);
+                        }
+                    }
+                }
+            }
+        }
         // GET: Home
         public ActionResult Index()
         {
-            PhanLoaiKNN kn = new PhanLoaiKNN();
-            kn.DocDuLieuHuanLuyen();
-            kn.DocDuLieuTuCSDL();
+
+            //PhanLoaiKNN kn = new PhanLoaiKNN();
+            //kn.DocDuLieuHuanLuyen();
+            //kn.DocDuLieuTuCSDL();
+            LoadKM();
             var authCookie = Request.Cookies["auth"];
             string tenDangNhap = authCookie != null ? authCookie.Value : null;
             List<ChiTietSanPham> sanPhams = new List<ChiTietSanPham>();
@@ -37,20 +57,16 @@ namespace DoAnChuyenNganh.Controllers
                     sanPhams = LaySanPhamTheoPhanKhucVaSoThich(kh.PhanKhucKH, kh.SoThich, kh.GioiTinh);
                 }
             }
-            List<SanPham> sps = new List<SanPham>();
+            List<ChiTietSanPham> sps = new List<ChiTietSanPham>();
             if (sanPhams.Count == 0)
             {
-                sps = db.SanPhams
-                        .Where(sp => sp.ChiTietSanPham.Any(ctsp => ctsp.SoLuongTonKho > 0 && ctsp.KichHoat == true)) // Chỉ lấy sản phẩm có chi tiết tồn kho > 0
-                        .OrderByDescending(sp => sp.SoLuongDaBan) // Ưu tiên sản phẩm có số lượng đã bán nhiều nhất
-                        .ThenByDescending(sp => sp.SoSaoTB) // Ưu tiên sản phẩm có đánh giá 5 sao nhiều nhất
-                        .Take(9) // Lấy 9 sản phẩm đầu tiên
-                        .ToList();
+                sps = db.ChiTietSanPhams.Where(x => x.SanPham.SoSaoTB >= 4).OrderByDescending(x => x.SanPham.SoLuongDaBan).Take(30).ToList();
+                sanPhams = sps;
             }
-            //sanPhams = sanPhams
-            // .GroupBy(row => row.SanPham.SanPhamID)
-            // .Select(group => group.OrderBy(row => row.Gia).FirstOrDefault())
-            // .ToList();
+            sanPhams = sanPhams
+             .GroupBy(row => row.SanPham.SanPhamID)
+             .Select(group => group.OrderBy(row => row.Gia).FirstOrDefault())
+             .ToList();
             ViewBag.SLSP = totalQuantity;
             ViewBag.SanPhamLienQuan = sanPhams;
             return View(sanPhams);
@@ -133,8 +149,6 @@ namespace DoAnChuyenNganh.Controllers
                     return 0;
             }
         }
-
-        // Hàm lấy từ khóa độ tuổi từ phân khúc khách hàng
         private string LayTuKhoaDoTuoi(string phanKhucKH)
         {
             if (phanKhucKH.Contains("Thanh niên"))
@@ -145,6 +159,5 @@ namespace DoAnChuyenNganh.Controllers
                 return "cao tuổi";
             return string.Empty;
         }
-
     }
 }

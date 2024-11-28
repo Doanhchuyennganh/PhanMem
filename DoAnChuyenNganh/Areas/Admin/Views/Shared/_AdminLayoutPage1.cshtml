@@ -41,67 +41,121 @@
             background-color: #343a40;
             padding-top: 50px;
             z-index: 1000;
-        }
-
-        .sidebar a {
-            padding: 15px 25px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #f8f9fa;
-            display: block;
-        }
-
-        .sidebar a:hover {
-            background-color: #575d63;
-        }
-
-        .content {
-            margin-left: 250px;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            max-height: 100vh; /* Giới hạn chiều cao sidebar */
         }
 
         .sidebar-header {
-            padding: 10px 25px;
+            padding: 15px 20px;
             background-color: #212529;
-            color: white;
+            color: #f8f9fa;
             font-size: 22px;
+            font-weight: bold;
+            text-align: center;
         }
 
+        .sidebar-content {
+            flex-grow: 1; /* Cho phép vùng này mở rộng để lấp đầy không gian */
+            overflow-y: auto; /* Kích hoạt thanh cuộn khi nội dung quá dài */
+        }
+
+            .sidebar-content a {
+                padding: 12px 20px;
+                text-decoration: none;
+                font-size: 16px;
+                color: #f8f9fa;
+                display: block;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+                .sidebar-content a:hover {
+                    background-color: #495057;
+                }
+
+                .sidebar-content a.active {
+                    background-color: #007bff;
+                    color: #fff;
+                    font-weight: bold;
+                }
+
         .sidebar-footer {
-            position: fixed;
-            bottom: 0;
-            width: 250px;
             background-color: #212529;
             text-align: center;
             padding: 10px;
-            color: white;
+            color: #f8f9fa;
+            font-size: 14px;
         }
 
-        /* Optional: Reduce the width for smaller screens */
-       
+        /* Custom Scrollbar Styles */
+        /* Chrome, Edge, Safari */
+        .sidebar-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .sidebar-content::-webkit-scrollbar-track {
+            background: #343a40;
+        }
+
+        .sidebar-content::-webkit-scrollbar-thumb {
+            background: #6c757d;
+            border-radius: 4px;
+        }
+
+            .sidebar-content::-webkit-scrollbar-thumb:hover {
+                background: #495057;
+            }
+
+        /* Firefox */
+        .sidebar-content {
+            scrollbar-width: thin;
+            scrollbar-color: #6c757d #343a40;
+        }
+
+        /* Content area (phần nội dung chính) */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
     </style>
+
+
 </head>
 @{
     var userName = Context.Request.Cookies["auth"];
     var Role = Context.Request.Cookies["role"];
 }
 <body>
-    <!-- Sidebar Start -->
+    @{
+        string currentUrl = Request.Path.ToLower();
+    }
+
+
     <div class="sidebar">
         <div class="sidebar-header">
             <h3>Quản Lý</h3>
         </div>
-        <a href="/Admin/Home/index">Trang chủ</a>
-        <a href="/Admin/Product/index">Quản Lý Sản Phẩm</a>
-        <a href="/Admin/Brand/index">Quản Lý Danh Mục</a>
-        <a href="/Admin/User/index">Quản Lý Người Dùng</a>
-        <a href="/Admin/Order/index">Quản Lý Đơn Hàng</a>
-        <a href="/Admin/Color/index">Quản Lý Màu</a>
-        <a href="/Admin/Size/index">Quản Lý Size</a>
+        <div class="sidebar-content">
+            <a href="/Admin/Home/index" class="@(currentUrl == "/admin/home/index" ? "active" : "")">Trang chủ</a>
+            <a href="/Admin/Product/index" class="@(currentUrl == "/admin/product/index" ? "active" : "")">Quản Lý Sản Phẩm</a>
+            <a href="/Admin/Brand/index" class="@(currentUrl == "/admin/brand/index" ? "active" : "")">Quản Lý Danh Mục</a>
+            <a href="/Admin/User/index" class="@(currentUrl == "/admin/user/index" ? "active" : "")">Quản Lý Người Dùng</a>
+            <a href="/Admin/Order/index" class="@(currentUrl == "/admin/order/index" ? "active" : "")">Quản Lý Đơn Hàng</a>
+            <a href="/Admin/Color/index" class="@(currentUrl == "/admin/color/index" ? "active" : "")">Quản Lý Màu</a>
+            <a href="/Admin/Size/index" class="@(currentUrl == "/admin/size/index" ? "active" : "")">Quản Lý Size</a>
+            <a href="/Admin/KhuyenMai/index" class="@(currentUrl == "/admin/khuyenmai/index" ? "active" : "")">Quản Lý Khuyến Mãi</a>
+            <a href="/Admin/ThongKe/index" class="@(currentUrl == "/admin/thongke/index" ? "active" : "")">Thống Kê</a>
+            <a href="/Admin/PhanKhucKhachHang/index" class="@(currentUrl == "/admin/phankhuckhachhang/index" ? "active" : "")">Phân Khúc Khách Hàng</a>
+            <a href="/Admin/BackupRestore/index" class="@(currentUrl == "/admin/backuprestore/index" ? "active" : "")">Sao lưu dữ liệu</a>
+            <a href="/Admin/BackupRestore/RestoreDatabase" class="@(currentUrl == "/admin/backuprestore/restoredatabase" ? "active" : "")">Phục hồi dữ liệu</a>
+        </div>
         <div class="sidebar-footer">
             <p>&copy; 2024 Admin Dashboard</p>
         </div>
     </div>
+
     <!-- Sidebar End -->
     <!-- Main Content Start -->
     <div class="content">
@@ -135,64 +189,5 @@
         </div>
     </div>
     <!-- Main Content End -->
-    <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
-        <div class="container py-5">
-            <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5);">
-                <div class="row g-4">
-                    <div class="col-lg-3">
-                        <h1 class="text-primary mb-0">Admin Dashboard</h1>
-                        <p class="text-secondary mb-0">Quản lý hệ thống hiệu quả</p>
-                    </div>
-                    <div class="col-lg-6">
-                        <p class="text-light">Trang tổng quan quản trị viên để theo dõi và quản lý dữ liệu của hệ thống.</p>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="d-flex justify-content-end pt-3">
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fas fa-cogs"></i></a>
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fas fa-user-shield"></i></a>
-                            <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fas fa-chart-line"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row g-5">
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Tổng Quan</h4>
-                        <p class="mb-4">Kiểm tra số liệu thống kê và quản lý các mục quan trọng từ bảng điều khiển.</p>
-                        <a href="#" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Truy Cập Dashboard</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="d-flex flex-column text-start footer-item">
-                        <h4 class="text-light mb-3">Quản Lý Hệ Thống</h4>
-                        <a class="btn-link" href="">Quản Lý Người Dùng</a>
-                        <a class="btn-link" href="">Cài Đặt Hệ Thống</a>
-                        <a class="btn-link" href="">Sao Lưu Dữ Liệu</a>
-                        <a class="btn-link" href="">Báo Cáo Hàng Tháng</a>
-                        <a class="btn-link" href="">Nhật Ký Hoạt Động</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="d-flex flex-column text-start footer-item">
-                        <h4 class="text-light mb-3">Tài Khoản Quản Trị</h4>
-                        <a class="btn-link" href="">Hồ Sơ Của Tôi</a>
-                        <a class="btn-link" href="">Thay Đổi Mật Khẩu</a>
-                        <a class="btn-link" href="">Cài Đặt Bảo Mật</a>
-                        <a class="btn-link" href="">Quản Lý Phiên Làm Việc</a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div class="footer-item">
-                        <h4 class="text-light mb-3">Liên Hệ Hỗ Trợ</h4>
-                        <p>Email: admin-support@example.com</p>
-                        <p>Điện Thoại: +123 456 7890</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Footer End -->
 </body>
 </html>

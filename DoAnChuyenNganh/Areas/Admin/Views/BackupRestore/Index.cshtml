@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Backup Database";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="h4 mb-0">Sao lưu dữ liệu</h2>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">@ViewBag.Message</p>
+            @using (Html.BeginForm("Index", "BackupRestore", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="mb-3">
+                    <label for="backupLocation" class="form-label">Chọn nơi lưu trữ backup:</label>
+                    <input type="text"
+                           id="backupLocation"
+                           name="backupLocation"
+                           class="form-control"
+                           placeholder="Nhập đường dẫn thư mục để lưu backup" />
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-cloud-arrow-down"></i> Sao lưu
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

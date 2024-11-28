@@ -111,6 +111,12 @@ namespace DoAnChuyenNganh.Controllers
                 order.TinhTrangDonHang = "Đã Hủy"; // Hoặc trạng thái phù hợp
                 db.SaveChanges();
             }
+            List<ChiTietDonHang> lst = db.ChiTietDonHangs.Where(x => x.DonHangID == id).ToList();
+           foreach(ChiTietDonHang a in lst)
+            {
+                a.ChiTietSanPham.SoLuongTonKho += a.SoLuong;
+            }
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

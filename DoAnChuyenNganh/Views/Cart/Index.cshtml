@@ -4,19 +4,17 @@
     Layout = "~/Views/Shared/_LayoutPage1.cshtml";
 }
 
-@section slmua {
+@section slmua{
     <span id="cartItemCount">@ViewBag.SLSP</span>
 }
 
-<div style="height: 100px"></div>
 <div class="cart-container container my-5">
+    <div style="height:100px">
+    </div>
     <div class="cart-title">@ViewBag.Title</div>
     <table class="table table-responsive table-hover">
         <thead>
             <tr class="table-header">
-                @*<th scope="col">
-                    <input type="checkbox" id="selectAll" onclick="toggleAllCheckboxes(this)" />
-                </th>*@
                 <th scope="col">#</th>
                 <th scope="col">Ảnh</th>
                 <th scope="col">Tên Sản Phẩm</th>
@@ -30,25 +28,20 @@
                 int i = 1;
                 decimal totalPrice = 0;
             }
-
             @foreach (var item in Model)
             {
-                decimal price = item.ChiTietSanPham.Gia * item.SoLuong;
+                decimal price = (item.ChiTietSanPham.Gia - (item.ChiTietSanPham.GiaDuocGiam ?? 0)) * item.SoLuong;
                 totalPrice += price;
-
                 <tr class="cart-item align-middle">
-                    @*<td>
-                        <input type="checkbox" name="selectedItems" value="@item.GioHangID" class="select-item" />
-                    </td>*@
                     <th scope="row">@i</th>
                     <td>
-                        <img class="img-thumbnail" style="max-height: 80px; width: auto;"
-                             src="~/img/@item.ChiTietSanPham.HinhAnhUrl"
-                             alt="@item.ChiTietSanPham.SanPham.TenSanPham" />
+                        <img class="img-thumbnail" style="max-height: 80px; width: auto;" src="~/img/@item.ChiTietSanPham.HinhAnhUrl" alt="@item.ChiTietSanPham.SanPham.TenSanPham" />
                     </td>
                     <td>
-                        <span class="product-name">@item.ChiTietSanPham.SanPham.TenSanPham</span><br />
-                        <span class="product-size">Size: @item.ChiTietSanPham.Size.SizeName</span><br />
+                        <span class="product-name">@Html.DisplayFor(model => item.ChiTietSanPham.SanPham.TenSanPham)</span>
+                        <br />
+                        <span class="product-size">Size: @item.ChiTietSanPham.Size.SizeName</span>
+                        <br />
                         <span class="product-color">Màu: @item.ChiTietSanPham.Mau.MauName</span>
                     </td>
                     <td>
@@ -56,6 +49,7 @@
                         {
                             if (item.ChiTietSanPham.SoLuongTonKho > 0 && item.ChiTietSanPham.KichHoat == true)
                             {
+                                <!-- Quantity input -->
                                 <input type="number"
                                        value="@item.SoLuong"
                                        name="quan"
@@ -64,14 +58,18 @@
                                        style="width: 60px"
                                        class="form-control d-inline" />
                                 <input type="hidden" name="proid" value="@item.GioHangID" />
+
+                                <!-- Submit button -->
                                 <button type="submit" class="btn btn-sm btn-primary ms-2">Cập Nhật</button>
                             }
                             else
                             {
+                                <!-- Display out-of-stock message -->
                                 <span class="text-danger">Hết hàng</span>
                             }
                         }
                     </td>
+
                     <td>
                         <span class="product-price">@price.ToString("N0") VNĐ</span>
                     </td>
@@ -92,95 +90,19 @@
             </tr>
         </tbody>
     </table>
-    <a href="/product" class="btn btn-outline-secondary mb-3">Tiếp tục mua hàng</a>
-    <div class="cart-actions mt-4 d-flex flex-column align-items-end">
-        <a href="/pay" class="btn btn-success" id="checkoutBtn" disabled>
-            Thanh Toán
-        </a>
+    <div class="cart-actions mt-4 d-flex justify-content-between">
+        <a href="/product" class="btn btn-outline-secondary">Tiếp tục mua hàng</a>
+        <a href="/pay" class="btn btn-success">Thanh Toán</a>
     </div>
 </div>
-@*<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const deleteButton = document.getElementById("deleteSelectedBtn");
-        const checkoutButton = document.getElementById("checkoutBtn");
+@if (ViewBag.ErrorMessage != null)
+{
+    <div style="text-align:center" class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
 
-        function getSelectedItems() {
-            const selectedItems = [];
-            document.querySelectorAll('.select-item:checked').forEach(item => {
-                selectedItems.push(item.value); // Push the value of selected checkbox
-            });
-            return selectedItems;
-        }
-
-        // Toggle action buttons' enabled/disabled state
-        function toggleActionButtons() {
-            const selectedItems = getSelectedItems();
-            deleteButton.disabled = selectedItems.length === 0;
-            checkoutButton.disabled = selectedItems.length === 0;
-
-            // Enable checkout button only if selected items exist
-            if (selectedItems.length > 0) {
-                checkoutButton.href = "/pay"; // Redirect to payment page if items are selected
-            }
-        }
-
-        // Handle checkout button click
-        checkoutButton.addEventListener("click", (e) => {
-            const selectedItems = getSelectedItems();
-
-            if (selectedItems.length === 0) {
-                e.preventDefault(); // Prevent navigation if no items are selected
-                alert("Vui lòng chọn sản phẩm để thanh toán!");
-            } else {
-                // Send the selected items to the server using fetch (POST)
-                fetch('/Pay/Index', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ selectedItems: selectedItems }) // Send selectedItems as JSON
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Handle response data
-                        if (data.success) {
-                            // Success logic, e.g., redirect to payment or show success message
-                            console.log('Checkout success:', data);
-                        } else {
-                            // Handle failure logic
-                            alert(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            }
-        });
-
-        // Listen for changes in the checkbox state
-        document.addEventListener("change", (e) => {
-            if (e.target.classList.contains("select-item")) {
-                toggleActionButtons();
-            }
-        });
-
-        // Handle "select all" checkbox
-        document.getElementById("selectAll").addEventListener("change", (e) => {
-            const checkboxes = document.querySelectorAll(".select-item");
-            checkboxes.forEach((checkbox) => (checkbox.checked = e.target.checked));
-            toggleActionButtons();
-        });
-
-        // Initial call to update action buttons state on page load
-        toggleActionButtons();
-    });
-
-</script>*@
-
-
-
-
-
+<!-- Custom CSS -->
 <style>
     .cart-title {
         font-size: 2rem;

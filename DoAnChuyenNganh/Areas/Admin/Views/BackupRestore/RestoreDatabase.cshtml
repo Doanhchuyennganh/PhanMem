@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Restore Database";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h2 class="h4 mb-0">Phục hồi dữ liệu</h2>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">@ViewBag.Message</p>
+            @using (Html.BeginForm("RestoreDatabase", "BackupRestore", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="mb-3">
+                    <label for="restoreFile" class="form-label">Chọn file backup để phục hồi:</label>
+                    <input type="file"
+                           id="restoreFile"
+                           name="restoreFile"
+                           class="form-control"
+                           accept=".bak" />
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-arrow-clockwise"></i> Phục hồi
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

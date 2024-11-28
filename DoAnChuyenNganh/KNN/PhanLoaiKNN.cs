@@ -16,7 +16,7 @@ namespace DoAnChuyenNganh.KNN
         private List<string> y_huanLuyen = new List<string>();
         public void DocDuLieuHuanLuyen()
         {
-            string duongDanFile = @"D:\DoAnTotNghiep\Code\PhanMem\DoAnChuyenNganh\KNN\train_data.txt";
+            string duongDanFile = @"D:\HK7\DoAnCHuyenNganh\KhuVucLamViec3\PhanMem\DoAnChuyenNganh\KNN\train_data.txt";
             if (!File.Exists(duongDanFile))
                 throw new FileNotFoundException($"File không tồn tại: {duongDanFile}");
             var cacDong = File.ReadAllLines(duongDanFile);
@@ -117,7 +117,7 @@ namespace DoAnChuyenNganh.KNN
                 {
                     double tuoi = kh.DoTuoi ?? 0;
                     double chiTieu = kh.MucChiTieu ?? 0;
-                    double chuanHoaTuoi = (tuoi - 0) / ( 100 - 0);
+                    double chuanHoaTuoi = (tuoi - 0) / (100 - 0);
                     double chuanHoaChiTieu = (chiTieu - 0) / (100000000 - 0);
                     string nhanDuDoan = DuDoan(new[] { tuoi, chiTieu, chuanHoaTuoi, chuanHoaChiTieu });
                     kh.PhanKhucKH = nhanDuDoan;
@@ -148,3 +148,7 @@ namespace DoAnChuyenNganh.KNN
 
     }
 }
+
+
+
+

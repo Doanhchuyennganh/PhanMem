@@ -77,10 +77,32 @@
             @Html.ValidationMessageFor(model => model.TenDangNhap, "", new { @class = "text-danger" })
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="position: relative;">
             @Html.LabelFor(model => model.MatKhau, "Mật Khẩu")
-            @Html.TextBoxFor(model => model.MatKhau, new { @class = "form-control", type = "password", placeholder = "Nhập mật khẩu" })
+
+            <input type="password" id="MatKhau" name="MatKhau" class="form-control" placeholder="Nhập mật khẩu" style="width: 100%; padding-right: 40px; padding-left: 10px; font-size: 16px; line-height: 1.5; box-sizing: border-box;" />
+
+            <!-- Eye Icon for toggling password visibility -->
+            <span id="togglePassword" style="position: absolute; right: 10px; top: 67%; transform: translateY(-50%); font-size: 20px; color: #888; cursor: pointer; z-index: 1;">
+                <i class="fa fa-eye"></i>
+            </span>
         </div>
+
+        <script>
+            // Toggle password visibility
+            document.getElementById('togglePassword').onclick = function () {
+                var passwordField = document.getElementById('MatKhau');
+                if (passwordField.type === "password") {
+                    passwordField.type = "text"; // Show password
+                } else {
+                    passwordField.type = "password"; // Hide password
+                }
+            };
+        </script>
+
+        <!-- FontAwesome CDN -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.Email, "Email")

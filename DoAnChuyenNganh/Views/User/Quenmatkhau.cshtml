@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Quên mật khẩu";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div style="height:100px"></div> <!-- Giảm khoảng cách phía trên để giao diện đẹp hơn -->
+
+<div class="container" style="max-width: 500px; margin-top: 50px;">
+    <h2 class="text-center mb-4" style="font-size: 24px; font-weight: bold; text-align: center;">Lấy lại mật khẩu</h2>
+
+    <!-- Form -->
+    <form method="post" action="@Url.Action("Quenmatkhau", "User")" id="verificationForm"
+          style="padding: 20px; background-color: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <div class="form-group mb-3" style="margin-bottom: 16px;">
+            <label for="email" class="form-label" style="font-size: 16px; font-weight: 600; color: #333;">Email</label>
+            <input type="email" name="email" class="form-control" id="email" placeholder="Nhập email của bạn" required
+                   style="padding: 10px; font-size: 14px; border-radius: 4px; border: 1px solid #ccc; width: 100%;" />
+        </div>
+
+        <div class="d-flex justify-content-between mb-3" style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <button type="submit" class="btn btn-primary w-48"
+                    style="width: 48%; padding: 12px 20px; font-size: 16px; background-color: #007bff; border: none; color: white; cursor: pointer;">
+                Lấy lại mật khẩu
+            </button>
+            <a href="@Url.Action("Login", "User")" class="btn btn-secondary w-48"
+               style="width: 48%; padding: 12px 20px; font-size: 16px; text-align: center; background-color: #6c757d; color: white; text-decoration: none; cursor: pointer;">
+                Quay về
+            </a>
+        </div>
+    </form>
+</div>
+

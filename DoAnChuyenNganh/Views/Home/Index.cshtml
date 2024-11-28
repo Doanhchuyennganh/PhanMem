@@ -95,9 +95,9 @@
 <div class="container-fluid fruite py-5">
     <div class="container py-5">
         <div class="tab-class text-center">
-            <div class="row g-4">
-                <div class="col-lg-4 text-start">
-                    <h1>Sản Phẩm Thời Trang Phù Hợp Với Bạn</h1>
+            <div class="row g-12">
+                <div class="col-lg-12 text-start">
+                    <h1>Sản Phẩm Thời Trang có thể bạn thích</h1>
                 </div>
             </div>
 
@@ -111,29 +111,57 @@
                                     foreach (var a in Model)
                                     {
                                         <div class="col-md-6 col-lg-6 col-xl-4">
-                                            <div class="rounded position-relative product-item">
-                                                <div class="product-img">
-                                                    <a href="/product/details/@a.SanPhamID">
-                                                        <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed" alt="">
-                                                    </a>
+                                            <div class="rounded position-relative product-item" style="display: flex; flex-direction: column; height: 100%;">
+                                                <div class="product-img" style="flex-shrink: 0;">
+                                                    @if (a.SoLuongTonKho > 0 && a.KichHoat == true)
+                                                    {
+                                                        <a href="/product/details/@a.SanPhamID">
+                                                            <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed" alt="">
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/img/@a.HinhAnhUrl" class="img-fluid w-100 rounded-top product-img-fixed grayscale" alt="Hết hàng">
+                                                    }
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">
                                                     <p>
                                                         @a.SanPham.DanhMuc.TenDanhMuc
                                                     </p>
                                                 </div>
-                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom">
+                                                <div class="p-4 border border-secondary border-top-0 rounded-bottom" style="flex-grow: 1;">
                                                     <a href="/product/details/@a.SanPhamID">
                                                         <h4>@a.SanPham.TenSanPham</h4>
                                                     </a>
-                                                    <a href="/product/details/@a.SanPhamID">
-                                                        <h4>@a.Gia.ToString("N0") VNĐ</h4>
-                                                    </a>
+                                                    @if (a.GiaDuocGiam == 0)
+                                                    {
+                                                        <a href="/product/details/@a.SanPhamID">
+                                                            <span class="price-discounted" style="margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif; color: green; font-weight: bold;">
+                                                                @a.Gia.ToString("N0") VNĐ
+                                                            </span>
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+
+                                                        var GiaThucTe = a.Gia - a.GiaDuocGiam;
+
+                                                        <a href="/product/details/@a.SanPhamID">
+                                                            <h4 class="price-original" style="color: gray; font-size: 1em; text-decoration: none;">
+                                                                <span class="original-price" style="text-decoration: line-through; margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif;">
+                                                                    @a.Gia.ToString("N0") VNĐ
+                                                                </span>
+                                                                <span class="discount-badge" style="background-color: red; color: white; font-size: 1em; font-weight: bold; padding: 2px 6px; border-radius: 4px; font-family: 'Arial', sans-serif;">
+                                                                    -@((a.GiaDuocGiam ?? 0).ToString("N0")) VNĐ
+                                                                </span>
+                                                            </h4>
+                                                            <h4 class="price-discounted" style="color: green; font-size: 1em; font-weight: bold; font-family: 'Arial', sans-serif;">
+                                                                @((GiaThucTe ?? 0).ToString("N0")) VNĐ
+                                                            </h4>
+                                                        </a>
+                                                    }
                                                     <!-- Hiển thị số sao -->
                                                     <div class="rating">
-                                                        @{
-                                                        }
-
                                                         @if (a.SanPham.SoSaoTB != 0)
                                                         {
                                                             // Nếu có đánh giá (AverageRating không null), hiển thị sao
@@ -150,13 +178,11 @@
                                                     </div>
                                                     <!-- Hiển thị số lượt đã bán -->
                                                     <p class="text-muted mb-2">Đã bán: @a.SanPham.SoLuongDaBan</p>
-
                                                 </div>
                                             </div>
                                         </div>
-
-                                    }   
-                                 }
+                                    }
+                                }
                                 else
                                 {
                                     <p>Không có sản phẩm nào phù hợp.</p>

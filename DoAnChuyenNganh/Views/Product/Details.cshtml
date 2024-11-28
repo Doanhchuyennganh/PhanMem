@@ -73,10 +73,34 @@
         .out-of-stock:hover, .stopped-selling:hover {
             cursor: not-allowed;
         }
-</style>
 
+    .price-original {
+        color: gray;
+    }
+
+        .price-original .original-price {
+            text-decoration: line-through;
+        }
+
+    .discount-badge {
+        background-color: red;
+        color: white;
+        font-size: 0.8em;
+        font-weight: bold;
+        padding: 2px 6px;
+        border-radius: 4px;
+        margin-left: 10px;
+        text-decoration: none; /* Đảm bảo tag không bị gạch */
+    }
+
+    .price-discounted {
+        color: green;
+        font-weight: bold;
+    }
+</style>
 @{
     decimal gia = ViewBag.sanpham.Gia;
+    int slt = ViewBag.sanpham.SoLuongTonKho;
 }
 <div class="container mt-5">
     <div style="height:100px"></div>
@@ -88,7 +112,7 @@
                 <div class="d-flex flex-column justify-content-center">
                     <div class="main-image">
                         <!-- Hiển thị hình ảnh của sản phẩm đầu tiên trong danh sách -->
-                        <img src="~/img/@Model[0].HinhAnhUrl" id="main_product_image" class="img-fluid" alt="Product Image">
+                        <img src="~/img/@ViewBag.sanpham.HinhAnhUrl" id="main_product_image" class="img-fluid" alt="Product Image">
                     </div>
 
                     <div class="thumbnail-images mt-3">
@@ -151,50 +175,78 @@
                     <div class="mt-2 content">
                         <p>Mô Tả: @ViewBag.sanpham.SanPham.MoTa)</p>
                     </div>
-                    <h3 class="mt-3">Giá: <span id="giaSanPham">@gia.ToString("N0") VNĐ</span></h3>
+                    @if (ViewBag.sanpham.GiaDuocGiam == 0)
+                    {
+                        <span class="price-discounted" style="margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif; color: green; font-weight: bold;">
+                            @ViewBag.sanpham.Gia.ToString("N0") VNĐ
+                        </span>
+                    }
+                    else
+                    {
 
+                        var GiaThucTe = ViewBag.sanpham.Gia - ViewBag.sanpham.GiaDuocGiam;
+
+
+
+                        <h4 class="price-original" style="color: gray; font-size: 1em; text-decoration: none;">
+                            <span class="original-price" style="text-decoration: line-through; margin-right: 10px; font-size: 1em; font-family: 'Arial', sans-serif;">
+                                @ViewBag.sanpham.Gia.ToString("N0") VNĐ
+                            </span>
+                            <span class="discount-badge" style="background-color: red; color: white; font-size: 1em; font-weight: bold; padding: 2px 6px; border-radius: 4px; font-family: 'Arial', sans-serif;">
+                                -@((ViewBag.sanpham.GiaDuocGiam ?? 0).ToString("N0")) VNĐ
+                            </span>
+
+                        </h4>
+                        <h4 class="price-discounted" style="color: green; font-size: 1em; font-weight: bold; font-family: 'Arial', sans-serif;">
+                            @((GiaThucTe ?? 0).ToString("N0")) VNĐ
+                        </h4>
+                   
+
+                    }
+
+                <div class="form-group mt-3">
+                    <label>Size:</label>
+                    <div class="form-group mt-3">
+                        <select id="sizeSelect" class="form-select" onchange="filterColors()">
+                            <option value="">Chọn Size</option>
+                            @foreach (var item in Model)
+                            {
+                                if (item.SoLuongTonKho > 0 && item.KichHoat == true)  // Only show sizes with stock > 0
+                                {
+                                    <option value="@item.SizeID"
+                                            data-size-name="@item.Size.SizeName"
+                                            @(item.SoLuongTonKho <= 0 ? "disabled" : "")
+                                            style="@(item.SoLuongTonKho <= 0 ? "color: gray;" : "")">
+                                        @item.Size.SizeName
+                                    </option>
+
+                                }
+                            }
+                        </select>
+                    </div>
 
                     <div class="form-group mt-3">
-                        <label>Size:</label>
-                        <div class="form-group mt-3">
-                            <select id="sizeSelect" class="form-select" onchange="filterColors()">
-                                <option value="">Chọn Size</option>
-                                @foreach (var item in Model)
+                        <label>Màu:</label>
+                        <select id="colorSelect" class="form-select" onchange="updatePrice()" disabled>
+                            <option value="">Chọn Màu</option>
+                            @foreach (var item in Model)
+                            {
+                                if (item.SoLuongTonKho > 0 && item.KichHoat == true)  // Only show sizes with stock > 0
                                 {
-                                    if (item.SoLuongTonKho > 0 && item.KichHoat == true)  // Only show sizes with stock > 0
-                                    {
-                                        <option value="@item.SizeID"
-                                                data-size-name="@item.Size.SizeName"
-                                                @(item.SoLuongTonKho <= 0 ? "disabled" : "")
-                                                style="@(item.SoLuongTonKho <= 0 ? "color: gray;" : "")">
-                                            @item.Size.SizeName
-                                        </option>
-
-                                    }
+                                    <option value="@item.MauID"
+                                            data-sizeid="@item.SizeID"
+                                            @(item.SoLuongTonKho <= 0 ? "disabled" : "")
+                                            style="@(item.SoLuongTonKho <= 0 ? "color: gray;" : "")">
+                                        @item.Mau.MauName
+                                    </option>
                                 }
-                            </select>
-                        </div>
+                            }
+                        </select>
+                    </div>
+                    <p>Còn: <span id="soLuongTonKho">@slt</span> sản phẩm</p>
 
-                        <div class="form-group mt-3">
-                            <label>Màu:</label>
-                            <select id="colorSelect" class="form-select" onchange="updatePrice()" disabled>
-                                <option value="">Chọn Màu</option>
-                                @foreach (var item in Model)
-                                {
-                                    if (item.SoLuongTonKho > 0 && item.KichHoat == true)  // Only show sizes with stock > 0
-                                    {
-                                        <option value="@item.MauID"
-                                                data-sizeid="@item.SizeID"
-                                                @(item.SoLuongTonKho <= 0 ? "disabled" : "")
-                                                style="@(item.SoLuongTonKho <= 0 ? "color: gray;" : "")">
-                                            @item.Mau.MauName
-                                        </option>
-                                    }
-                                }
-                            </select>
-                        </div>
+                    <script>
 
-                        <script>
                             // Khi trang được tải, xử lý size và màu
                             window.onload = function() {
                                 const sizeSelect = document.getElementById('sizeSelect');
@@ -267,20 +319,54 @@
                                         }
                                     }
                                 }
-                            };
-                        </script>
+                        };
+                        function updateStock() {
+                        var sizeValue = document.getElementById('sizeSelect').value;
+                        var colorValue = document.getElementById('colorSelect').value;
+                        var productID = @Model[0].SanPhamID;
+
+                        if (!sizeValue || !colorValue) {
+                            // Nếu chưa chọn đủ Size và Màu, đặt số lượng tồn kho về giá trị mặc định
+                            document.getElementById('soLuongTonKho').textContent = '@slt';
+                            return;
+                        }
+
+                        // Gửi yêu cầu Ajax để lấy số lượng tồn kho từ server
+                        $.ajax({
+                            url: '/Product/GetStock',
+                            type: 'GET',
+                            data: { sizeID: sizeValue, colorID: colorValue, productID: productID },
+                            success: function (response) {
+                                // Cập nhật số lượng tồn kho hiển thị
+                                if (response && response.soLuongTonKho !== undefined) {
+                                    document.getElementById('soLuongTonKho').textContent = response.soLuongTonKho;
+                                } else {
+                                    alert('Dữ liệu số lượng tồn kho trả về không hợp lệ.');
+                                }
+                            },
+                            error: function () {
+                                alert('Có lỗi xảy ra khi lấy số lượng tồn kho.');
+                            }
+                        });
+                    }
+
+                    // Gọi hàm updateStock mỗi khi thay đổi Size hoặc Màu
+                    document.getElementById('sizeSelect').addEventListener('change', updateStock);
+                    document.getElementById('colorSelect').addEventListener('change', updateStock);
+
+                    </script>
 
 
 
 
-                        <!-- Các nút mua hàng -->
-                        <div class="buttons d-flex flex-row mt-4 gap-3">
-                            <button type="button" class="btn btn-dark" onclick="addToCart()">Thêm Giỏ Hàng</button>
-                        </div>
-                        <a href="#" onclick="buyNow()" class="buttons d-flex flex-row mt-4 gap-3">
-                            <button type="button" class="btn btn-dark">Mua Ngay</button>
-                        </a>
+                    <!-- Các nút mua hàng -->
+                    <div class="buttons d-flex flex-row mt-4 gap-3">
+                        <button type="button" class="btn btn-dark" onclick="addToCart()">Thêm Giỏ Hàng</button>
                     </div>
+                    <a href="#" onclick="buyNow()" class="buttons d-flex flex-row mt-4 gap-3">
+                        <button type="button" class="btn btn-dark">Mua Ngay</button>
+                    </a>
+                </div>
                 </div>
             </div>
         </div>
@@ -318,7 +404,7 @@
     </div>
 
     <script>
-
+        var isLoggedIn = @Html.Raw(Json.Encode(Session["UserID"] != null));
     function changeImage(element) {
                 var mainImage = document.getElementById("main_product_image");
                 mainImage.src = element.src; // Cập nhật hình ảnh chính
@@ -357,7 +443,12 @@
                 });
             }
 
-            function addToCart() {
+        function addToCart() {
+            if (!isLoggedIn) {
+                alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+                window.location.href = '/User/Login'; // Chuyển hướng đến trang đăng nhập
+                return;
+            }
                 var sizeValue = document.getElementById('sizeSelect').value;
                 var colorValue = document.getElementById('colorSelect').value;
 
@@ -374,6 +465,11 @@
                 window.location.href = addToCartUrl;
         }
         function buyNow() {
+            if (!isLoggedIn) {
+                alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+                window.location.href = '/User/Login'; // Chuyển hướng đến trang đăng nhập
+                return;
+            }
             var sizeValue = document.getElementById('sizeSelect').value;
             var colorValue = document.getElementById('colorSelect').value;
 
