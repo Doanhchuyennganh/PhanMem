@@ -1,0 +1,81 @@
+﻿@model List<DoAnChuyenNganh.Models.SanPham>
+@{
+    ViewBag.Title = "AddSPKhuyenMai";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayoutPage1.cshtml";
+}
+
+<h2>Thêm Sản Phẩm Vào Chương Trình Khuyến Mãi</h2>
+<form method="get" action="@Url.Action("AddSPKhuyenMai", "KhuyenMai")" class="d-flex justify-content-center mb-4">
+    <input type="text" name="search" class="form-control w-75" placeholder="Nhập tên sản phẩm..." value="@Request.QueryString["search"]" />
+    <input hidden name="id" value="@ViewBag.IdKhuyenMai" />
+    <button type="submit" class="btn btn-primary ms-2">Tìm kiếm</button>
+</form>
+<form method="post" action="@Url.Action("AddSPKhuyenMai", "KhuyenMai", new { area = "Admin" })">
+    <input type="hidden" name="idKhuyenMai" value="@ViewBag.IdKhuyenMai" />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Chọn</th>
+                <th>Mã Sản Phẩm</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Mô Tả</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sp in Model)
+            {
+                <tr>
+                    <td>
+                        <input type="checkbox" name="sanPhamIds[]" value="@sp.SanPhamID" />
+                    </td>
+                    <td>@sp.SanPhamID</td>
+                    <td>@sp.TenSanPham</td>
+                    <td>@sp.MoTa</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-center">
+        <button type="submit" class="btn btn-success mx-2">Thêm Sản Phẩm</button>
+        <a href="@Url.Action("Edit", "KhuyenMai", new { area = "Admin", id = ViewBag.IdKhuyenMai })" class="btn btn-secondary mx-2">Quay lại</a>
+    </div>
+</form>
+
+
+
+
+<div class="pagination d-flex justify-content-center mt-5">
+    @{
+        int PrevPage = ViewBag.Page - 1;
+        if (PrevPage <= 0)
+        {
+            PrevPage = 1;
+        }
+        int NextPage = ViewBag.Page + 1;
+        if (NextPage > ViewBag.NoOfPages)
+        {
+            NextPage = ViewBag.NoOfPages;
+        }
+
+        int StartPage = Math.Max(1, ViewBag.Page - 5);
+        int EndPage = Math.Min(ViewBag.NoOfPages, StartPage + 6);
+    }
+    <a href="/Admin/KhuyenMai/AddSPKhuyenMai?id=@ViewBag.IdKhuyenMai&search=@ViewBag.search&page=1" class="page-link">Trang đầu</a>
+    <a href="/Admin/KhuyenMai/AddSPKhuyenMai?id=@ViewBag.IdKhuyenMai&search=@ViewBag.search&page=@PrevPage" class="page-link">Trang trước</a>
+
+    @for (int i = StartPage; i <= EndPage; i++)
+    {
+        if (i == ViewBag.Page)
+        {
+            <a href="/Admin/KhuyenMai/AddSPKhuyenMai?id=@ViewBag.IdKhuyenMai&search=@ViewBag.search&page=@i" class="active rounded">@i</a>
+        }
+        else
+        {
+            <a href="/Admin/KhuyenMai/AddSPKhuyenMai?id=@ViewBag.IdKhuyenMai&search=@ViewBag.search&page=@i" class="rounded">@i</a>
+        }
+    }
+
+    <a href="/Admin/KhuyenMai/AddSPKhuyenMai?id=@ViewBag.IdKhuyenMai&search=@ViewBag.search&page=@NextPage" class="page-link">Tiếp theo</a>
+    <a href="/Admin/KhuyenMai/AddSPKhuyenMai?id=@ViewBag.IdKhuyenMai&search=@ViewBag.search&page=@ViewBag.NoOfPages" class="page-link">Trang cuối</a>
+</div>

@@ -3,11 +3,15 @@
   "WorkspaceRootPath": "D:\\DoAnTotNghiep\\Code\\PhanMem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|D:\\DoAnTotNghiep\\Code\\PhanMem\\doanchuyennganh\\knn\\phanloaiknn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|d:\\doantotnghiep\\code\\phanmem\\doanchuyennganh\\knn\\phanloaiknn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|solutionrelative:doanchuyennganh\\knn\\phanloaiknn.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|d:\\doantotnghiep\\code\\phanmem\\doanchuyennganh\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|D:\\DoAnTotNghiep\\Code\\PhanMem\\doanchuyennganh\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|solutionrelative:doanchuyennganh\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|D:\\DoAnTotNghiep\\Code\\PhanMem\\doanchuyennganh\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|solutionrelative:doanchuyennganh\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -41,10 +45,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|D:\\DoAnTotNghiep\\Code\\PhanMem\\doanchuyennganh\\views\\pay\\success.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|solutionrelative:doanchuyennganh\\views\\pay\\success.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|D:\\DoAnTotNghiep\\Code\\PhanMem\\doanchuyennganh\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|solutionrelative:doanchuyennganh\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5E290E8C-05C0-49D1-B1A3-EA8F0F21CCE4}|DoAnChuyenNganh\\DoAnChuyenNganh.csproj|D:\\DoAnTotNghiep\\Code\\PhanMem\\doanchuyennganh\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -234,7 +234,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "AddressController.cs",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Controllers\\AddressController.cs",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Controllers\\AddressController.cs",
@@ -312,7 +312,7 @@
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\KNN\\PhanLoaiKNN.cs",
               "ToolTip": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\KNN\\PhanLoaiKNN.cs",
               "RelativeToolTip": "DoAnChuyenNganh\\KNN\\PhanLoaiKNN.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAmwDYAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAcwIUAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-20T14:54:51.496Z",
               "EditorCaption": ""
@@ -643,7 +643,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "success.cshtml",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Views\\Pay\\success.cshtml",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Views\\Pay\\success.cshtml",
@@ -667,7 +667,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "PayController.cs",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Controllers\\PayController.cs",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Controllers\\PayController.cs",
@@ -679,7 +679,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "_LayoutPage1.cshtml",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Views\\Shared\\_LayoutPage1.cshtml",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Views\\Shared\\_LayoutPage1.cshtml",
@@ -691,7 +691,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "CartController.cs",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Controllers\\CartController.cs",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Controllers\\CartController.cs",
@@ -739,7 +739,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Views\\Pay\\Index.cshtml",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Views\\Pay\\Index.cshtml",
@@ -787,7 +787,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "OrderController.cs",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Controllers\\OrderController.cs",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Controllers\\OrderController.cs",
@@ -799,7 +799,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "HomeController.cs",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Controllers\\HomeController.cs",
@@ -807,24 +807,23 @@
               "RelativeToolTip": "DoAnChuyenNganh\\Controllers\\HomeController.cs",
               "ViewState": "AgIAACUAAAAAAAAAAAAQwC4AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-19T07:48:44.771Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-19T07:48:44.771Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 1,
               "Title": "UserController.cs",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Controllers\\UserController.cs",
               "ToolTip": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Controllers\\UserController.cs",
               "RelativeToolTip": "DoAnChuyenNganh\\Controllers\\UserController.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAYwF0AAABcAAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAIwEEAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-19T04:32:16.366Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\DoAnTotNghiep\\Code\\PhanMem\\DoAnChuyenNganh\\Views\\Cart\\Index.cshtml",
               "RelativeDocumentMoniker": "DoAnChuyenNganh\\Views\\Cart\\Index.cshtml",
