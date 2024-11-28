@@ -78,6 +78,33 @@ namespace DoAnChuyenNganh.Controllers
         public ActionResult Cancel(int id)
         {
             var order = db.DonHangs.Find(id);
+            if (order.TinhTrangDonHang == "Đã Xác Nhận" && order.TinhTrangDonHang == "Đang Vận Chuyển")
+            {
+                // Thêm lỗi nếu trạng thái là "Đã Xác Nhận"
+                ModelState.AddModelError("", "Đơn hàng đã được xác nhận, không thể hủy!");
+                return View("Index", db.DonHangs.ToList());
+            }
+            if (order.TinhTrangDonHang == "Đang xử lý")
+            {
+                // Nếu trạng thái là "Chờ Xử Lý", cho phép hủy và cập nhật kho
+                foreach (var chiTiet in order.ChiTietDonHang)
+                {
+                    var product = db.ChiTietSanPhams.Find(chiTiet.ChiTietSanPham.SanPhamID);
+                    if (product != null)
+                    {
+                        product.SoLuongTonKho += chiTiet.SoLuong; // Trả lại số lượng vào kho
+                    }
+                }
+
+                order.TinhTrangDonHang = "Đã Hủy"; // Cập nhật trạng thái đơn hàng
+                db.SaveChanges(); // Lưu thay đổi vào cơ sở dữ liệu
+            }
+            else
+            {
+                // Thêm lỗi nếu trạng thái không cho phép hủy
+                ModelState.AddModelError("", "Chỉ có thể hủy đơn hàng đang ở trạng thái 'Chờ Xử Lý'.");
+                return View("Index", db.DonHangs.ToList());
+            }
             if (order != null && order.TinhTrangDonHang != "Đã Xác Nhận")
             {
                 // Xử lý hủy đơn hàng

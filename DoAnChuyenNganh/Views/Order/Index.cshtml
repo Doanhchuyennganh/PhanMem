@@ -22,6 +22,8 @@
             </tr>
         </thead>
         <tbody>
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
+
             @if (Model != null) // Kiểm tra nếu có đơn hàng
             {
                 foreach (var order in Model)
